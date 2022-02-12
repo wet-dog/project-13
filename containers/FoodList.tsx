@@ -6,16 +6,16 @@ import {
     Heading 
 } from "native-base";
 
-function MapScreen() {
+function FoodList() {
     return (
       <NativeBaseProvider>
         <Center px={4} flex={1}>
           <VStack space={5} alignItems="center">
-            <Heading size="lg">Map Screen</Heading>
+            <Heading size="lg">Food List</Heading>
           </VStack>
         </Center>
       </NativeBaseProvider>
     ); 
   }
 
-export default MapScreen;
+export default FoodList;

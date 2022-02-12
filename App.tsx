@@ -20,10 +20,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MapScreen from "./containers/MapScreen";
 import HomeScreen from "./containers/TestScreen";
+import BankProfile from "./containers/BankProfile";
+import FoodList from "./containers/FoodList";
 
 type RootStackParamList = {
   HomeScreen: undefined;
-  Map: undefined;
+  MapScreen: undefined;
+  BankProfile: undefined;
+  FoodList: undefined;
 }
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -33,7 +37,9 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="HomeScreen" component={HomeScreen}/>
-        <Stack.Screen name="Map" component={MapScreen} />
+        <Stack.Screen name="MapScreen" component={MapScreen} />
+        <Stack.Screen name="BankProfile" component={BankProfile} />
+        <Stack.Screen name="FoodList" component={FoodList} />
       </Stack.Navigator>
     </NavigationContainer>
   );

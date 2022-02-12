@@ -15,7 +15,9 @@ import { db } from "../firebase";
 
 type RootStackParamList = {
   HomeScreen: undefined;
-  Map: undefined;
+  MapScreen: undefined;
+  BankProfile: undefined;
+  FoodList: undefined;
 }
 
 type Props = NativeStackScreenProps<RootStackParamList, "HomeScreen">;
@@ -39,19 +41,14 @@ function HomeScreen({ navigation }: Props) {
   
     return (
       <NativeBaseProvider>
-        <Center
-          _dark={{ bg: "blueGray.900" }}
-          _light={{ bg: "blueGray.50" }}
-          px={4}
-          flex={1}
-        >
+        <Center px={4} flex={1}>
           <VStack space={5} alignItems="center">
             <Heading size="lg">Test Page</Heading>
             <Text>Firebase example: { text }</Text>
             <Button onPress={() => console.log("hello world")}>Login</Button>
-            <Button onPress={() => navigation.navigate("Map")}>Map</Button>
-            <Button onPress={() => console.log("hello world")}>Food Bank Profile</Button>
-            <Button onPress={() => console.log("hello world")}>Food List</Button>
+            <Button onPress={() => navigation.navigate("MapScreen")}>Map Screen</Button>
+            <Button onPress={() => navigation.navigate("BankProfile")}>Food Bank Profile</Button>
+            <Button onPress={() => navigation.navigate("FoodList")}>Food List</Button>
           </VStack>
         </Center>
       </NativeBaseProvider>
