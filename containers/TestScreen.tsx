@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { 
-    Button,
-    Text,
-    NativeBaseProvider, 
-    Center, 
-    VStack, 
-    Heading 
+  Button,
+  Text,
+  NativeBaseProvider, 
+  Center, 
+  VStack, 
+  Heading 
 } from "native-base";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
@@ -23,36 +23,36 @@ type RootStackParamList = {
 type Props = NativeStackScreenProps<RootStackParamList, "HomeScreen">;
 
 function HomeScreen({ navigation }: Props) {
-    const [text, setText] = useState("");
+  const [text, setText] = useState("");
 
-    // Set variable with text from Firebase
-    useEffect(() => {
-      async function fetchText() {
-        let docRef = doc(db, "test", "03GlJwswWlTGyupX5KWE");
-        let docSnap = await getDoc(docRef);
+  // Set variable with text from Firebase
+  useEffect(() => {
+    async function fetchText() {
+      let docRef = doc(db, "test", "03GlJwswWlTGyupX5KWE");
+      let docSnap = await getDoc(docRef);
 
-        if (docSnap.exists()) {
-          setText(docSnap.data().foo);
-        }
+      if (docSnap.exists()) {
+        setText(docSnap.data().foo);
       }
-    
-      fetchText();
-    }, []);
+    }
   
-    return (
-      <NativeBaseProvider>
-        <Center px={4} flex={1}>
-          <VStack space={5} alignItems="center">
-            <Heading size="lg">Test Page</Heading>
-            <Text>Firebase example: { text }</Text>
-            <Button onPress={() => console.log("hello world")}>Login</Button>
-            <Button onPress={() => navigation.navigate("MapScreen")}>Map Screen</Button>
-            <Button onPress={() => navigation.navigate("BankProfile")}>Food Bank Profile</Button>
-            <Button onPress={() => navigation.navigate("FoodList")}>Food List</Button>
-          </VStack>
-        </Center>
-      </NativeBaseProvider>
-    );
-  }
+    fetchText();
+  }, []);
+
+  return (
+    <NativeBaseProvider>
+      <Center px={4} flex={1}>
+        <VStack space={5} alignItems="center">
+          <Heading size="lg">Test Page</Heading>
+          <Text>Firebase example: { text }</Text>
+          <Button onPress={() => console.log("hello world")}>Login</Button>
+          <Button onPress={() => navigation.navigate("MapScreen")}>Map Screen</Button>
+          <Button onPress={() => navigation.navigate("BankProfile")}>Food Bank Profile</Button>
+          <Button onPress={() => navigation.navigate("FoodList")}>Food List</Button>
+        </VStack>
+      </Center>
+    </NativeBaseProvider>
+  );
+}
 
 export default HomeScreen;
