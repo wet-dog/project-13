@@ -11,11 +11,11 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import { doc, getDoc } from "firebase/firestore";
 
-import { db } from "./firebase";
+import { db } from "../firebase";
 
 type RootStackParamList = {
-    HomeScreen: undefined;
-    Map: undefined;
+  HomeScreen: undefined;
+  Map: undefined;
 }
 
 type Props = NativeStackScreenProps<RootStackParamList, "HomeScreen">;

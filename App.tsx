@@ -18,8 +18,8 @@ import NativeBaseIcon from "./components/NativeBaseIcon";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MapScreen from "./MapScreen";
-import HomeScreen from "./HomeScreen";
+import MapScreen from "./containers/MapScreen";
+import HomeScreen from "./containers/TestScreen";
 
 type RootStackParamList = {
   HomeScreen: undefined;
