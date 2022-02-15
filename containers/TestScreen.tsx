@@ -14,15 +14,17 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 type RootStackParamList = {
-  HomeScreen: undefined;
+  TestScreen: undefined;
   MapScreen: undefined;
   BankProfile: undefined;
   FoodList: undefined;
+  SignInScreen: undefined;
+  SignUpScreen: undefined;
 }
 
-type Props = NativeStackScreenProps<RootStackParamList, "HomeScreen">;
+type Props = NativeStackScreenProps<RootStackParamList, "TestScreen">;
 
-function HomeScreen({ navigation }: Props) {
+function TestScreen({ navigation }: Props) {
   const [text, setText] = useState("");
 
   // Set variable with text from Firebase
@@ -45,7 +47,8 @@ function HomeScreen({ navigation }: Props) {
         <VStack space={5} alignItems="center">
           <Heading size="lg">Test Page</Heading>
           <Text>Firebase example: { text }</Text>
-          <Button onPress={() => console.log("hello world")}>Login</Button>
+          <Button onPress={() => navigation.navigate("SignInScreen")}>Sign In</Button>
+          <Button onPress={() => navigation.navigate("SignUpScreen")}>Sign Up</Button>
           <Button onPress={() => navigation.navigate("MapScreen")}>Map Screen</Button>
           <Button onPress={() => navigation.navigate("BankProfile")}>Food Bank Profile</Button>
           <Button onPress={() => navigation.navigate("FoodList")}>Food List</Button>
@@ -55,4 +58,4 @@ function HomeScreen({ navigation }: Props) {
   );
 }
 
-export default HomeScreen;
+export default TestScreen;
