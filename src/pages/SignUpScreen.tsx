@@ -11,7 +11,7 @@ import {
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState, useEffect } from "react";
 
-import { signUp, validateSignUp, Errors, checkErrors } from "../registration";
+import { signUp, validateSignUp, Errors, checkErrors } from "../../registration";
 
 type RootStackParamList = {
   TestScreen: undefined;

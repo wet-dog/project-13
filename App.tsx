@@ -13,17 +13,17 @@ import {
   VStack,
   Code,
 } from "native-base";
-import NativeBaseIcon from "./components/NativeBaseIcon";
+
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import MapScreen from "./containers/MapScreen";
-import TestScreen from "./containers/TestScreen";
-import BankProfile from "./containers/BankProfile";
-import FoodList from "./containers/FoodList";
-import SignInScreen from "./containers/SignInScreen";
-import SignUpScreen from "./containers/SignUpScreen";
+import MapScreen from "./src/pages/MapScreen";
+import TestScreen from "./src/pages/TestScreen";
+import BankProfile from "./src/pages/BankProfile";
+import FoodList from "./src/pages/FoodList";
+import SignInScreen from "./src/pages/SignInScreen";
+import SignUpScreen from "./src/pages/SignUpScreen";
 
 type RootStackParamList = {
   TestScreen: undefined;

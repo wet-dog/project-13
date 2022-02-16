@@ -16,9 +16,9 @@ import React, { useState, useEffect } from "react";
 
 import { doc, getDoc } from "firebase/firestore";
 
-import { db } from "../firebase";
+import { db } from "../../firebase";
 
-import { auth, signIn, validateSignIn, checkErrors } from "../registration";
+import { auth, signIn, validateSignIn, checkErrors } from "../../registration";
 
 type Errors = {
   email: string,
@@ -45,15 +45,15 @@ function SignInScreen({ navigation }: Props) {
   const [errors, setErrors] = useState<Errors>({email: "", password: ""});
 
   async function isOwner() {
-    let uid = auth?.currentUser?.uid ?? false;
+
+    let {uid} = auth.currentUser!;
 
     if (uid) {
       let docRef = doc(db, "users", uid);
       let docSnap = await getDoc(docRef);
-  
+
       if (docSnap.exists()) {
-        let roles = docSnap.data().roles;
-        return roles.owner === true;
+        return docSnap.data().roles.owner === true;
       }
     }
   }
