@@ -1,4 +1,4 @@
-import { signUp, signIn } from "../registration";
+import { signUp, signIn } from "../src/utils/registration";
 
 describe("Sign up and sign in auth", () => {
     it("signs up a user", async () => {

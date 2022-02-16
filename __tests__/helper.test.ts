@@ -1,4 +1,4 @@
-import { fetchText } from "../helpers";
+import { fetchText } from "../src/utils/helpers";
 
 describe("Firebase helper functions", () => {
     it("fetches the text 'test string'", async () => {

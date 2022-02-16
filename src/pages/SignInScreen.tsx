@@ -16,9 +16,9 @@ import React, { useState, useEffect } from "react";
 
 import { doc, getDoc } from "firebase/firestore";
 
-import { db } from "../../firebase";
+import { db } from "../utils/firebase";
 
-import { auth, signIn, validateSignIn, checkErrors } from "../../registration";
+import { auth, signIn, validateSignIn, checkErrors } from "../utils/registration";
 
 type Errors = {
   email: string,
