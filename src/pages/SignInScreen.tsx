@@ -67,17 +67,14 @@ function SignInScreen({ navigation }: Props) {
   }
 
   async function onSubmit() {
-    let errors = validateSignIn(email, password);
-    setErrors(errors);
+    let result = await signIn(email, password);
 
-    if (checkErrors(errors)) {
-      if (await signIn(email, password)) {
-        navigateScreen();
-        return;
-      }
+    if (result === true) {
+      navigateScreen();
+    } else {
+      console.log("Validation Failed.");
+      setErrors(result);
     }
-    
-    console.log("Validation Failed.");
   }
 
   return (

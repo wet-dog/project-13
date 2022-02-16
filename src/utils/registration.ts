@@ -22,28 +22,38 @@ onAuthStateChanged(auth, user => {
     // Do other things
 });
 
-export async function signUp(email: string, password: string) {
-    try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        return true;
-    } catch (err: any) {
-        const errorCode = err.code;
-        const errorMessage = err.message;
-        return false;
+export async function signUp(email: string, password: string, confirmation: string) {
+    let errors = validateSignUp(email, password, confirmation);
+
+    if (checkErrors(errors)) {
+        try {
+            await createUserWithEmailAndPassword(auth, email, password);
+            return true;
+        } catch (err: any) {
+            if (err.code === "auth/email-already-in-use") {
+                errors.email = "That email is taken. Try another.";
+            }
+        }
     }
+    
+    return errors;
 }
 
 export async function signIn(email: string, password: string) {
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        return true;
-    } catch (err: any) {
-        const errorCode = err.code;
-        const errorMessage = err.message;
-        return false;
+    let errors = validateSignIn(email, password);
+
+    if (checkErrors(errors)) {
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            return true;
+        } catch (err: any) {
+            if (err.code === "auth/wrong-password") {
+                errors.password = "Wrong password. Try again or click 'Forgot password' to reset it.";
+            }
+        }
     }
+    
+    return errors;
 }
 
 export type Errors = {
@@ -53,6 +63,7 @@ export type Errors = {
 }
 
 // TODO: Add better validation
+//       1. Sorry, only letters (a-z), number (0-9), and periods (.) are allowed.
 function validateEmail(email: string, errors: Errors) {
     if (email === "") {
         errors.email = "Choose an email address";

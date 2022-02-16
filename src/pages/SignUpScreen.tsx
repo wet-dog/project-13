@@ -32,15 +32,14 @@ function SignInScreen({ navigation }: Props) {
 
   const [errors, setErrors] = useState<Errors>({email: "", password: "", confirmation: ""});
 
-  function onSubmit() {
-    let errors = validateSignUp(email, password, confirmation);
-    setErrors(errors);
+  async function onSubmit() {    
+    let result = await signUp(email, password, confirmation);
 
-    if (checkErrors(errors)) {
-      signUp(email, password);
+    if (result === true) {
       navigation.navigate("SignInScreen");
     } else {
       console.log("Validation Failed.");
+      setErrors(result);
     }
   }
   
