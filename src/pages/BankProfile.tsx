@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Text,
-  TextInput,
   HStack,
   Center,
   Heading,
@@ -12,6 +11,7 @@ import {
   extendTheme,
   VStack,
 } from "native-base";
+import { TextInput } from "react-native";
 
 function BankProfile() {
   return (
@@ -46,7 +46,7 @@ function BankProfile() {
                 underlineColorAndroid = "transparent"
                placeholder = "BA1 3PL"
                placeholderTextColor = "#9a73ef"
-               autoCapitalize = "all"
+               autoCapitalize = "words"
                maxLength = {8}
             />
           </HStack>
