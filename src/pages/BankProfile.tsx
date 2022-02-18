@@ -19,37 +19,36 @@ function BankProfile() {
       <Center px={4} flex={1}>
         <VStack space={5} alignItems="center">
           <Heading size="lg">Foodbank Details</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Name:</Text>
-            <TextInput 
-                underlineColorAndroid = "transparent"
-               placeholder = "Bath City Foodbank"
-               placeholderTextColor = "#9a73ef"
-               autoCapitalize = "words"
-            />
-            <Text>Name:</Text>
-            <TextInput 
-                underlineColorAndroid = "transparent"
-               placeholder = "Bath City Foodbank"
-               placeholderTextColor = "#9a73ef"
-               autoCapitalize = "words"
-            />
-            <Text>Address:</Text>
-            <TextInput 
-                underlineColorAndroid = "transparent"
-               placeholder = "12 Donation Road, Bath"
-               placeholderTextColor = "#9a73ef"
-               autoCapitalize = "words"
-            />
-            <Text>Postcode:</Text>
-            <TextInput 
-                underlineColorAndroid = "transparent"
-               placeholder = "BA1 3PL"
-               placeholderTextColor = "#9a73ef"
-               autoCapitalize = "words"
-               maxLength = {8}
-            />
-          </HStack>
+          <VStack space={5} alignItems="center">
+            <HStack space={2} alignItems="center">
+              <Text>Name:</Text>
+              <TextInput 
+                  underlineColorAndroid = "transparent"
+                placeholder = "Bath City Foodbank"
+                placeholderTextColor = "#666"
+                autoCapitalize = "words"
+              />
+            </HStack>
+            <HStack space={2} alignItems="center">
+              <Text>Address:</Text>
+              <TextInput 
+                  underlineColorAndroid = "transparent"
+                placeholder = "12 Donation Road, Bath"
+                placeholderTextColor = "#666"
+                autoCapitalize = "words"
+              />
+            </HStack>
+            <HStack space={2} alignItems="center">
+              <Text>Postcode:</Text>
+              <TextInput 
+                  underlineColorAndroid = "transparent"
+                placeholder = "BA1 3PL"
+                placeholderTextColor = "#666"
+                autoCapitalize = "words"
+                maxLength = {8}
+              />
+              </HStack>
+          </VStack>
         </VStack>
       </Center>
     </NativeBaseProvider>
