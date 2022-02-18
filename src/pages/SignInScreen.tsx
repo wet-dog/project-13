@@ -18,13 +18,7 @@ import { doc, getDoc } from "firebase/firestore";
 
 import { db } from "../utils/firebase";
 
-import { auth, signIn, validateSignIn, checkErrors } from "../utils/registration";
-
-type Errors = {
-  email: string,
-  password: string,
-  confirmation?: string
-}
+import { auth, signIn, Errors } from "../utils/registration";
 
 type RootStackParamList = {
   TestScreen: undefined;

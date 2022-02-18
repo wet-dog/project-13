@@ -1,8 +1,6 @@
-import { initializeApp } from 'firebase/app';
 import {
     getAuth,
     onAuthStateChanged,
-    signInWithCredential,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
 } from 'firebase/auth';
@@ -47,7 +45,9 @@ export async function signIn(email: string, password: string) {
             await signInWithEmailAndPassword(auth, email, password);
             return true;
         } catch (err: any) {
-            if (err.code === "auth/wrong-password") {
+            if (err.code === "auth/user-not-found") {
+                errors.email = "Couldn't find your email"
+            } else if (err.code === "auth/wrong-password") {
                 errors.password = "Wrong password. Try again or click 'Forgot password' to reset it.";
             }
         }
@@ -86,7 +86,7 @@ function validateConfirmation(password: string, confirmation: string, errors: Er
 }
 
 // Validate the sign up form
-export function validateSignUp(email: string, password: string, confirmation: string) {
+function validateSignUp(email: string, password: string, confirmation: string) {
     let errors: Errors = {email: "", password: "", confirmation: ""};
 
     errors = validateEmail(email, errors);
@@ -100,7 +100,7 @@ export function validateSignUp(email: string, password: string, confirmation: st
     return errors;
 }
 
-export function validateSignIn(email: string, password: string) {
+function validateSignIn(email: string, password: string) {
     let errors: Errors = {email: "", password: ""};
 
     errors = validateEmail(email, errors);
@@ -112,6 +112,15 @@ export function validateSignIn(email: string, password: string) {
 }
 
 // Returns true if all errors have value "", otherwise returns false
-export function checkErrors(errors: Errors) {
+function checkErrors(errors: Errors) {
     return Object.values(errors).every((v) => v === "");
+}
+
+export const exportedForTesting = {
+    validateEmail,
+    validatePassword,
+    validateConfirmation,
+    validateSignUp,
+    validateSignIn,
+    checkErrors
 }
