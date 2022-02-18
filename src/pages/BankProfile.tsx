@@ -1,55 +1,40 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  Text,
-  HStack,
+  FormControl,
+  Input,
   Center,
   Heading,
-  Switch,
-  useColorMode,
   NativeBaseProvider,
-  extendTheme,
   VStack,
+  Box
 } from "native-base";
-import { TextInput } from "react-native";
 
 function BankProfile() {
   return (
     <NativeBaseProvider>
       <Center px={4} flex={1}>
-        <VStack space={5} alignItems="center">
-          <Heading size="lg">Foodbank Details</Heading>
-          <VStack space={5} alignItems="center">
-            <HStack space={2} alignItems="center">
-              <Text>Name:</Text>
-              <TextInput 
-                  underlineColorAndroid = "transparent"
-                placeholder = "Bath City Foodbank"
-                placeholderTextColor = "#666"
-                autoCapitalize = "words"
-              />
-            </HStack>
-            <HStack space={2} alignItems="center">
-              <Text>Address:</Text>
-              <TextInput 
-                  underlineColorAndroid = "transparent"
-                placeholder = "12 Donation Road, Bath"
-                placeholderTextColor = "#666"
-                autoCapitalize = "words"
-              />
-            </HStack>
-            <HStack space={2} alignItems="center">
-              <Text>Postcode:</Text>
-              <TextInput 
-                  underlineColorAndroid = "transparent"
-                placeholder = "BA1 3PL"
-                placeholderTextColor = "#666"
-                autoCapitalize = "words"
-                maxLength = {8}
-              />
-              </HStack>
+        <Box safeArea p="2" py="8" w="90%" maxW="290">
+          <Heading size="lg" fontWeight="600" color="coolGray.800" _dark={{
+            color: "warmGray.50"
+          }}>
+            Food Bank Profile
+          </Heading>
+          <VStack space={3} mt="5">
+            <FormControl isRequired>
+              <FormControl.Label>Name</FormControl.Label>
+              <Input placeholder="Bath City Food Bank" placeholderTextColor="#666" /*onChangeText={text => setName(text)}*/ />
+            </FormControl>
+            <FormControl isRequired>
+              <FormControl.Label>Address</FormControl.Label>
+              <Input placeholder="12 Donation Road, Bath" placeholderTextColor="#666" /*onChangeText={text => set(text)}*/ />
+            </FormControl>
+            <FormControl isRequired>
+              <FormControl.Label>Postcode</FormControl.Label>
+              <Input placeholder="BA1 1AA" maxLength={8} placeholderTextColor="#666" /*onChangeText={text => setName(text)}*/ />
+            </FormControl>
           </VStack>
-        </VStack>
+        </Box>
       </Center>
     </NativeBaseProvider>
   );
