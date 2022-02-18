@@ -50,7 +50,6 @@ function BankProfile() {
                maxLength = {8}
             />
           </HStack>
-          <ToggleDarkMode />
         </VStack>
       </Center>
     </NativeBaseProvider>
