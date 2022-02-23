@@ -1,7 +1,9 @@
-import { DocumentData } from "@firebase/firestore-types";
-import { doc, getDoc, getDocs, collection, QueryDocumentSnapshot, query , where} from "firebase/firestore";
+
+import { doc, getDoc, getDocs, collection, QueryDocumentSnapshot, query , where, setDoc, DocumentData} from "firebase/firestore";
 import { db } from "./firebase";
 import * as Location from 'expo-location';
+import {v4 as uuidv4} from 'uuid';
+
  
 type foodData = {
     id: String,
@@ -78,25 +80,62 @@ const converter = {
     ): Promise<foodData>{
         const {id, bankName, foods} = doc.data()
 
-        const obj = {
+        
+        const obj = await {
             id,
             bankName,
             foods,
             distance: await calculateDistance(await fetchUserLocation(), await fetchFoodBankLocation(bankName))
         }
+       
         return obj
     }
 }
 
-export const fetchFood = async () => {
+export const fetchFood = async (): Promise<foodData[]> => {
+
     const snapshot = await getDocs(collection(db, 'food'));
 
-    let data: foodData[] = [];
-
-    snapshot.docs.forEach(async doc => {
-        data.push(await converter.fromFirestore(doc))
-    })
+    const data = await Promise.all(snapshot.docs.map(doc => converter.fromFirestore(doc)))
+  
     return data;
 
 } 
+
+
+export const insertFood = async (bankName: String, foodArray: String[]) => {
+
+
+    let generateID = uuidv4();
+
+    const q = query(collection(db, 'food'), where ("bankName", "==", bankName))
+    const querySnapshot = await getDocs(q);
+    let obtainQuery = querySnapshot.forEach(cum => {
+        console.log(cum);
+    })
+
+    /* check if food bank already exists */
+    let count = false;
+    querySnapshot.forEach(doc => {
+        count = true;
+    })
+    if (count){
+    /* update existing food bank */
+        
+    }
+
+    else {
+
+    /* new food bank */
+
+    await setDoc(doc(db, "food", generateID ), {
+        bankName,
+        foodArray,
+        id: generateID
+    })
+    }
+
+}
+
+
 
