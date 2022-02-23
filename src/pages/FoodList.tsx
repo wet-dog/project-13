@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { 
   NativeBaseProvider, 
   Center, 
   VStack, 
-  Heading 
+  Heading,
+  Text,
+  Button
 } from "native-base";
 
+import * as Location from 'expo-location';
+
 function FoodList() {
+
   return (
     <NativeBaseProvider>
       <Center px={4} flex={1}>

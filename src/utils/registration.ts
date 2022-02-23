@@ -39,7 +39,6 @@ export async function signUp(email: string, password: string, confirmation: stri
 
 export async function signIn(email: string, password: string) {
     let errors = validateSignIn(email, password);
-
     if (checkErrors(errors)) {
         try {
             await signInWithEmailAndPassword(auth, email, password);

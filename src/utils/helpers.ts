@@ -9,3 +9,4 @@ export async function fetchText() {
         return docSnap.data().foo;
     }
 }
+
