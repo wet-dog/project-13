@@ -1,3 +1,4 @@
+import { Console } from 'console';
 import {
     getAuth,
     onAuthStateChanged,
@@ -5,7 +6,10 @@ import {
     signInWithEmailAndPassword,
 } from 'firebase/auth';
 
+import { db } from "./firebase";
+import { doc, getDoc, getDocs, collection, QueryDocumentSnapshot, query , where, setDoc, DocumentData} from "firebase/firestore";
 import { firebaseApp } from './firebase';
+
 
 export const auth = getAuth(firebaseApp);
 
@@ -29,8 +33,10 @@ export async function signUp(email: string, password: string, confirmation: stri
             return true;
         } catch (err: any) {
             if (err.code === "auth/email-already-in-use") {
+                console.log("test")
                 errors.email = "That email is taken. Try another.";
             }
+            console.log("error: ", err.code, err.message);
         }
     }
     
@@ -53,6 +59,31 @@ export async function signIn(email: string, password: string) {
     }
     
     return errors;
+}
+
+export const addNewUser = async (email: String, role: String, bank: String) => {
+        
+    let owner = false, staff = false, donor = false;
+    if (role == "owner"){
+        owner = true;
+        staff = true;
+    }
+    else if (role == "staff"){
+        staff = true;
+    }
+    else {
+        donor = true;
+    }
+
+    await setDoc(doc(db, "users", auth.currentUser!.uid ), {
+         email,
+         roles: {
+             owner,
+             staff,
+             donor
+         }
+     })
+    
 }
 
 export type Errors = {

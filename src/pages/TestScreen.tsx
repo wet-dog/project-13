@@ -20,11 +20,13 @@ type RootStackParamList = {
   FoodList: undefined;
   SignInScreen: undefined;
   SignUpScreen: undefined;
+  OwnerScreen: undefined;
 }
 
 type Props = NativeStackScreenProps<RootStackParamList, "TestScreen">;
 
 function TestScreen({ navigation }: Props) {
+
   const [text, setText] = useState("");
 
   // Set variable with text from Firebase
@@ -52,6 +54,7 @@ function TestScreen({ navigation }: Props) {
           <Button onPress={() => navigation.navigate("MapScreen")}>Map Screen</Button>
           <Button onPress={() => navigation.navigate("BankProfile")}>Food Bank Profile</Button>
           <Button onPress={() => navigation.navigate("FoodList")}>Food List</Button>
+          <Button onPress={() => navigation.navigate("OwnerScreen")}>OwnerScreen</Button>
         </VStack>
       </Center>
     </NativeBaseProvider>

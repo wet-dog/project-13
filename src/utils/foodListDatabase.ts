@@ -1,8 +1,8 @@
 
-import { doc, getDoc, getDocs, collection, QueryDocumentSnapshot, query , where, setDoc, DocumentData} from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, QueryDocumentSnapshot, query , where, setDoc, DocumentData, arrayUnion, updateDoc, arrayRemove} from "firebase/firestore";
 import { db } from "./firebase";
 import * as Location from 'expo-location';
-import {v4 as uuidv4} from 'uuid';
+import { Query } from "@firebase/firestore-types";
 
  
 type foodData = {
@@ -102,40 +102,89 @@ export const fetchFood = async (): Promise<foodData[]> => {
 
 } 
 
+export const test = async () => {
 
-export const insertFood = async (bankName: String, foodArray: String[]) => {
-
-
-    let generateID = uuidv4();
-
-    const q = query(collection(db, 'food'), where ("bankName", "==", bankName))
-    const querySnapshot = await getDocs(q);
-    let obtainQuery = querySnapshot.forEach(cum => {
-        console.log(cum);
-    })
-
-    /* check if food bank already exists */
-    let count = false;
-    querySnapshot.forEach(doc => {
-        count = true;
-    })
-    if (count){
-    /* update existing food bank */
-        
-    }
-
-    else {
-
-    /* new food bank */
-
-    await setDoc(doc(db, "food", generateID ), {
-        bankName,
-        foodArray,
-        id: generateID
-    })
-    }
+    let data = await fetchFood();
+    console.log(data);
 
 }
+
+export const fetchBankID = async (bankName: String)  => {
+
+
+    const q2 = query(collection(db, "foodBank"), where("bankName", "==", bankName));
+    const qSnap = await getDocs(q2);
+
+    let id: string | undefined;
+    qSnap.forEach((doc) => {
+        id = doc.id;
+    })
+
+    return id;
+
+}
+
+/* enter name of bank to insert too, food item and whether you wish to remove / update */
+export const insertFood = async (bankName: String, food: String, remove: boolean) => {
+
+    const bankID = await fetchBankID(bankName);
+    const q = query(collection(db, "food"), where("bankID", "==", bankID));
+    const foodSnap = await getDocs(q);
+
+    let data;
+    let id: string | undefined;
+    foodSnap.forEach((doc) => {
+        data = doc.data();
+        id = doc.id;
+    })
+
+    const foodRef = doc(db, `food/${id}`);
+
+    if (remove){
+        await updateDoc(foodRef, {
+            foods: arrayRemove(food)
+        })
+    }
+    else {
+         await updateDoc(foodRef, {
+            foods: arrayUnion(food)
+        })
+    }
+    
+}
+
+export const updateFood = async (bankName: String, oldFood: String, newFood : String) => {
+    await insertFood(bankName, oldFood, true);
+    await insertFood(bankName, newFood, false);
+}
+
+
+
+export const wipeFoodArray = async (bankName: String) => {
+
+    console.log("test");
+    const bankID = await fetchBankID(bankName);
+    console.log("bankID", bankID);
+    const q = query(collection(db, "food"), where("bankID", "==", bankID));
+    const foodSnap = await getDocs(q);
+
+    let data;
+    let id: string | undefined;
+    foodSnap.forEach((doc) => {
+        data = doc.data();
+        id = doc.id;
+    })
+
+    console.log(data);
+    const foodRef = doc(db, `food/${id}`);
+    console
+
+    await updateDoc(foodRef, {
+        foods: []
+    })
+
+}
+
 
 
 

@@ -24,6 +24,8 @@ import BankProfile from "./src/pages/BankProfile";
 import FoodList from "./src/pages/FoodList";
 import SignInScreen from "./src/pages/SignInScreen";
 import SignUpScreen from "./src/pages/SignUpScreen";
+import OwnerScreen from "./src/pages/OwnerScreen";
+import { LogBox } from "react-native";
 
 type RootStackParamList = {
   TestScreen: undefined;
@@ -32,11 +34,14 @@ type RootStackParamList = {
   FoodList: undefined;
   SignInScreen: undefined;
   SignUpScreen: undefined;
+  OwnerScreen: undefined;
 }
+
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function App() {
+  LogBox.ignoreAllLogs();
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -46,6 +51,7 @@ function App() {
         <Stack.Screen name="FoodList" component={FoodList} />
         <Stack.Screen name="SignInScreen" component={SignInScreen}/>
         <Stack.Screen name="SignUpScreen" component={SignUpScreen}/>
+        <Stack.Screen name="OwnerScreen" component={OwnerScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

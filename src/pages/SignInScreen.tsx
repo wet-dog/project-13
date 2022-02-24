@@ -12,8 +12,8 @@ import {
   NativeBaseProvider
 } from "native-base";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useState, useEffect } from "react";
-
+import React, { useState, useEffect, SetStateAction } from "react";
+import {v4 as uuidv4} from 'uuid';
 import { doc, getDoc } from "firebase/firestore";
 
 import { db } from "../utils/firebase";
@@ -27,6 +27,7 @@ type RootStackParamList = {
   FoodList: undefined;
   SignInScreen: undefined;
   SignUpScreen: undefined;
+  OwnerScreen: undefined;
 }
 
 type Props = NativeStackScreenProps<RootStackParamList, "SignInScreen">;
@@ -54,7 +55,7 @@ function SignInScreen({ navigation }: Props) {
 
   async function navigateScreen() {
     if (await isOwner()) {
-      navigation.navigate("MapScreen");
+      navigation.navigate("OwnerScreen");
     } else {
       navigation.navigate("FoodList");
     }
@@ -62,8 +63,8 @@ function SignInScreen({ navigation }: Props) {
 
   async function onSubmit() {
     let result = await signIn(email, password);
-
-    if (result === true) {
+    console.log("result", result);
+    if (result == true) {
       navigateScreen();
     } else {
       console.log("Validation Failed.");
@@ -89,12 +90,12 @@ function SignInScreen({ navigation }: Props) {
           <VStack space={3} mt="5">
           <FormControl isRequired isInvalid={errors.email !== ""}>
             <FormControl.Label>Email ID</FormControl.Label>
-            <Input onChangeText={text => setEmail(text)} />
+            <Input onChangeText={(text: SetStateAction<string>) => setEmail(text)} />
             <FormControl.ErrorMessage>{ errors.email }</FormControl.ErrorMessage>
           </FormControl>
           <FormControl isRequired isInvalid={errors.password !== ""}>
             <FormControl.Label>Password</FormControl.Label>
-            <Input type="password" onChangeText={text => setPassword(text)} />
+            <Input type="password" onChangeText={(text: SetStateAction<string>) => setPassword(text)} />
             <FormControl.ErrorMessage>{ errors.password }</FormControl.ErrorMessage>
             <Link _text={{
             fontSize: "xs",
