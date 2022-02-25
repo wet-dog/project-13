@@ -5,7 +5,7 @@ import * as Location from 'expo-location';
 import { Query } from "@firebase/firestore-types";
 
  
-type foodData = {
+export type FoodData = {
     id: String,
     bankName: String,
     distance: Number,
@@ -77,7 +77,7 @@ const calculateDistance = async (userLocation: any, bankLocation : any) => {
 const converter = {
     async fromFirestore(
         doc: QueryDocumentSnapshot<DocumentData> 
-    ): Promise<foodData>{
+    ): Promise<FoodData>{
         const {id, bankName, foods} = doc.data()
 
         
@@ -92,7 +92,7 @@ const converter = {
     }
 }
 
-export const fetchFood = async (): Promise<foodData[]> => {
+export const fetchFood = async (): Promise<FoodData[]> => {
 
     const snapshot = await getDocs(collection(db, 'food'));
 

@@ -34,7 +34,7 @@ type Props = NativeStackScreenProps<RootStackParamList, "MapScreen">;
 function MapScreen({ navigation }: Props) {
     return (
       <NativeBaseProvider>
-        <View style={donorStyles.container}>
+        {/* <View style={donorStyles.container}>
             <Text style={donorStyles.heading}>Select a food bank or drop off point</Text>
             <MapView style={donorStyles.map}
                      initialRegion={{
@@ -63,7 +63,7 @@ function MapScreen({ navigation }: Props) {
                         </Callout>
                     </Marker>
             </MapView>
-        </View>
+        </View> */}
       </NativeBaseProvider>
     );
 }
