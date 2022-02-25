@@ -6,8 +6,7 @@ import { Query } from "@firebase/firestore-types";
 
  
 type foodData = {
-    id: String,
-    bankName: String,
+    bankID: String,
     distance: Number,
     foods: String[]
 }
@@ -78,12 +77,11 @@ const converter = {
     async fromFirestore(
         doc: QueryDocumentSnapshot<DocumentData> 
     ): Promise<foodData>{
-        const {id, bankName, foods} = doc.data()
+        const {bankID,  foods} = doc.data()
 
         
         const obj = await {
-            id,
-            bankName,
+            bankID,
             foods,
             distance: await calculateDistance(await fetchUserLocation(), await fetchFoodBankLocation(bankName))
         }
@@ -123,6 +121,8 @@ export const fetchBankID = async (bankName: String)  => {
     return id;
 
 }
+
+
 
 /* enter name of bank to insert too, food item and whether you wish to remove / update */
 export const insertFood = async (bankName: String, food: String, remove: boolean) => {

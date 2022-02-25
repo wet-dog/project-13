@@ -13,7 +13,7 @@ import * as Location from 'expo-location';
 
 function FoodList() {
 
-  test();
+  
   return (
     <NativeBaseProvider>
       <Center px={4} flex={1}>
