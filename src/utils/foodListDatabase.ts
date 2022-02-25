@@ -84,6 +84,7 @@ const converter = {
         const obj = await {
             bankID,
             foods,
+            bankName: foodBankName(bankID),
             distance: await calculateDistance(await fetchUserLocation(), await fetchFoodBankLocation(bankID))
         }
        
