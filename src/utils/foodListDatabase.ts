@@ -1,5 +1,5 @@
 
-import { doc, getDoc, getDocs, collection, QueryDocumentSnapshot, query , where, setDoc, DocumentData, arrayUnion, updateDoc, arrayRemove} from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, QueryDocumentSnapshot, query , where,  DocumentData, arrayUnion, updateDoc, arrayRemove} from "firebase/firestore";
 import { db } from "./firebase";
 import * as Location from 'expo-location';
 import { Query } from "@firebase/firestore-types";
@@ -20,11 +20,11 @@ const fetchFoodBankLocation = async (bankID: any) => {
 
     const docRef = doc(db, "foodBank", bankID);
 
-    const doc: any = await getDoc(docRef);
+    const snapshot:any = await getDoc(docRef);
 
     let longitude, latitude;
 
-    let location = doc.data().location;
+    let location = snapshot.data().location;
     latitude = location.latitude
     longitude = location.longitude
 
