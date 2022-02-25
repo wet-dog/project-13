@@ -101,12 +101,6 @@ export const fetchFood = async (): Promise<FoodData[]> => {
 
 } 
 
-export const test = async () => {
-
-    let data = await fetchFood();
-    console.log(data);
-
-}
 
 export const fetchBankID = async (bankName: String)  => {
 
@@ -159,7 +153,16 @@ export const updateFood = async (bankName: String, oldFood: String, newFood : St
     await insertFood(bankName, newFood, false);
 }
 
+export const foodBankName = async (bankID: string) => {
+    const docRef = doc(db, "foodBank", bankID);
 
+    const snapshot:any = await getDoc(docRef);
+
+    
+    let name = snapshot.data().bankName
+    return name
+   
+}
 
 export const wipeFoodArray = async (bankName: String) => {
 
