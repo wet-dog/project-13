@@ -11,26 +11,50 @@ import {
   Text
 } from "native-base";
 import { foodbankUpdate, BankErrors } from "../utils/bankprofile";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../utils/firebase";
 
 function BankProfile() {
 
+  // This will be fetched according to which user is logged in (TODO)
+  let foodbankID = "IFPYo5AVGKA8t490xTpl";
+  
+  // Input handlers
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [postcode, setPostcode] = useState("");
+  const [desc, setDesc] = useState("");
+  const [lat, setLatitude] = useState("");
+  const [long, setLongitude] = useState("");
 
-  const [errors, setErrors] = useState<BankErrors>({name: "", address: "", postcode: ""});
+  // Fetch the relevant data from the database
+  useEffect(() => {
+    async function fetchText() {
+      let docRef = doc(db, "foodBank", foodbankID);
+      let docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        let data = docSnap.data();
+        setName(data.bankName);
+        setDesc(data.description);
+        setLatitude(data.location._lat);
+        setLongitude(data.location._long);
+      }
+    }
+  
+    fetchText();
+  }, []);
+
+  // Error and success handlers
+  const [errors, setErrors] = useState<BankErrors>({name: "", lat: "", long: ""});
   const [success, setSuccess] = useState("");
 
   async function onUpdate() {   
 
-    let result = await foodbankUpdate(name, address, postcode);
+    let result = await foodbankUpdate(name, lat, long);
 
-    if (!result) {
-      console.log("Validation Failed.");
+    if (result == true) {
+      setSuccess("Changes saved!");
+    } else {
       setSuccess("Error! Changes not saved.");
       setErrors(result);
-    } else {
-      setSuccess("Changes saved!");
     }
   }
 
@@ -44,24 +68,29 @@ function BankProfile() {
             Food Bank Profile
           </Heading>
           <VStack space={3} mt="5">
-            <FormControl isRequired>
+            <FormControl isRequired isInvalid={errors.name !== ""}>
               <FormControl.Label>Name</FormControl.Label>
-              <Input placeholder="Bath City Food Bank" placeholderTextColor="#666" onChangeText={text => setName(text)} />
+              <Input value={ name } onChangeText={text => setName(text)} />
               <FormControl.ErrorMessage>{ errors.name }</FormControl.ErrorMessage>
             </FormControl>
-            <FormControl isRequired>
-              <FormControl.Label>Address</FormControl.Label>
-              <Input placeholder="12 Donation Road, Bath" placeholderTextColor="#666" onChangeText={text => setAddress(text)} />
-              <FormControl.ErrorMessage>{ errors.address }</FormControl.ErrorMessage>
+            <FormControl>
+              <FormControl.Label>Description</FormControl.Label>
+              <Input value={ desc } onChangeText={text => setDesc(text)} />
             </FormControl>
-            <FormControl isRequired>
-              <FormControl.Label>Postcode</FormControl.Label>
-              <Input placeholder="BA1 1AA" maxLength={8} placeholderTextColor="#666" onChangeText={text => setPostcode(text)} />
+            <FormControl isRequired isInvalid={errors.lat !== ""}>
+              <FormControl.Label>Latitude</FormControl.Label>
+              <Input value={ lat } onChangeText={text => setLatitude(text)} />
+              <FormControl.ErrorMessage>{ errors.lat }</FormControl.ErrorMessage>
+            </FormControl>
+            <FormControl isRequired isInvalid={errors.long !== ""}>
+              <FormControl.Label>Longitude</FormControl.Label>
+              <Input value={ long } onChangeText={text => setLongitude(text)} />
+              <FormControl.ErrorMessage>{ errors.long }</FormControl.ErrorMessage>
             </FormControl>
             <Button mt="2" colorScheme="indigo" onPress={onUpdate}>
               Save Changes
             </Button>
-            <Text>{ success }</Text>
+            <Text textAlign="center">{ success }</Text>
           </VStack>
         </Box>
       </Center>
