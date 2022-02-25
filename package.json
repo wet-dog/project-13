@@ -19,6 +19,7 @@
   "dependencies": {
     "@firebase/app-types": "^0.7.0",
     "@firebase/firestore-types": "^2.5.0",
+    "@native-base/icons": "^0.0.10",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
     "expo": "^42.0.5",
@@ -36,6 +37,7 @@
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
     "react-native-svg": "12.1.1",
+    "react-native-swipe-list-view": "^3.2.9",
     "react-native-web": "^0.17.5",
     "styled-components": "^5.3.3",
     "styled-system": "^5.1.5",
