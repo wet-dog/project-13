@@ -16,17 +16,18 @@ type location = {
     longitude: number,
 }
 
-const fetchFoodBankLocation = async (bankName: any) => {
+const fetchFoodBankLocation = async (bankID: any) => {
 
-    const q = query(collection(db, 'foodBank'), where ("bankName", "==", bankName))
-    const querySnapshot = await getDocs(q);
+    const docRef = doc(db, "foodBank", bankID);
 
-    let latitude , longitude;
-    querySnapshot.forEach(doc => {
-        let location = doc.data().location;
-        latitude = location.latitude
-        longitude = location.longitude
-    })
+    const doc: any = await getDoc(docRef);
+
+    let longitude, latitude;
+
+    let location = doc.data().location;
+    latitude = location.latitude
+    longitude = location.longitude
+
 
     return {latitude, longitude}
 
@@ -83,7 +84,7 @@ const converter = {
         const obj = await {
             bankID,
             foods,
-            distance: await calculateDistance(await fetchUserLocation(), await fetchFoodBankLocation(bankName))
+            distance: await calculateDistance(await fetchUserLocation(), await fetchFoodBankLocation(bankID))
         }
        
         return obj
