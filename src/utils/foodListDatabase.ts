@@ -5,9 +5,8 @@ import * as Location from 'expo-location';
 import { Query } from "@firebase/firestore-types";
 
  
-export type FoodData = {
-    id: String,
-    bankName: String,
+type foodData = {
+    bankID: String,
     distance: Number,
     foods: String[]
 }
@@ -77,13 +76,12 @@ const calculateDistance = async (userLocation: any, bankLocation : any) => {
 const converter = {
     async fromFirestore(
         doc: QueryDocumentSnapshot<DocumentData> 
-    ): Promise<FoodData>{
-        const {id, bankName, foods} = doc.data()
+    ): Promise<foodData>{
+        const {bankID,  foods} = doc.data()
 
         
         const obj = await {
-            id,
-            bankName,
+            bankID,
             foods,
             distance: await calculateDistance(await fetchUserLocation(), await fetchFoodBankLocation(bankName))
         }
@@ -123,6 +121,8 @@ export const fetchBankID = async (bankName: String)  => {
     return id;
 
 }
+
+
 
 /* enter name of bank to insert too, food item and whether you wish to remove / update */
 export const insertFood = async (bankName: String, food: String, remove: boolean) => {

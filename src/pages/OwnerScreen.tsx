@@ -18,6 +18,7 @@ import { fetchUserArray } from "../utils/helpers";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { setStatusBarHidden } from "expo-status-bar";
 import {updateStaff} from '../utils/foodBankDatabase'
+import {test} from '../utils/foodListDatabase';
 
 type RootStackParamList = {
   TestScreen: undefined;
@@ -50,7 +51,7 @@ function OwnerScreen({navigation} : Props) {
     fetch();
     
   }, [])
-  updateFood("Bath Food Bank", "cunt", "newCunt");
+  test();
   return (
     
     <NativeBaseProvider>
