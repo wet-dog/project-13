@@ -12,16 +12,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { doc, getDoc } from "firebase/firestore";
 
 import { db } from "../utils/firebase";
-
-type RootStackParamList = {
-  TestScreen: undefined;
-  MapScreen: undefined;
-  BankProfile: undefined;
-  FoodList: undefined;
-  SignInScreen: undefined;
-  SignUpScreen: undefined;
-  OwnerScreen: undefined;
-}
+import { RootStackParamList } from "../../App";
 
 type Props = NativeStackScreenProps<RootStackParamList, "TestScreen">;
 
@@ -54,6 +45,7 @@ function TestScreen({ navigation }: Props) {
           <Button onPress={() => navigation.navigate("MapScreen")}>Map Screen</Button>
           <Button onPress={() => navigation.navigate("BankProfile")}>Food Bank Profile</Button>
           <Button onPress={() => navigation.navigate("FoodList")}>Food List</Button>
+          <Button onPress={() => navigation.navigate("FoodListDonor")}>Food List Donor</Button>
           <Button onPress={() => navigation.navigate("OwnerScreen")}>OwnerScreen</Button>
         </VStack>
       </Center>
