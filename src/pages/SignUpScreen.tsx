@@ -13,15 +13,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState, useEffect, SetStateAction } from "react";
 
 import { signUp, Errors, addNewUser } from "../utils/registration";
-
-type RootStackParamList = {
-  TestScreen: undefined;
-  MapScreen: undefined;
-  BankProfile: undefined;
-  FoodList: undefined;
-  SignInScreen: undefined;
-  SignUpScreen: undefined;
-}
+import { RootStackParamList } from "../../App";
 
 type Props = NativeStackScreenProps<RootStackParamList, "SignUpScreen">;
 

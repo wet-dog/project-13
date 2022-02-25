@@ -26,17 +26,18 @@ import SignInScreen from "./src/pages/SignInScreen";
 import SignUpScreen from "./src/pages/SignUpScreen";
 import OwnerScreen from "./src/pages/OwnerScreen";
 import { LogBox } from "react-native";
+import FoodListDonor from "./src/pages/FoodListDonor";
 
-type RootStackParamList = {
+export type RootStackParamList = {
   TestScreen: undefined;
   MapScreen: undefined;
   BankProfile: undefined;
   FoodList: undefined;
+  FoodListDonor: undefined;
   SignInScreen: undefined;
   SignUpScreen: undefined;
   OwnerScreen: undefined;
 }
-
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -49,6 +50,7 @@ function App() {
         <Stack.Screen name="MapScreen" component={MapScreen} />
         <Stack.Screen name="BankProfile" component={BankProfile} />
         <Stack.Screen name="FoodList" component={FoodList} />
+        <Stack.Screen name="FoodListDonor" component={FoodListDonor} />
         <Stack.Screen name="SignInScreen" component={SignInScreen}/>
         <Stack.Screen name="SignUpScreen" component={SignUpScreen}/>
         <Stack.Screen name="OwnerScreen" component={OwnerScreen}/>
