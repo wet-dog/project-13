@@ -10,7 +10,7 @@ import {
   Button,
   Text
 } from "native-base";
-import { foodbankUpdate, BankErrors } from "../utils/bankprofile";
+import { foodbankUpdate, BankErrors } from "../utils/bankProfile";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase";
 
@@ -48,7 +48,7 @@ function BankProfile() {
 
   async function onUpdate() {   
 
-    let result = await foodbankUpdate(name, lat, long);
+    let result = await foodbankUpdate(foodbankID, name, desc, lat, long);
 
     if (result == true) {
       setSuccess("Changes saved!");

@@ -1,7 +1,28 @@
-export async function foodbankUpdate(name: string, lat: string, long: string) {
+import { doc, getDoc, updateDoc} from "firebase/firestore";
+import { db } from "./firebase";
+
+export async function foodbankUpdate(id: string, name: string, desc: string, lat: string, long: string) {
     
     let errors = validateBankDetails(name, lat, long);
     
+    if (errors == true) {
+        let docRef = doc(db, "foodBank", id);
+        let docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const bankRef = doc(db, `foodBank/${id}`);
+            // Update relevant attributes
+            // Change location to geotag
+            await updateDoc(bankRef, {
+                bankName: name,
+                description: desc,
+                location: {
+                    _lat: parseFloat(lat),
+                    _long: parseFloat(long)
+                }
+            })
+        }
+    }
+
     return errors;
 }
 
