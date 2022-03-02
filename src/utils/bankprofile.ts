@@ -1,4 +1,5 @@
 import { doc, getDoc, updateDoc, GeoPoint } from "firebase/firestore";
+import { User } from "firebase/auth";
 import { db } from "./firebase";
 
 export async function fetchBank(id: string) {
@@ -7,7 +8,24 @@ export async function fetchBank(id: string) {
     if (docSnap.exists()) {
       return docSnap.data();  
     }
-} 
+}
+
+export async function getUserRole(uid: string) {
+    let docRef = doc(db, "users", uid);
+    let docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        let data = docSnap.data();
+        // Check if user is owner or staff
+        if (data.roles.owner === true) {
+            return true;
+        } else if (data.roles.staff === true) {
+            return false;
+        }
+    }
+    // This should never happen...
+    console.log("Error: Donor has accessed food bank profile page.");
+    return null;
+}
 
 export async function foodbankUpdate(id: string, name: string, desc: string, lat: string, long: string) {
     

@@ -10,15 +10,44 @@ import {
   Button,
   Text
 } from "native-base";
-import { fetchBank, foodbankUpdate, BankErrors } from "../utils/bankProfile";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { auth } from "../utils/registration";
+import { fetchBank, foodbankUpdate, BankErrors, getUserRole } from "../utils/bankProfile";
 
-function BankProfile() {
+type RootStackParamList = {
+  TestScreen: undefined;
+  MapScreen: undefined;
+  BankProfile: undefined;
+  FoodList: undefined;
+  SignInScreen: undefined;
+  SignUpScreen: undefined;
+  OwnerScreen: undefined;
+}
 
-  // This will be fetched according to which user is logged in (TODO)
-  let foodbankID = "IFPYo5AVGKA8t490xTpl";
-  
+let accessDenied = (
+  <NativeBaseProvider>
+    <Center px={4} flex={1}>
+      <Box safeArea p="2" py="8" w="90%" maxW="290">
+        <Heading size="lg" fontWeight="600" color="coolGray.800" _dark={{
+          color: "warmGray.50"
+        }}>
+          Access Denied
+        </Heading>
+        <VStack space={3} mt="5">
+          <Text textAlign="center">Please login to view this page.</Text>
+        </VStack>
+      </Box>
+    </Center>
+  </NativeBaseProvider>
+);
+
+type Props = NativeStackScreenProps<RootStackParamList, "BankProfile">;
+
+function BankProfile({ navigation }: Props) {
+
   // Edit mode variables
   let buttonMessages = ["Edit Details", "Save Changes"];
+  const [canEdit, setCanEdit] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
   // Input handlers
@@ -26,6 +55,25 @@ function BankProfile() {
   const [desc, setDesc] = useState("");
   const [lat, setLatitude] = useState("");
   const [long, setLongitude] = useState("");
+
+  // First check if a user is logged in
+  let user = auth.currentUser;
+  if (user === null) {
+    // User is not logged in, redirect to login page
+    navigation.navigate("SignInScreen");
+    // Return access denied page (in case user back-navigates from sign in page)
+    return accessDenied;
+  }
+
+  // Determine the user's role
+  getUserRole(user.uid).then((role) => {
+    if (role) {
+      setCanEdit(true);
+    }
+  });
+
+  // This will be fetched according to which user is logged in (TODO)
+  let foodbankID = "IFPYo5AVGKA8t490xTpl";
 
   // Fetch the relevant data from the database
   useEffect(() => {
@@ -91,9 +139,11 @@ function BankProfile() {
               <Input value={ long } onChangeText={text => setLongitude(text)} editable={editMode} selectTextOnFocus={editMode}/>
               <FormControl.ErrorMessage>{ errors.long }</FormControl.ErrorMessage>
             </FormControl>
-            <Button mt="2" colorScheme="indigo" onPress={onUpdate}>
-              { buttonMessages[editMode ? 1 : 0] }
-            </Button>
+            { canEdit &&
+              <Button mt="2" colorScheme="indigo" onPress={onUpdate}>
+                { buttonMessages[editMode ? 1 : 0] }
+              </Button>
+            }
             <Text textAlign="center">{ success }</Text>
           </VStack>
         </Box>
