@@ -1,8 +1,23 @@
-import { doc, getDoc, updateDoc, GeoPoint } from "firebase/firestore";
-import { User } from "firebase/auth";
+import { doc, getDoc, getDocs, updateDoc, GeoPoint, query, collection, where } from "firebase/firestore";
 import { db } from "./firebase";
 
-export async function fetchBank(id: string) {
+export async function fetchBank(uid: string) {
+    // Find the foodbank containing the relevant uid in the staff array
+    let q = query(collection(db, "foodBank"), where("staff", "array-contains", uid));
+    let banks = await getDocs(q);
+    let id: string = "none";
+    banks.forEach((doc) => {
+        id = doc.id;
+    });
+    // User is not registered as staff on any food bank
+    if (id == "none") {
+        console.log("Error: User is not registered as staff on any food bank");
+        return {
+            bankName: "",
+            description: "",
+            location: {_lat: "", _long: ""}
+        }
+    }
     let docRef = doc(db, "foodBank", id);
     let docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -27,11 +42,17 @@ export async function getUserRole(uid: string) {
     return null;
 }
 
-export async function foodbankUpdate(id: string, name: string, desc: string, lat: string, long: string) {
-    
+export async function foodbankUpdate(uid: string, name: string, desc: string, lat: string, long: string) {
+
     let errors = validateBankDetails(name, lat, long);
     
     if (errors == true) {
+        let q = query(collection(db, "foodBank"), where("staff", "array-contains", uid));
+        let banks = await getDocs(q);
+        let id: string = "none";
+        banks.forEach((doc) => {
+            id = doc.id;
+        });
         let docRef = doc(db, "foodBank", id);
         let docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
