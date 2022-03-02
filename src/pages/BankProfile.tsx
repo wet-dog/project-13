@@ -10,9 +10,7 @@ import {
   Button,
   Text
 } from "native-base";
-import { foodbankUpdate, BankErrors } from "../utils/bankProfile";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../utils/firebase";
+import { fetchBank, foodbankUpdate, BankErrors } from "../utils/bankProfile";
 
 function BankProfile() {
 
@@ -27,19 +25,12 @@ function BankProfile() {
 
   // Fetch the relevant data from the database
   useEffect(() => {
-    async function fetchText() {
-      let docRef = doc(db, "foodBank", foodbankID);
-      let docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        let data = docSnap.data();
-        setName(data.bankName);
-        setDesc(data.description);
-        setLatitude(data.location._lat);
-        setLongitude(data.location._long);
-      }
-    }
-  
-    fetchText();
+    fetchBank(foodbankID).then((data) => {
+      setName(data.bankName);
+      setDesc(data.description);
+      setLatitude(data.location._lat);
+      setLongitude(data.location._long);
+    });
   }, []);
 
   // Error and success handlers

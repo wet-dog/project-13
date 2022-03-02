@@ -1,5 +1,13 @@
-import { doc, getDoc, updateDoc} from "firebase/firestore";
+import { doc, getDoc, updateDoc, GeoPoint } from "firebase/firestore";
 import { db } from "./firebase";
+
+export async function fetchBank(id: string) {
+    let docRef = doc(db, "foodBank", id);
+    let docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();  
+    }
+} 
 
 export async function foodbankUpdate(id: string, name: string, desc: string, lat: string, long: string) {
     
@@ -15,11 +23,8 @@ export async function foodbankUpdate(id: string, name: string, desc: string, lat
             await updateDoc(bankRef, {
                 bankName: name,
                 description: desc,
-                location: {
-                    _lat: parseFloat(lat),
-                    _long: parseFloat(long)
-                }
-            })
+                location: new GeoPoint(parseFloat(lat), parseFloat(long))
+            });
         }
     }
 
