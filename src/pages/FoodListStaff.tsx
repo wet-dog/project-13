@@ -30,8 +30,6 @@ import { db } from "../utils/firebase";
 
 
 function FoodList() {
-  const [mode, setMode] = useState("Basic");
-
   const [adding, setAdding] = useState(false);
   
   return (
@@ -46,7 +44,7 @@ function FoodList() {
               Food Needed
             </Heading>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <Basic adding={adding} />
+              <SwipeList adding={adding} />
               {adding && <CreateFood setAdding={setAdding} />}
             </ScrollView>
             <Fab renderInPortal={false} shadow={2} size="sm" icon={<Icon color="white" as={<AntDesign />} name="plus" size="sm" onPress={() => setAdding(true)} />} />
@@ -64,8 +62,6 @@ function EditFood(props) {
   const exampleBankName = "Bristol Food Bank";
 
   async function onEdit() {
-    console.log(props.oldFood);
-    console.log(food);
     await updateFood(exampleBankName, props.oldFood, food);
     props.setShowModal(false);
   }
@@ -126,13 +122,14 @@ function CreateFood(props) {
   );
 }
 
-function Basic(props) {
+function SwipeList(props) {
 
   type FoodList = {
       key: number,
       food: String
   }
 
+  let id = 0;
   const [listData, setListData] = useState<FoodList[]>([]);
 
   const exampleUid = "IFPYo5AVGKA8t490xTpl";
@@ -142,13 +139,8 @@ function Basic(props) {
   const q = query(foodsRef, where("bankID", "==", exampleUid));
 
   const [foods, loading, error, snapshot] = useCollectionData(q);
-
-  let id = 0;
-
-  const [change, setChange] = useState(true);
   
   const [showModal, setShowModal] = useState(false);
-
   const [oldFood, setOldFood] = useState("");
 
   useEffect(() => {
@@ -174,7 +166,6 @@ function Basic(props) {
     closeRow(rowMap, rowKey);
     setShowModal(true);
     setOldFood(item.food);
-    setChange(false);
   }
 
   function deleteRow(rowMap, rowKey, rowValue) {

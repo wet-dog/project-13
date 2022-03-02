@@ -48,7 +48,7 @@ function SignInScreen({ navigation }: Props) {
     if (await isOwner()) {
       navigation.navigate("OwnerScreen");
     } else {
-      navigation.navigate("FoodList");
+      navigation.navigate("FoodListDonor");
     }
   }
 
