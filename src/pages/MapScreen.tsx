@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
+import BottomSheet, { BottomSheetView, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+
 
 import {
   Text,
@@ -13,10 +15,11 @@ import {
   extendTheme,
   VStack,
   Code,
+  Image
 } from "native-base";
 
 import "firebase/firestore";
-import {Button, Dimensions, StyleSheet, View} from "react-native";
+import {Button, Dimensions, Linking, StyleSheet, View} from "react-native";
 import MapView, {Marker, Callout} from "react-native-maps";
 import { RootStackParamList } from "../../App";
 
@@ -24,40 +27,268 @@ type Props = NativeStackScreenProps<RootStackParamList, "MapScreen">;
 
 // @ts-ignore
 function MapScreen({ navigation }: Props) {
+    // ref
+    const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+    // variables
+    const snapPoints = useMemo(() => ['40%', '96%'], []);
+
+    // callbacks
+    const handlePresentModalPress = useCallback(() => {
+        bottomSheetModalRef.current?.present();
+    }, []);
+    const handleSheetChanges = useCallback((index: number) => {
+        console.log('handleSheetChanges', index);
+    }, []);
+
+    // ref
+    const bottomSheetModalRef2 = useRef<BottomSheetModal>(null);
+
+    // callbacks
+    const handlePresentModalPress2 = useCallback(() => {
+        bottomSheetModalRef2.current?.present();
+    }, []);
+
+    // ref
+    const bottomSheetModalRef3 = useRef<BottomSheetModal>(null);
+
+    // callbacks
+    const handlePresentModalPress3 = useCallback(() => {
+        bottomSheetModalRef3.current?.present();
+    }, []);
+
+    // ref
+    const bottomSheetModalRef4 = useRef<BottomSheetModal>(null);
+
+    // callbacks
+    const handlePresentModalPress4 = useCallback(() => {
+        bottomSheetModalRef4.current?.present();
+    }, []);
+
+    // ref
+    const bottomSheetModalRef5 = useRef<BottomSheetModal>(null);
+
+    // callbacks
+    const handlePresentModalPress5 = useCallback(() => {
+        bottomSheetModalRef5.current?.present();
+    }, []);
+
     return (
-      <NativeBaseProvider>
-        {/* <View style={donorStyles.container}>
-            <Text style={donorStyles.heading}>Select a food bank or drop off point</Text>
-            <MapView style={donorStyles.map}
-                     initialRegion={{
-                         latitude: 51.38280,
-                         longitude: -2.35928,
-                         latitudeDelta: 0.0222,
-                         longitudeDelta: 0.0221
-                     }}
-            >
-                    <Marker
-                        coordinate={{latitude: 51.37952, longitude: -2.35717}}
-                        pinColor="red"
+        <NativeBaseProvider>
+            <BottomSheetModalProvider>
+                <View style={donorStyles.container}>
+                    <Text style={donorStyles.heading}>Select a food bank or drop off point</Text>
+                    <MapView style={donorStyles.map}
+                             initialRegion={{
+                                 latitude: 51.38280,
+                                 longitude: -2.35928,
+                                 latitudeDelta: 0.0222,
+                                 longitudeDelta: 0.0221
+                             }}
                     >
-                        <Callout>
-                            <Text>Bath Food Bank</Text>
-                            <Text>
-                            </Text>
-                        </Callout>
-                    </Marker>
-                    <Marker
-                        coordinate={{latitude: 51.376589987348126 , longitude: -2.353022676358978}}
-                        pinColor="blue"
-                    >
-                        <Callout>
-                            <Text>Co-op Food - Drop off point</Text>
-                        </Callout>
-                    </Marker>
-            </MapView>
-        </View> */}
-      </NativeBaseProvider>
-    );
+                        <Marker
+                            coordinate={{latitude: 51.37952, longitude: -2.35717}}
+                            pinColor='red'
+                            onPress={handlePresentModalPress}
+                        >
+                        </Marker>
+
+                        <Marker
+                            coordinate={{latitude: 51.38004486066454 , longitude: -2.395149084389973}}
+                            pinColor='red'
+                            onPress={handlePresentModalPress2}
+                        >
+                        </Marker>
+
+                        <Marker
+                            coordinate={{latitude: 51.376589987348126 , longitude: -2.353022676358978}}
+                            pinColor='blue'
+                            onPress={handlePresentModalPress5}
+                        >
+                        </Marker>
+
+                        <Marker
+                            coordinate={{latitude: 51.38193602034993 , longitude: -2.368569704831658}}
+                            pinColor='blue'
+                            onPress={handlePresentModalPress3}
+                        >
+                        </Marker>
+
+                        <Marker
+                            coordinate={{latitude: 51.38407457143325 , longitude: -2.359059211524059}}
+                            pinColor='blue'
+                            onPress={handlePresentModalPress4}
+                        >
+                        </Marker>
+
+                    </MapView>
+
+                    <View style={styles.container}>
+                        <BottomSheetModal
+                            ref={bottomSheetModalRef}
+                            index={0}
+                            snapPoints={snapPoints}
+                            onChange={handleSheetChanges}
+                        >
+                            <View style={styles.contentContainer}>
+                                <Text style={styles.heading}>Manvers Street Baptist Church</Text>
+                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                <Text style={styles.subheading}>Opening Times:</Text>
+                                <Text style={styles.info}>Mon: 12.30-14.30</Text>
+                                <Text style={styles.info}>Wed: 12.45-14.30</Text>
+                                <Text style={styles.info}>Thu: 12.30-14.30</Text>
+                                <Text style={styles.subheading}>Requested Food:</Text>
+                                <Text style={styles.info}>Food 1</Text>
+                                <Text style={styles.info}>Food 2</Text>
+                                <Text style={styles.info}>Food 3</Text>
+                                <Text style={styles.info}>Food 4</Text>
+                                <Text style={styles.info}>Food 5</Text>
+                                <Text style={styles.subheading}>Links:</Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
+                                    Website
+                                </Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}>
+                                    Directions
+                                </Text>
+                            </View>
+                        </BottomSheetModal>
+                    </View>
+
+                    <View style={styles.container}>
+                        <BottomSheetModal
+                            ref={bottomSheetModalRef2}
+                            index={0}
+                            snapPoints={snapPoints}
+                            onChange={handleSheetChanges}
+                        >
+                            <View style={styles.contentContainer}>
+                                <Text style={styles.heading}>The Lighthouse Centre</Text>
+                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                <Text style={styles.subheading}>Opening Times:</Text>
+                                <Text style={styles.info}>Tue: 09.30-23.30</Text>
+                                <Text style={styles.info}>Thu: 09.30-23.30</Text>
+                                <Text style={styles.subheading}>Requested Food:</Text>
+                                <Text style={styles.info}>Food 1</Text>
+                                <Text style={styles.info}>Food 2</Text>
+                                <Text style={styles.info}>Food 3</Text>
+                                <Text style={styles.info}>Food 4</Text>
+                                <Text style={styles.info}>Food 5</Text>
+                                <Text style={styles.subheading}>Links:</Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
+                                    Website
+                                </Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://www.google.com/maps/place/High+St,+Twerton,+Bath+BA2+1DB/@51.3804493,-2.4074125,14.45z/data=!4m5!3m4!1s0x487186cb5f9998af:0xafad874157b80214!8m2!3d51.3802927!4d-2.3946031\n')}>
+                                    Directions
+                                </Text>
+                            </View>
+                        </BottomSheetModal>
+
+                        <BottomSheetModal
+                            ref={bottomSheetModalRef3}
+                            index={0}
+                            snapPoints={snapPoints}
+                            onChange={handleSheetChanges}
+                        >
+                            <View style={styles.contentContainer}>
+                                <Text style={styles.heading}>Sainsburys</Text>
+                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                <Text style={styles.subheading}>Opening Times:</Text>
+                                <Text style={styles.info}>Mon-Sat: 07.00-22.00</Text>
+                                <Text style={styles.info}>Sun: 11.00-17.00</Text>
+                                <Text style={styles.subheading}>Drop off instructions:</Text>
+                                <Text style={styles.info}>Foodbank trolley after the tills</Text>
+                                <Text style={styles.subheading}>Foodbank Affiliation:</Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
+                                    Bath Food Bank
+                                </Text>
+                                <Text style={styles.subheading}>Directions:</Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}>
+                                    Sainsburys
+                                </Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://www.google.com/maps/place/Bath+Food+Bank/@51.379461,-2.3748313,14z/data=!3m1!4b1!4m5!3m4!1s0x48718111b8ceb12d:0xe22ada01a3c66afe!8m2!3d51.3794651!4d-2.3572165')}>
+                                    Bath Food Bank
+                                </Text>
+                            </View>
+                        </BottomSheetModal>
+
+                        <BottomSheetModal
+                            ref={bottomSheetModalRef4}
+                            index={0}
+                            snapPoints={snapPoints}
+                            onChange={handleSheetChanges}
+                        >
+                            <View style={styles.contentContainer}>
+                                <Text style={styles.heading}>Waitrose & Partners Bath</Text>
+                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                <Text style={styles.subheading}>Opening Times:</Text>
+                                <Text style={styles.info}>Mon-Fri: 07.30-21.00</Text>
+                                <Text style={styles.info}>Sat: 07.30-20.00</Text>
+                                <Text style={styles.info}>Sun: 11.00-17.00</Text>
+                                <Text style={styles.subheading}>Drop off instructions:</Text>
+                                <Text style={styles.info}>Foodbank collection point after the tills</Text>
+                                <Text style={styles.subheading}>Foodbank Affiliation:</Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
+                                    Bath Food Bank
+                                </Text>
+                                <Text style={styles.subheading}>Directions:</Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://www.google.com/maps/place/Waitrose+%26+Partners+Bath/@51.3835389,-2.3765258,14z/data=!3m2!4b1!5s0x48718112552cbf3b:0xf66b6b89a09ef566!4m5!3m4!1s0x48718113b240ef6f:0x4b2c3e51fc51cb37!8m2!3d51.3835402!4d-2.3590591\n')}>
+                                    Waitrose & Partners
+                                </Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://www.google.com/maps/place/Bath+Food+Bank/@51.379461,-2.3748313,14z/data=!3m1!4b1!4m5!3m4!1s0x48718111b8ceb12d:0xe22ada01a3c66afe!8m2!3d51.3794651!4d-2.3572165')}>
+                                    Bath Food Bank
+                                </Text>
+                            </View>
+                        </BottomSheetModal>
+
+                        <BottomSheetModal
+                            ref={bottomSheetModalRef5}
+                            index={0}
+                            snapPoints={snapPoints}
+                            onChange={handleSheetChanges}
+                        >
+                            <View style={styles.contentContainer}>
+                                <Text style={styles.heading}>Co-op</Text>
+                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                <Text style={styles.subheading}>Opening Times:</Text>
+                                <Text style={styles.info}>Mon-Fri: 07.30-21.00</Text>
+                                <Text style={styles.info}>Sat: 07.30-20.00</Text>
+                                <Text style={styles.info}>Sun: 11.00-17.00</Text>
+                                <Text style={styles.subheading}>Drop off instructions:</Text>
+                                <Text style={styles.info}>Foodbank collection point after the tills</Text>
+                                <Text style={styles.subheading}>Foodbank Affiliation:</Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
+                                    Bath Food Bank
+                                </Text>
+                                <Text style={styles.subheading}>Directions:</Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}>
+                                    Waitrose & Partners
+                                </Text>
+                                <Text style={styles.link}
+                                      onPress={() => Linking.openURL('https://www.google.com/maps/dir/51.3763427,-2.3308564/co+op+bath/@51.3788111,-2.3586731,14z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x4871810f854c7eb3:0x2f92ad06fe35c746!2m2!1d-2.3530216!2d51.3765588')}>
+                                    Co op
+                                </Text>
+                            </View>
+                        </BottomSheetModal>
+
+
+                    </View>
+
+                </View>
+            </BottomSheetModalProvider>
+        </NativeBaseProvider>
+    )
 }
 
 const donorStyles = StyleSheet.create({
@@ -77,6 +308,56 @@ const donorStyles = StyleSheet.create({
         width: Dimensions.get("window").width,
         height: Dimensions.get("window").height
     },
+});
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 24,
+        justifyContent: 'center',
+        backgroundColor: 'white',
+    },
+    contentContainer: {
+        flex: 1,
+    },
+
+    heading: {
+        fontWeight: "bold",
+        textAlign: "left",
+        marginBottom: 20,
+        fontSize: 20,
+        marginLeft: 10,
+    },
+
+    subheading: {
+        fontWeight: "bold",
+        textAlign: "left",
+        marginTop: 20,
+        fontSize: 20,
+        marginLeft: 10,
+    },
+
+    times: {
+        fontSize: 10,
+        textAlign: "left"
+    },
+
+    stretch: {
+        height: 200,
+        resizeMode: 'stretch',
+    },
+
+    info: {
+        marginTop: 5,
+        marginLeft: 10,
+    },
+
+    link: {
+        marginTop: 5,
+        marginLeft: 10,
+        fontStyle: "italic",
+    },
+
 });
 
 export default MapScreen;

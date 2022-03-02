@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   FormControl,
@@ -7,10 +6,110 @@ import {
   Heading,
   NativeBaseProvider,
   VStack,
-  Box
+  Box,
+  Button,
+  Text
 } from "native-base";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { auth } from "../utils/registration";
+import { fetchBank, foodbankUpdate, BankErrors, getUserRole } from "../utils/bankProfile";
 
-function BankProfile() {
+type RootStackParamList = {
+  TestScreen: undefined;
+  MapScreen: undefined;
+  BankProfile: undefined;
+  FoodList: undefined;
+  SignInScreen: undefined;
+  SignUpScreen: undefined;
+  OwnerScreen: undefined;
+}
+
+let accessDenied = (
+  <NativeBaseProvider>
+    <Center px={4} flex={1}>
+      <Box safeArea p="2" py="8" w="90%" maxW="290">
+        <Heading size="lg" fontWeight="600" color="coolGray.800" _dark={{
+          color: "warmGray.50"
+        }}>
+          Access Denied
+        </Heading>
+        <VStack space={3} mt="5">
+          <Text textAlign="center">Please login to view this page.</Text>
+        </VStack>
+      </Box>
+    </Center>
+  </NativeBaseProvider>
+);
+
+type Props = NativeStackScreenProps<RootStackParamList, "BankProfile">;
+
+function BankProfile({ navigation }: Props) {
+
+  // Edit mode variables
+  let buttonMessages = ["Edit Details", "Save Changes"];
+  const [canEdit, setCanEdit] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
+  // Input handlers
+  const [name, setName] = useState("");
+  const [desc, setDesc] = useState("");
+  const [lat, setLatitude] = useState("");
+  const [long, setLongitude] = useState("");
+
+  // First check if a user is logged in
+  let user = auth.currentUser;
+  if (user === null) {
+    // User is not logged in, redirect to login page
+    navigation.navigate("SignInScreen");
+    // Return access denied page (in case user back-navigates from sign in page)
+    return accessDenied;
+  }
+
+  // Determine the user's role
+  getUserRole(user.uid).then((role) => {
+    if (role) {
+      setCanEdit(true);
+    }
+  });
+
+  // This will be fetched according to which user is logged in (TODO)
+  let foodbankID = "IFPYo5AVGKA8t490xTpl";
+
+  // Fetch the relevant data from the database
+  useEffect(() => {
+    fetchBank(foodbankID).then((data) => {
+      setName(data.bankName);
+      setDesc(data.description);
+      setLatitude(data.location._lat);
+      setLongitude(data.location._long);
+    });
+  }, []);
+
+  // Error and success handlers
+  const [errors, setErrors] = useState<BankErrors>({name: "", lat: "", long: ""});
+  const [success, setSuccess] = useState("");
+
+  async function onUpdate() {
+
+    //If edit mode is currently not active, then enable it
+    if (editMode == false) {
+      setEditMode(true);
+      setSuccess("");
+    } else {
+      // Otherwise try to save the details
+      let result = await foodbankUpdate(foodbankID, name, desc, lat, long);
+      if (result == true) {
+        setErrors({name: "", lat: "", long: ""});
+        setSuccess("Changes saved!");
+        // Disable edit mode as changes are now saved
+        setEditMode(false);
+      } else {
+        setSuccess("Error! Changes not saved.");
+        setErrors(result);
+      }
+    }
+  }
+
   return (
     <NativeBaseProvider>
       <Center px={4} flex={1}>
@@ -21,18 +120,31 @@ function BankProfile() {
             Food Bank Profile
           </Heading>
           <VStack space={3} mt="5">
-            <FormControl isRequired>
+            <FormControl isRequired isInvalid={errors.name !== ""}>
               <FormControl.Label>Name</FormControl.Label>
-              <Input placeholder="Bath City Food Bank" placeholderTextColor="#666" /*onChangeText={text => setName(text)}*/ />
+              <Input value={ name } onChangeText={text => setName(text)} editable={editMode} selectTextOnFocus={editMode}/>
+              <FormControl.ErrorMessage>{ errors.name }</FormControl.ErrorMessage>
             </FormControl>
-            <FormControl isRequired>
-              <FormControl.Label>Address</FormControl.Label>
-              <Input placeholder="12 Donation Road, Bath" placeholderTextColor="#666" /*onChangeText={text => set(text)}*/ />
+            <FormControl>
+              <FormControl.Label>Description</FormControl.Label>
+              <Input value={ desc } onChangeText={text => setDesc(text)} editable={editMode} selectTextOnFocus={editMode}/>
             </FormControl>
-            <FormControl isRequired>
-              <FormControl.Label>Postcode</FormControl.Label>
-              <Input placeholder="BA1 1AA" maxLength={8} placeholderTextColor="#666" /*onChangeText={text => setName(text)}*/ />
+            <FormControl isRequired isInvalid={errors.lat !== ""}>
+              <FormControl.Label>Latitude</FormControl.Label>
+              <Input value={ lat } onChangeText={text => setLatitude(text)} editable={editMode} selectTextOnFocus={editMode}/>
+              <FormControl.ErrorMessage>{ errors.lat }</FormControl.ErrorMessage>
             </FormControl>
+            <FormControl isRequired isInvalid={errors.long !== ""}>
+              <FormControl.Label>Longitude</FormControl.Label>
+              <Input value={ long } onChangeText={text => setLongitude(text)} editable={editMode} selectTextOnFocus={editMode}/>
+              <FormControl.ErrorMessage>{ errors.long }</FormControl.ErrorMessage>
+            </FormControl>
+            { canEdit &&
+              <Button mt="2" colorScheme="indigo" onPress={onUpdate}>
+                { buttonMessages[editMode ? 1 : 0] }
+              </Button>
+            }
+            <Text textAlign="center">{ success }</Text>
           </VStack>
         </Box>
       </Center>

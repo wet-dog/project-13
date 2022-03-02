@@ -13,7 +13,8 @@ module.exports = function(api) {
             "@native-base/icons": "@native-base/icons/lib",
           },
         },
-      ]
+      ],
+      ['react-native-reanimated/plugin'],
     ],
   };
 };
