@@ -12,7 +12,7 @@ import {
 } from "native-base";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { auth } from "../utils/registration";
-import { fetchBank, foodbankUpdate, BankErrors, getUserRole } from "../utils/bankProfile";
+import { fetchBank, foodbankUpdate, BankErrors, getUserRole } from "../utils/bankprofile";
 
 type RootStackParamList = {
   TestScreen: undefined;
