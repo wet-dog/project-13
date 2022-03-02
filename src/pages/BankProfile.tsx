@@ -12,7 +12,12 @@ import {
 } from "native-base";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { auth } from "../utils/registration";
-import { fetchBank, foodbankUpdate, BankErrors, getUserRole } from "../utils/bankprofile";
+import {
+  fetchBank,
+  foodbankUpdate,
+  BankErrors,
+  getUserRole
+} from "../utils/bankprofile";
 
 type RootStackParamList = {
   TestScreen: undefined;
@@ -72,17 +77,15 @@ function BankProfile({ navigation }: Props) {
     }
   });
 
-  // This will be fetched according to which user is logged in (TODO)
-  let foodbankID = "IFPYo5AVGKA8t490xTpl";
-
-  // Fetch the relevant data from the database
+  // This is fetched according to which user is logged in
+  // Pre-fill the inputs with data from Firebase
   useEffect(() => {
-    fetchBank(foodbankID).then((data) => {
-      setName(data.bankName);
-      setDesc(data.description);
-      setLatitude(data.location._lat);
-      setLongitude(data.location._long);
-    });
+      fetchBank(user!.uid).then((data) => {
+        setName(data.bankName);
+        setDesc(data.description);
+        setLatitude(data.location._lat);
+        setLongitude(data.location._long);
+      });
   }, []);
 
   // Error and success handlers
@@ -90,14 +93,13 @@ function BankProfile({ navigation }: Props) {
   const [success, setSuccess] = useState("");
 
   async function onUpdate() {
-
     //If edit mode is currently not active, then enable it
     if (editMode == false) {
       setEditMode(true);
       setSuccess("");
     } else {
       // Otherwise try to save the details
-      let result = await foodbankUpdate(foodbankID, name, desc, lat, long);
+      let result = await foodbankUpdate(user!.uid, name, desc, lat, long);
       if (result == true) {
         setErrors({name: "", lat: "", long: ""});
         setSuccess("Changes saved!");
