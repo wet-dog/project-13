@@ -22,15 +22,39 @@ import {
 
 import * as Location from 'expo-location';
 
-import { SwipeListView } from "react-native-swipe-list-view";
-import { fetchFood, foodData, insertFood, updateFood } from "../utils/foodListDatabase";
+import { RowMap, SwipeListView } from "react-native-swipe-list-view";
+import { fetchBankID, fetchFood, foodBankName, foodData, insertFood, updateFood } from "../utils/foodListDatabase";
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
-import { collection, doc, query, where } from "firebase/firestore";
+import { collection, doc, DocumentData, Query, query, where } from "firebase/firestore";
 import { db } from "../utils/firebase";
+
+import { auth } from "../utils/registration";
+import { ListRenderItemInfo } from "react-native";
 
 
 function FoodList() {
   const [adding, setAdding] = useState(false);
+
+  const [bankName, setBankName] = useState("");
+  const [bankId, setBankId] = useState("");
+  
+  function userBank(uid: string) {
+    return "Bristol Food Bank";
+  }
+
+  useEffect(() => {
+    async function setBankValues() {
+      let {uid} = auth.currentUser!;
+      let bankName = userBank(uid);
+      let bankId = await fetchBankID(bankName);
+      setBankName(bankName);
+      setBankId(bankId!);
+      console.log("bankName: " + bankName);
+      console.log("bankId: " + bankId);
+    }
+
+    setBankValues();
+  }, []);
   
   return (
     <NativeBaseProvider>
@@ -44,8 +68,8 @@ function FoodList() {
               Food Needed
             </Heading>
             <ScrollView showsVerticalScrollIndicator={false}>
-              <SwipeList adding={adding} />
-              {adding && <CreateFood setAdding={setAdding} />}
+              {bankName !== "" && <SwipeList bankName={bankName} bankId={bankId} />}
+              {adding && <CreateFood setAdding={setAdding} bankName={bankName} />}
             </ScrollView>
             <Fab renderInPortal={false} shadow={2} size="sm" icon={<Icon color="white" as={<AntDesign />} name="plus" size="sm" onPress={() => setAdding(true)} />} />
           </Box>
@@ -55,14 +79,19 @@ function FoodList() {
 }
 
 
-function EditFood(props) {
+type EditFoodProps = {
+  bankName: string,
+  oldFood: string,
+  showModal: boolean,
+  setShowModal: (bool: boolean) => void
+}
+
+function EditFood(props: EditFoodProps) {
   
   const [food, setFood] = useState("");
 
-  const exampleBankName = "Bristol Food Bank";
-
   async function onEdit() {
-    await updateFood(exampleBankName, props.oldFood, food);
+    await updateFood(props.bankName, props.oldFood, food);
     props.setShowModal(false);
   }
   
@@ -97,14 +126,18 @@ function EditFood(props) {
   );
 }
 
-function CreateFood(props) {
 
-  const exampleBankName = "Bristol Food Bank";
+type CreateFoodProps = {
+  bankName: string,
+  setAdding: (bool: boolean) => void
+}
+
+function CreateFood(props: CreateFoodProps) {
 
   const [food, setFood] = useState("");
   
   async function onCreate() {
-    await insertFood(exampleBankName, food, false);
+    await insertFood(props.bankName, food, false);
     props.setAdding(false);
   }
 
@@ -122,21 +155,24 @@ function CreateFood(props) {
   );
 }
 
-function SwipeList(props) {
+
+type SwipeListProps = {
+  bankName: string,
+  bankId: string
+}
+
+function SwipeList(props: SwipeListProps) {
 
   type FoodList = {
-      key: number,
-      food: String
+      key: string,
+      food: string
   }
 
-  let id = 0;
+  let id = "0";    // Had to be a string for SwipeListView
   const [listData, setListData] = useState<FoodList[]>([]);
 
-  const exampleUid = "IFPYo5AVGKA8t490xTpl";
-  const exampleBankName = "Bristol Food Bank";
-
   const foodsRef = collection(db, "food");
-  const q = query(foodsRef, where("bankID", "==", exampleUid));
+  const q = query(foodsRef, where("bankID", "==", props.bankId));
 
   const [foods, loading, error, snapshot] = useCollectionData(q);
   
@@ -145,10 +181,11 @@ function SwipeList(props) {
 
   useEffect(() => {
     if (foods) {
+      // console.log(foods)
       let data: FoodList[] = [];
 
-      foods[0].foods.map((text: String) => {
-        id += 1;
+      foods[0].foods.map((text: string) => {
+        id = String(Number(id) + 1);
         data.push({key: id, food: text});
       })
 
@@ -156,37 +193,32 @@ function SwipeList(props) {
     }
   }, [foods]);
 
-  function closeRow(rowMap, rowKey) {
+  function closeRow(rowMap: RowMap<FoodList>, rowKey: string) {
     if (rowMap[rowKey]) {
       rowMap[rowKey].closeRow();
     }
   }
 
-  function updateRow(rowMap, rowKey, item) {
+  function updateRow(rowMap: RowMap<FoodList>, rowKey: string, rowValue: FoodList) {
     closeRow(rowMap, rowKey);
     setShowModal(true);
-    setOldFood(item.food);
+    setOldFood(rowValue.food);
   }
 
-  function deleteRow(rowMap, rowKey, rowValue) {
+  function deleteRow(rowMap: RowMap<FoodList>, rowKey: string, rowValue: FoodList) {
     closeRow(rowMap, rowKey);
     const newData = [...listData];
     const prevIndex = listData.findIndex(item => item.key === rowKey);
     newData.splice(prevIndex, 1);
     setListData(newData);
-    insertFood(exampleBankName, rowValue.food, true);
+    insertFood(props.bankName, rowValue.food, true);
   }
 
-  function onRowDidOpen(rowKey) {
+  function onRowDidOpen(rowKey: string) {
     console.log("This row opened", rowKey);
   }
-  
-  type RenderItem = {
-    item: FoodList,
-    index: string
-  };
 
-  function renderItem({item, index}: RenderItem) {
+  function renderItem({ item }: { item: FoodList }) {
     return (
       <Box>
         <Pressable onPress={() => console.log("You touched me")} _dark={{
@@ -210,7 +242,7 @@ function SwipeList(props) {
     );
   }
 
-  function renderHiddenItem(data, rowMap) {
+  function renderHiddenItem(data: ListRenderItemInfo<FoodList>, rowMap: RowMap<FoodList>) {
     return (
       <HStack flex="1" pl="2">
           <Pressable w="70" ml="auto"  bg="coolGray.200" justifyContent="center" onPress={() => updateRow(rowMap, data.item.key, data.item)} _pressed={{
@@ -240,7 +272,7 @@ function SwipeList(props) {
   return (
     <Box bg="white" safeArea flex="1">
       <SwipeListView data={listData} renderItem={renderItem} renderHiddenItem={renderHiddenItem} rightOpenValue={-130} previewRowKey={"0"} previewOpenValue={-40} previewOpenDelay={3000} onRowDidOpen={onRowDidOpen} />
-      <EditFood setShowModal={setShowModal} showModal={showModal} oldFood={oldFood} />
+      <EditFood setShowModal={setShowModal} showModal={showModal} oldFood={oldFood} bankName={props.bankName} />
     </Box>
   );
 }
