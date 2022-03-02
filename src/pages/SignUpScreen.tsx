@@ -15,6 +15,8 @@ import React, { useState, useEffect, SetStateAction } from "react";
 import { signUp, Errors, addNewUser } from "../utils/registration";
 import { RootStackParamList } from "../../App";
 
+import SelectFoodBank from "../components/SelectFoodBank";
+
 type Props = NativeStackScreenProps<RootStackParamList, "SignUpScreen">;
 
 function SignUpScreen({ navigation }: Props) {
@@ -85,19 +87,8 @@ function SignUpScreen({ navigation }: Props) {
                 </FormControl.ErrorMessage>
             </FormControl>
 
-            {role == 'owner' ?  
-             <FormControl w="3/4" maxW="300" isRequired isInvalid>
-              <FormControl.Label>Select Food Bank</FormControl.Label>
-                <Select  onValueChange={(value) => setBank(value)} minWidth="200" accessibilityLabel="Choose Service" placeholder="Choose Service" _selectedItem={{
-                  bg: "teal.600",
-                }} mt="1">
-    
-                <Select.Item label="Bath" value="Bath" />
-                </Select>
-                <FormControl.ErrorMessage>
-                  Please make a selection!
-                </FormControl.ErrorMessage>
-             </FormControl> : null}
+            {role == "staff" && <SelectFoodBank setBank={setBank} />}
+            {role == 'owner' && <SelectFoodBank setBank={setBank} />}
       
             <Button mt="2" colorScheme="indigo" onPress={onSubmit}>
               Sign up

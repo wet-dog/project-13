@@ -52,7 +52,7 @@ function OwnerScreen({navigation} : Props) {
     
             <Button onPress={() => navigation.navigate("MapScreen")}>Map Screen</Button>
       
-            <Button onPress={() => navigation.navigate("FoodList")}>Food List</Button>
+            <Button onPress={() => navigation.navigate("FoodListStaff")}>Food List</Button>
           
             <Heading>Add Staff</Heading>
             <Center>
