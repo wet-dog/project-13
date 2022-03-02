@@ -120,6 +120,22 @@ export const fetchBankID = async (bankName: String)  => {
 }
 
 
+export const userBank = async (userID: String) => {
+
+    const q = query(collection(db, "foodBank"));
+
+    let name = "";
+    const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+        if (doc.data().staff.includes(userID)){
+            name = doc.data().bankName;
+        }
+    });
+
+    return name;
+}
+
+
 
 /* enter name of bank to insert too, food item and whether you wish to remove / update */
 export const insertFood = async (bankName: String, food: String, remove: boolean) => {

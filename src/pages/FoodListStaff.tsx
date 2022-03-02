@@ -23,7 +23,7 @@ import {
 import * as Location from 'expo-location';
 
 import { RowMap, SwipeListView } from "react-native-swipe-list-view";
-import { fetchBankID, fetchFood, foodBankName, foodData, insertFood, updateFood } from "../utils/foodListDatabase";
+import { fetchBankID, fetchFood, foodBankName, foodData, insertFood, updateFood, userBank } from "../utils/foodListDatabase";
 import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
 import { collection, doc, DocumentData, Query, query, where } from "firebase/firestore";
 import { db } from "../utils/firebase";
@@ -37,15 +37,11 @@ function FoodList() {
 
   const [bankName, setBankName] = useState("");
   const [bankId, setBankId] = useState("");
-  
-  function userBank(uid: string) {
-    return "Bristol Food Bank";
-  }
 
   useEffect(() => {
     async function setBankValues() {
       let {uid} = auth.currentUser!;
-      let bankName = userBank(uid);
+      let bankName = await userBank(uid);
       let bankId = await fetchBankID(bankName);
       setBankName(bankName);
       setBankId(bankId!);
