@@ -33,12 +33,13 @@ function OwnerScreen({navigation} : Props) {
   const [confirmation, setConfirmation] = useState("");
 
   const addStaff = async () => {
+      let admin = auth.currentUser!;
       let result = await signUp(email, password, confirmation);
       if (result) {
-         addNewUser(email, "staff", await fetchBankID(await userBank(auth.currentUser!.uid)) );
-
-         /* does not update array properly at the moment. */
-         updateStaff(email);
+        addNewUser(email, "staff", await fetchBankID(await userBank(auth.currentUser!.uid)) );
+        
+        /* does not update array properly at the moment. */
+        updateStaff(email, admin);
       }else {
         console.log("erorrs adding staff");
       }

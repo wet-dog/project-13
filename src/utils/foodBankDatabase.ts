@@ -1,16 +1,16 @@
 import { doc, getDocs, collection, query , updateDoc, where, arrayUnion} from "firebase/firestore";
 import { db } from "./firebase";
 import { firebaseApp } from './firebase';
-import  { getAuth } from 'firebase/auth';
+import  { getAuth, User } from 'firebase/auth';
 
 export const auth = getAuth(firebaseApp);
 
 
 
 
-export const updateStaff = async (newStaff: String) => {
+export const updateStaff = async (newStaff: String, admin: User) => {
 
-    const adminID = auth.currentUser!.uid;
+    const adminID = admin.uid;
 
     const q = query(collection(db, "foodBank"), where("admin", "==", adminID));
 
@@ -40,4 +40,5 @@ export const updateStaff = async (newStaff: String) => {
         staff: arrayUnion(userId)
     })
     
+    await auth.updateCurrentUser(admin);
 }
