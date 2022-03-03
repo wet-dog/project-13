@@ -35,8 +35,11 @@ function SignUpScreen({ navigation }: Props) {
 
     let bankID = await fetchBankID(bank);
  
-    let isEmpty = await isAdminEmpty(bankID);
-   
+    let isEmpty = false;
+    if (role == "owner"){
+       isEmpty = await isAdminEmpty(bankID);
+    }
+    
     if (isEmpty || role != "owner"){
       let result = await signUp(email, password, confirmation);
 

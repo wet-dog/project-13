@@ -144,10 +144,9 @@ export const insertFood = async (bankName: String, food: String, remove: boolean
     const q = query(collection(db, "food"), where("bankID", "==", bankID));
     const foodSnap = await getDocs(q);
 
-    let data;
     let id: string | undefined;
     foodSnap.forEach((doc) => {
-        data = doc.data();
+     
         id = doc.id;
     })
 

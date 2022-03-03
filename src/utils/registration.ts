@@ -24,11 +24,14 @@ onAuthStateChanged(auth, user => {
     // Do other things
 });
 
+
+
 export async function signUp(email: string, password: string, confirmation: string) {
     let errors = validateSignUp(email, password, confirmation);
 
     if (checkErrors(errors)) {
         try {
+    
             await createUserWithEmailAndPassword(auth, email, password);
             return true;
         } catch (err: any) {
