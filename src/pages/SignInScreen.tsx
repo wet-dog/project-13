@@ -29,9 +29,8 @@ function SignInScreen({ navigation }: Props) {
   const [password, setPassword] = useState("");
 
   const [errors, setErrors] = useState<Errors>({email: "", password: ""});
-
-  async function isOwner() {
-
+  
+  async function getRole(): Promise<string> {
     let {uid} = auth.currentUser!;
 
     if (uid) {
@@ -39,16 +38,24 @@ function SignInScreen({ navigation }: Props) {
       let docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        return docSnap.data().roles.owner === true;
+        if (docSnap.data().roles.owner === true) return "owner";
+        if (docSnap.data().roles.staff === true) return "staff";
+        if (docSnap.data().roles.donor === true) return "donor";
       }
     }
+
+    return ""
   }
 
   async function navigateScreen() {
-    if (await isOwner()) {
-      navigation.navigate("OwnerScreen");
-    } else {
-      navigation.navigate("FoodListStaff");
+    let role: string = await getRole();
+    switch(role) {
+      case "owner": navigation.navigate("OwnerScreen"); 
+        break;
+      case "staff": navigation.navigate("FoodListStaff"); 
+        break;
+      case "donor": navigation.navigate("FoodListDonor"); 
+        break;
     }
   }
 
