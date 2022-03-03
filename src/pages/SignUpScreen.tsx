@@ -12,10 +12,12 @@ import {
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import React, { useState, useEffect, SetStateAction } from "react";
 
-import { signUp, Errors, addNewUser } from "../utils/registration";
+import { signUp, Errors, addNewUser, isAdminEmpty } from "../utils/registration";
 import { RootStackParamList } from "../../App";
+import { fetchBankID } from "../utils/foodListDatabase";
 
 import SelectFoodBank from "../components/SelectFoodBank";
+import { getDoc } from "firebase/firestore";
 
 type Props = NativeStackScreenProps<RootStackParamList, "SignUpScreen">;
 
@@ -31,15 +33,24 @@ function SignUpScreen({ navigation }: Props) {
 
   async function onSubmit() {    
 
-    let result = await signUp(email, password, confirmation);
+    let bankID = await fetchBankID(bank);
+ 
+    let isEmpty = await isAdminEmpty(bankID);
+   
+    if (isEmpty || role != "owner"){
+      let result = await signUp(email, password, confirmation);
 
-    if (result == true) {
-      
-      addNewUser(email, role, bank);
-      navigation.navigate("SignInScreen");
-    } else {
-      console.log("Validation Failed.");
-      setErrors(result);
+      if (result == true) {
+    
+        addNewUser(email, role, bankID);
+        navigation.navigate("SignInScreen");
+      } else {
+        console.log("Validation Failed.");
+        setErrors(result);
+      }
+    }
+    else {
+      console.log("bank registered with has an admin already and they are trying to become an owner.")
     }
   }
 
@@ -80,14 +91,13 @@ function SignUpScreen({ navigation }: Props) {
                 }} mt="1">
                 <Select.Item label="donor" value="donor" />
                 <Select.Item label="owner" value="owner" />
-                <Select.Item label="employee" value="staff" />
                 </Select>
                 <FormControl.ErrorMessage>
                   Please make a selection!
                 </FormControl.ErrorMessage>
             </FormControl>
 
-            {role == "staff" && <SelectFoodBank setBank={setBank} />}
+
             {role == 'owner' && <SelectFoodBank setBank={setBank} />}
       
             <Button mt="2" colorScheme="indigo" onPress={onSubmit}>

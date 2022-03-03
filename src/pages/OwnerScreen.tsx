@@ -16,21 +16,33 @@ import {
 
 import { fetchUserArray } from "../utils/helpers";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { setStatusBarHidden } from "expo-status-bar";
 import {updateStaff} from '../utils/foodBankDatabase'
 
-import {wipeFoodArray, insertFood, updateFood} from '../utils/foodListDatabase'
 import { RootStackParamList } from "../../App";
-
+import { addNewUser, signUp } from "../utils/registration";
+import { fetchBankID, userBank } from "../utils/foodListDatabase";
+import {auth} from '../utils/registration';
 type Props = NativeStackScreenProps<RootStackParamList, "TestScreen">;
 
 function OwnerScreen({navigation} : Props) {
 
   const [staffArray, setStaff] = useState<any>(null);
   const [staff, setStaffVal] = useState<any>(null); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmation, setConfirmation] = useState("");
 
-  const addStaff = () => {
-      updateStaff(staff);
+  const addStaff = async () => {
+      let result = await signUp(email, password, confirmation);
+      if (result) {
+         addNewUser(email, "staff", await fetchBankID(await userBank(auth.currentUser!.uid)) );
+
+         /* does not update array properly at the moment. */
+         updateStaff(email);
+      }else {
+        console.log("erorrs adding staff");
+      }
+      
   }
 
   useEffect(() => {
@@ -53,26 +65,32 @@ function OwnerScreen({navigation} : Props) {
             <Button onPress={() => navigation.navigate("MapScreen")}>Map Screen</Button>
       
             <Button onPress={() => navigation.navigate("FoodListStaff")}>Food List</Button>
+
+            <Button onPress={() => navigation.navigate("BankProfile")}>Edit Bank Profile Settings</Button>
           
             <Heading>Add Staff</Heading>
             <Center>
-                <Box w="3/4" maxW="300">
-                    <Select selectedValue={staff} minWidth="200" accessibilityLabel="Choose Service" placeholder="Choose Service" _selectedItem={{
-                    bg: "teal.600",
-                    endIcon: <CheckIcon size="5" />
-                    }} mt={1} onValueChange={itemValue => setStaffVal(itemValue)}>
-                        {
+            
+              
+            <FormControl isRequired >
+              <FormControl.Label>Email</FormControl.Label>
+              <Input onChangeText= {(text) => setEmail(text)} />
+       
+            </FormControl>
+            <FormControl isRequired>
+              <FormControl.Label>Password</FormControl.Label>
+              <Input type="password" onChangeText={(text) => setPassword(text)} />
+      
+            </FormControl>
 
-                            staffArray ? staffArray.map((item : any) => <Select.Item label = {`${item}`} value = {`${item}`}/>) : 
-                            <Select.Item label = "" value = ""/>
-                          
-                        }
-                    
-                    </Select>
-                    <Button mt = {4} onPress = {addStaff} >Add Staff Member</Button>
-                </Box>
+            <FormControl isRequired >
+              <FormControl.Label>Confirm Password</FormControl.Label>
+              <Input type="password" onChangeText={(text) => setConfirmation(text)}/>
+            </FormControl>
+            <Button mt="2" colorScheme="indigo" onPress={addStaff}>
+              Sign up
+            </Button>
            </Center>
-     
           </VStack>
         </Box>
       </Center>

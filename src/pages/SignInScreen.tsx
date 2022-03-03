@@ -54,9 +54,8 @@ function SignInScreen({ navigation }: Props) {
 
   async function onSubmit() {
     let result = await signIn(email, password);
-    console.log("result", result);
     if (result == true) {
-      navigateScreen();
+      navigateScreen()
     } else {
       console.log("Validation Failed.");
       setErrors(result);

@@ -46,12 +46,12 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="SignInScreen" component={SignInScreen}/>
         <Stack.Screen name="TestScreen" component={TestScreen}/>
         <Stack.Screen name="MapScreen" component={MapScreen} />
         <Stack.Screen name="BankProfile" component={BankProfile} />
         <Stack.Screen name="FoodListStaff" component={FoodListStaff} />
         <Stack.Screen name="FoodListDonor" component={FoodListDonor} />
-        <Stack.Screen name="SignInScreen" component={SignInScreen}/>
         <Stack.Screen name="SignUpScreen" component={SignUpScreen}/>
         <Stack.Screen name="OwnerScreen" component={OwnerScreen}/>
       </Stack.Navigator>

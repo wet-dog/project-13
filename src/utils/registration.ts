@@ -60,13 +60,27 @@ export async function signIn(email: string, password: string) {
     
     return errors;
 }
+export const isAdminEmpty = async (bankID: string) => {
 
-export const addNewUser = async (email: String, role: String, bank: String) => {
+    const ref= doc(db, "foodBank", bankID);
+    const df = await getDoc(ref);
+    let empty = false;
+    if (df.exists()){
+        if (df.data().admin == ""){
+            empty = true;
+        }
+    }
+
+    return empty;
+
+}
+
+export const addNewUser = async (email: string, role: string, bankID: string) => {
         
     let owner = false, staff = false, donor = false;
+    
     if (role == "owner"){
         owner = true;
-        staff = true;
     }
     else if (role == "staff"){
         staff = true;
@@ -75,8 +89,23 @@ export const addNewUser = async (email: String, role: String, bank: String) => {
         donor = true;
     }
 
+    if (owner){    
+        const ref= doc(db, "foodBank", bankID);
+        const df = await getDoc(ref);
+
+        if (df.exists()){
+            await setDoc(doc(db,"foodBank", bankID), {
+                admin: auth.currentUser!.uid,
+                bankName: df.data().bankName,
+                description: df.data().description,
+                location: df.data().location,
+                staff : df.data().staff
+            })
+        }
+    } 
+    
     await setDoc(doc(db, "users", auth.currentUser!.uid ), {
-         email,
+        email,
          roles: {
              owner,
              staff,
@@ -154,3 +183,4 @@ export const exportedForTesting = {
     validateSignIn,
     checkErrors
 }
+

@@ -110,7 +110,7 @@ export const fetchBankID = async (bankName: String)  => {
     const q2 = query(collection(db, "foodBank"), where("bankName", "==", bankName));
     const qSnap = await getDocs(q2);
 
-    let id: string | undefined;
+    let id: string = "";
     qSnap.forEach((doc) => {
         id = doc.id;
     })
@@ -127,9 +127,9 @@ export const userBank = async (userID: String) => {
     let name = "";
     const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-        if (doc.data().staff.includes(userID)){
-            name = doc.data().bankName;
-        }
+            if (doc.data().staff.includes(userID) || doc.data().admin == userID){
+                name = doc.data().bankName;
+            }
     });
 
     return name;
