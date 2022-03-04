@@ -19,16 +19,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase";
 
 import { auth, signIn, Errors } from "../utils/registration";
-
-type RootStackParamList = {
-  TestScreen: undefined;
-  MapScreen: undefined;
-  BankProfile: undefined;
-  FoodList: undefined;
-  SignInScreen: undefined;
-  SignUpScreen: undefined;
-  OwnerScreen: undefined;
-}
+import { RootStackParamList } from "../../App";
 
 type Props = NativeStackScreenProps<RootStackParamList, "SignInScreen">;
 
@@ -57,7 +48,7 @@ function SignInScreen({ navigation }: Props) {
     if (await isOwner()) {
       navigation.navigate("OwnerScreen");
     } else {
-      navigation.navigate("FoodList");
+      navigation.navigate("FoodListStaff");
     }
   }
 

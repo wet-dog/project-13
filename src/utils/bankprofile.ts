@@ -1,7 +1,72 @@
-export async function foodbankUpdate(name: string, lat: string, long: string) {
-    
+import { doc, getDoc, getDocs, updateDoc, GeoPoint, query, collection, where } from "firebase/firestore";
+import { db } from "./firebase";
+
+export async function fetchBank(uid: string) {
+    // Find the foodbank containing the relevant uid in the staff array
+    let q = query(collection(db, "foodBank"), where("staff", "array-contains", uid));
+    let banks = await getDocs(q);
+    let id: string = "none";
+    banks.forEach((doc) => {
+        id = doc.id;
+    });
+    // User is not registered as staff on any food bank
+    if (id == "none") {
+        console.log("Error: User is not registered as staff on any food bank");
+        return {
+            bankName: "",
+            description: "",
+            location: {_lat: "", _long: ""}
+        }
+    }
+    let docRef = doc(db, "foodBank", id);
+    let docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data();  
+    }
+}
+
+export async function getUserRole(uid: string) {
+    let docRef = doc(db, "users", uid);
+    let docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+        let data = docSnap.data();
+        // Check if user is owner or staff
+        if (data.roles.owner === true) {
+            return true;
+        } else if (data.roles.staff === true) {
+            return false;
+        }
+    }
+    // This should never happen...
+    console.log("Error: Donor has accessed food bank profile page.");
+    return null;
+}
+
+export async function foodbankUpdate(uid: string, name: string, desc: string, lat: string, long: string) {
+
     let errors = validateBankDetails(name, lat, long);
     
+    if (errors == true) {
+        let q = query(collection(db, "foodBank"), where("staff", "array-contains", uid));
+        let banks = await getDocs(q);
+        let id: string = "none";
+        banks.forEach((doc) => {
+            id = doc.id;
+        });
+        let docRef = doc(db, "foodBank", id);
+        let docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            const bankRef = doc(db, `foodBank/${id}`);
+            // Update relevant attributes
+            // Change location to geotag
+            await updateDoc(bankRef, {
+                bankName: name,
+                description: desc,
+                location: new GeoPoint(parseFloat(lat), parseFloat(long))
+            });
+        }
+    }
+
     return errors;
 }
 

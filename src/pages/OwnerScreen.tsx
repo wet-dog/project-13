@@ -19,18 +19,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { setStatusBarHidden } from "expo-status-bar";
 import {updateStaff} from '../utils/foodBankDatabase'
 
-
-type RootStackParamList = {
-  TestScreen: undefined;
-  MapScreen: undefined;
-  BankProfile: undefined;
-  FoodList: undefined;
-  SignInScreen: undefined;
-  SignUpScreen: undefined;
-  OwnerScreen: undefined;
-}
-
 import {wipeFoodArray, insertFood, updateFood} from '../utils/foodListDatabase'
+import { RootStackParamList } from "../../App";
 
 type Props = NativeStackScreenProps<RootStackParamList, "TestScreen">;
 
@@ -62,7 +52,7 @@ function OwnerScreen({navigation} : Props) {
     
             <Button onPress={() => navigation.navigate("MapScreen")}>Map Screen</Button>
       
-            <Button onPress={() => navigation.navigate("FoodList")}>Food List</Button>
+            <Button onPress={() => navigation.navigate("FoodListStaff")}>Food List</Button>
           
             <Heading>Add Staff</Heading>
             <Center>

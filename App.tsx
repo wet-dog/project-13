@@ -21,22 +21,23 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MapScreen from "./src/pages/MapScreen";
 import TestScreen from "./src/pages/TestScreen";
 import BankProfile from "./src/pages/BankProfile";
-import FoodList from "./src/pages/FoodList";
+import FoodListStaff from "./src/pages/FoodListStaff";
 import SignInScreen from "./src/pages/SignInScreen";
 import SignUpScreen from "./src/pages/SignUpScreen";
 import OwnerScreen from "./src/pages/OwnerScreen";
 import { LogBox } from "react-native";
+import FoodListDonor from "./src/pages/FoodListDonor";
 
-type RootStackParamList = {
+export type RootStackParamList = {
   TestScreen: undefined;
   MapScreen: undefined;
   BankProfile: undefined;
-  FoodList: undefined;
+  FoodListStaff: undefined;
+  FoodListDonor: undefined;
   SignInScreen: undefined;
   SignUpScreen: undefined;
   OwnerScreen: undefined;
 }
-
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -48,7 +49,8 @@ function App() {
         <Stack.Screen name="TestScreen" component={TestScreen}/>
         <Stack.Screen name="MapScreen" component={MapScreen} />
         <Stack.Screen name="BankProfile" component={BankProfile} />
-        <Stack.Screen name="FoodList" component={FoodList} />
+        <Stack.Screen name="FoodListStaff" component={FoodListStaff} />
+        <Stack.Screen name="FoodListDonor" component={FoodListDonor} />
         <Stack.Screen name="SignInScreen" component={SignInScreen}/>
         <Stack.Screen name="SignUpScreen" component={SignUpScreen}/>
         <Stack.Screen name="OwnerScreen" component={OwnerScreen}/>

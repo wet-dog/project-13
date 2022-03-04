@@ -5,8 +5,9 @@ import * as Location from 'expo-location';
 import { Query } from "@firebase/firestore-types";
 
  
-type foodData = {
+export type foodData = {
     bankID: String,
+    bankName: String,
     distance: Number,
     foods: String[]
 }
@@ -81,10 +82,10 @@ const converter = {
         const {bankID,  foods} = doc.data()
 
         
-        const obj = await {
+        const obj = {
             bankID,
             foods,
-            bankName: foodBankName(bankID),
+            bankName: await foodBankName(bankID),
             distance: await calculateDistance(await fetchUserLocation(), await fetchFoodBankLocation(bankID))
         }
        
@@ -116,6 +117,22 @@ export const fetchBankID = async (bankName: String)  => {
 
     return id;
 
+}
+
+
+export const userBank = async (userID: String) => {
+
+    const q = query(collection(db, "foodBank"));
+
+    let name = "";
+    const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+        if (doc.data().staff.includes(userID)){
+            name = doc.data().bankName;
+        }
+    });
+
+    return name;
 }
 
 

@@ -21,15 +21,7 @@ import {
 import "firebase/firestore";
 import {Button, Dimensions, Linking, StyleSheet, View} from "react-native";
 import MapView, {Marker, Callout} from "react-native-maps";
-
-type RootStackParamList = {
-  TestScreen: undefined;
-  MapScreen: undefined;
-  BankProfile: undefined;
-  FoodList: undefined;
-  SignInScreen: undefined;
-  SignUpScreen: undefined;
-}
+import { RootStackParamList } from "../../App";
 
 type Props = NativeStackScreenProps<RootStackParamList, "MapScreen">;
 
