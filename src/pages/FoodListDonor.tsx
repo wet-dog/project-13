@@ -28,7 +28,6 @@ function FoodListDonor({ navigation }: any) {
      
     <NativeBaseProvider>
 
-<Button onPress={() => { navigation.navigate("MapScreen")}}>Map</Button>
       <Center h="100%">
           <Box _dark={{
           bg: "coolGray.800"
@@ -42,8 +41,9 @@ function FoodListDonor({ navigation }: any) {
               <Basic />
             </ScrollView>
           </Box>
+          <Button onPress={() => { navigation.navigate("MapScreen")}}>Map</Button>
+          <Button>FoodList</Button>
       </Center>
-      <Button>test</Button>
     </NativeBaseProvider>
     
   );
