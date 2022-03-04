@@ -1,4 +1,4 @@
-import { Entypo, MaterialIcons, AntDesign } from "@native-base/icons";
+
 import React, { useEffect, useState } from "react";
 import { 
   NativeBaseProvider, 
@@ -12,7 +12,6 @@ import {
   Pressable,
   HStack,
   Fab,
-  Icon,
   Spacer,
   SectionList
 } from "native-base";
@@ -20,11 +19,16 @@ import {
 import * as Location from 'expo-location';
 
 import { fetchFood, foodData } from "../utils/foodListDatabase";
+import { View } from "react-native";
 
-
-function FoodListDonor() {
+import { Entypo, MaterialIcons, AntDesign } from "@native-base/icons";
+import { Icon } from "native-base";
+function FoodListDonor({ navigation }: any) {
   return (
+     
     <NativeBaseProvider>
+
+<Button onPress={() => { navigation.navigate("MapScreen")}}>Map</Button>
       <Center h="100%">
           <Box _dark={{
           bg: "coolGray.800"
@@ -39,7 +43,9 @@ function FoodListDonor() {
             </ScrollView>
           </Box>
       </Center>
+      <Button>test</Button>
     </NativeBaseProvider>
+    
   );
 }
 

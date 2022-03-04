@@ -15,11 +15,12 @@ import {
   extendTheme,
   VStack,
   Code,
-  Image
+  Image,
+  Button
 } from "native-base";
 
 import "firebase/firestore";
-import {Button, Dimensions, Linking, StyleSheet, View} from "react-native";
+import { Dimensions, Linking, StyleSheet, View} from "react-native";
 import MapView, {Marker, Callout} from "react-native-maps";
 import { RootStackParamList } from "../../App";
 
@@ -74,8 +75,11 @@ function MapScreen({ navigation }: Props) {
     }, []);
 
     return (
+        
         <NativeBaseProvider>
+     
             <BottomSheetModalProvider>
+                <Button onPress={() => { navigation.navigate("FoodListDonor")}}>FoodList</Button>
                 <View style={donorStyles.container}>
                     <Text style={donorStyles.heading}>Select a food bank or drop off point</Text>
                     <MapView style={donorStyles.map}
@@ -287,7 +291,10 @@ function MapScreen({ navigation }: Props) {
 
                 </View>
             </BottomSheetModalProvider>
+        
         </NativeBaseProvider>
+        
+     
     )
 }
 
