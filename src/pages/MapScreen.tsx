@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
 import BottomSheet, { BottomSheetView, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView } from "@gorhom/bottom-sheet";
-
+import FlatButton from "../../assets/button";
 
 import {
   Text,
@@ -33,6 +33,9 @@ function MapScreen({ navigation }: Props) {
 
     // variables
     const snapPoints = useMemo(() => ['40%', '96%'], []);
+
+    // variables
+    const snapPointsDropOff = useMemo(() => ['40%', '80%'], []);
 
     // callbacks
     const handlePresentModalPress = useCallback(() => {
@@ -98,12 +101,12 @@ function MapScreen({ navigation }: Props) {
                         >
                         </Marker>
 
-                        <Marker
-                            coordinate={{latitude: 51.38004486066454 , longitude: -2.395149084389973}}
-                            pinColor='red'
-                            onPress={handlePresentModalPress2}
-                        >
-                        </Marker>
+                        {/*<Marker*/}
+                        {/*    coordinate={{latitude: 51.38004486066454 , longitude: -2.395149084389973}}*/}
+                        {/*    pinColor='red'*/}
+                        {/*    onPress={handlePresentModalPress2}*/}
+                        {/*>*/}
+                        {/*</Marker>*/}
 
                         <Marker
                             coordinate={{latitude: 51.376589987348126 , longitude: -2.353022676358978}}
@@ -136,8 +139,8 @@ function MapScreen({ navigation }: Props) {
                             onChange={handleSheetChanges}
                         >
                             <View style={styles.contentContainer}>
-                                <Text style={styles.heading}>Manvers Street Baptist Church</Text>
-                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                <Text style={styles.heading}>Bath Food Bank - Manvers</Text>
+                                <Image style={styles.stretch} source={require('../../images/img-manvers.png')}/>
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon: 12.30-14.30</Text>
                                 <Text style={styles.info}>Wed: 12.45-14.30</Text>
@@ -145,18 +148,12 @@ function MapScreen({ navigation }: Props) {
                                 <Text style={styles.subheading}>Requested Food:</Text>
                                 <Text style={styles.info}>Food 1</Text>
                                 <Text style={styles.info}>Food 2</Text>
-                                <Text style={styles.info}>Food 3</Text>
+                                <Text style={styles.subheading}>Rejected Food:</Text>
                                 <Text style={styles.info}>Food 4</Text>
                                 <Text style={styles.info}>Food 5</Text>
                                 <Text style={styles.subheading}>Links:</Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
-                                    Website
-                                </Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}>
-                                    Directions
-                                </Text>
+                                <FlatButton text='Website' onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}/>
+                                <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}/>
                             </View>
                         </BottomSheetModal>
                     </View>
@@ -169,26 +166,20 @@ function MapScreen({ navigation }: Props) {
                             onChange={handleSheetChanges}
                         >
                             <View style={styles.contentContainer}>
-                                <Text style={styles.heading}>The Lighthouse Centre</Text>
+                                <Text style={styles.heading}>Bath Food Bank - Lighthouse Centre</Text>
                                 <Image style={styles.stretch} source={require('../../images/img1.png')}/>
-                                <Text style={styles.subheading}>Opening Times:</Text>
+                                <Text style={styles.subheading}>Opening Times</Text>
                                 <Text style={styles.info}>Tue: 09.30-23.30</Text>
                                 <Text style={styles.info}>Thu: 09.30-23.30</Text>
-                                <Text style={styles.subheading}>Requested Food:</Text>
+                                <Text style={styles.subheading}>Requested Food</Text>
                                 <Text style={styles.info}>Food 1</Text>
                                 <Text style={styles.info}>Food 2</Text>
-                                <Text style={styles.info}>Food 3</Text>
+                                <Text style={styles.subheading}>Rejected Food</Text>
                                 <Text style={styles.info}>Food 4</Text>
                                 <Text style={styles.info}>Food 5</Text>
-                                <Text style={styles.subheading}>Links:</Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
-                                    Website
-                                </Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://www.google.com/maps/place/High+St,+Twerton,+Bath+BA2+1DB/@51.3804493,-2.4074125,14.45z/data=!4m5!3m4!1s0x487186cb5f9998af:0xafad874157b80214!8m2!3d51.3802927!4d-2.3946031\n')}>
-                                    Directions
-                                </Text>
+                                <Text style={styles.subheading}>Links</Text>
+                                <FlatButton text='Website' onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}/>
+                                <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/place/High+St,+Twerton,+Bath+BA2+1DB/@51.3804493,-2.4074125,14.45z/data=!4m5!3m4!1s0x487186cb5f9998af:0xafad874157b80214!8m2!3d51.3802927!4d-2.3946031\n')}/>
                             </View>
                         </BottomSheetModal>
 
@@ -200,7 +191,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <View style={styles.contentContainer}>
                                 <Text style={styles.heading}>Sainsburys</Text>
-                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                <Image style={styles.stretch} source={require('../../images/img-sains.png')}/>
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon-Sat: 07.00-22.00</Text>
                                 <Text style={styles.info}>Sun: 11.00-17.00</Text>
@@ -211,15 +202,8 @@ function MapScreen({ navigation }: Props) {
                                       onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
                                     Bath Food Bank
                                 </Text>
-                                <Text style={styles.subheading}>Directions:</Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}>
-                                    Sainsburys
-                                </Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://www.google.com/maps/place/Bath+Food+Bank/@51.379461,-2.3748313,14z/data=!3m1!4b1!4m5!3m4!1s0x48718111b8ceb12d:0xe22ada01a3c66afe!8m2!3d51.3794651!4d-2.3572165')}>
-                                    Bath Food Bank
-                                </Text>
+                                <Text style={styles.subheading}>Links</Text>
+                                <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}/>
                             </View>
                         </BottomSheetModal>
 
@@ -231,7 +215,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <View style={styles.contentContainer}>
                                 <Text style={styles.heading}>Waitrose & Partners Bath</Text>
-                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                <Image style={styles.stretch} source={require('../../images/img-waitrose.png')}/>
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon-Fri: 07.30-21.00</Text>
                                 <Text style={styles.info}>Sat: 07.30-20.00</Text>
@@ -243,15 +227,8 @@ function MapScreen({ navigation }: Props) {
                                       onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
                                     Bath Food Bank
                                 </Text>
-                                <Text style={styles.subheading}>Directions:</Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://www.google.com/maps/place/Waitrose+%26+Partners+Bath/@51.3835389,-2.3765258,14z/data=!3m2!4b1!5s0x48718112552cbf3b:0xf66b6b89a09ef566!4m5!3m4!1s0x48718113b240ef6f:0x4b2c3e51fc51cb37!8m2!3d51.3835402!4d-2.3590591\n')}>
-                                    Waitrose & Partners
-                                </Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://www.google.com/maps/place/Bath+Food+Bank/@51.379461,-2.3748313,14z/data=!3m1!4b1!4m5!3m4!1s0x48718111b8ceb12d:0xe22ada01a3c66afe!8m2!3d51.3794651!4d-2.3572165')}>
-                                    Bath Food Bank
-                                </Text>
+                                <Text style={styles.subheading}>Links:</Text>
+                                <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/place/Waitrose+%26+Partners+Bath/@51.3835389,-2.3765258,14z/data=!3m2!4b1!5s0x48718112552cbf3b:0xf66b6b89a09ef566!4m5!3m4!1s0x48718113b240ef6f:0x4b2c3e51fc51cb37!8m2!3d51.3835402!4d-2.3590591\n')}/>
                             </View>
                         </BottomSheetModal>
 
@@ -263,7 +240,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <View style={styles.contentContainer}>
                                 <Text style={styles.heading}>Co-op</Text>
-                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                <Image style={styles.stretch} source={require('../../images/img-coop.png')}/>
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon-Fri: 07.30-21.00</Text>
                                 <Text style={styles.info}>Sat: 07.30-20.00</Text>
@@ -275,15 +252,8 @@ function MapScreen({ navigation }: Props) {
                                       onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
                                     Bath Food Bank
                                 </Text>
-                                <Text style={styles.subheading}>Directions:</Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}>
-                                    Waitrose & Partners
-                                </Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://www.google.com/maps/dir/51.3763427,-2.3308564/co+op+bath/@51.3788111,-2.3586731,14z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x4871810f854c7eb3:0x2f92ad06fe35c746!2m2!1d-2.3530216!2d51.3765588')}>
-                                    Co op
-                                </Text>
+                                <Text style={styles.subheading}>Links:</Text>
+                                <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir/51.3763427,-2.3308564/co+op+bath/@51.3788111,-2.3586731,14z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x4871810f854c7eb3:0x2f92ad06fe35c746!2m2!1d-2.3530216!2d51.3765588')}/>
                             </View>
                         </BottomSheetModal>
 
@@ -331,24 +301,26 @@ const styles = StyleSheet.create({
     },
 
     heading: {
-        fontWeight: "bold",
-        textAlign: "left",
+        textAlign: "center",
         marginBottom: 20,
-        fontSize: 20,
+        fontSize: 22,
         marginLeft: 10,
+        color:"green",
+        textTransform: 'uppercase',
     },
 
     subheading: {
-        fontWeight: "bold",
-        textAlign: "left",
+        textAlign: "center",
         marginTop: 20,
-        fontSize: 20,
+        fontSize: 22,
         marginLeft: 10,
+        color:"green",
+        textTransform: 'uppercase',
     },
 
     times: {
-        fontSize: 10,
-        textAlign: "left"
+        fontSize: 14,
+        textAlign: "center"
     },
 
     stretch: {
@@ -359,12 +331,16 @@ const styles = StyleSheet.create({
     info: {
         marginTop: 5,
         marginLeft: 10,
+        textAlign: "center",
+        fontSize: 18,
     },
 
     link: {
         marginTop: 5,
         marginLeft: 10,
         fontStyle: "italic",
+        textAlign: "center",
+        fontSize: 18,
     },
 
 });
