@@ -41,8 +41,8 @@ function FoodListDonor({ navigation }: any) {
               <Basic />
             </ScrollView>
           </Box>
-          <Button onPress={() => { navigation.navigate("MapScreen")}}>Map</Button>
-          <Button>FoodList</Button>
+          {/* <Button onPress={() => { navigation.navigate("MapScreen")}}>Map</Button>
+          <Button>FoodList</Button> */}
       </Center>
     </NativeBaseProvider>
     

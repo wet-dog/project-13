@@ -82,8 +82,8 @@ function MapScreen({ navigation }: Props) {
         <NativeBaseProvider>
      
             <BottomSheetModalProvider>
-                            <Button onPress={() => { navigation.navigate("FoodListDonor")}}>FoodList</Button>
-                <Button>Map</Button>
+                            {/* <Button onPress={() => { navigation.navigate("FoodListDonor")}}>FoodList</Button>
+                <Button>Map</Button> */}
                 <View style={donorStyles.container}>
                     <Text style={donorStyles.heading}>Select a food bank or drop off point</Text>
                     <MapView style={donorStyles.map}

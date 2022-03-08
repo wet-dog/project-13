@@ -52,9 +52,9 @@ function SignInScreen({ navigation }: Props) {
     switch(role) {
       case "owner": navigation.navigate("OwnerScreen"); 
         break;
-      case "staff": navigation.navigate("FoodListStaff"); 
+      case "staff": navigation.navigate("Staff"); 
         break;
-      case "donor": navigation.navigate("FoodListDonor"); 
+      case "donor": navigation.navigate("Donor"); 
         break;
     }
   }
