@@ -1,22 +1,24 @@
 /// <reference types="cypress" />
 
+
+function getPasswordControl() {
+    return cy.get("[data-testid=PasswordControl]");
+}
+
+function getPasswordInput() {
+    return getPasswordControl().react("input");        
+}
+
+function getEmailControl() {
+    return cy.get("[data-testid=EmailControl]");
+}
+
+function getEmailInput() {
+    return getEmailControl().react("input");        
+}
+
+
 describe("Sign in tests", () => {
-
-    function getPasswordControl() {
-        return cy.get("[data-testid=PasswordControl]");
-    }
-
-    function getPasswordInput() {
-        return getPasswordControl().react("input");        
-    }
-
-    function getEmailControl() {
-        return cy.get("[data-testid=EmailControl]");
-    }
-
-    function getEmailInput() {
-        return getEmailControl().react("input");        
-    }
 
     before(() => {
         cy.visit("/");
@@ -80,4 +82,34 @@ describe("Staff screen tests", () => {
         cy.getReact("Staff").should("exist");
     });
 
+    it("displays an add food component", () => {
+        cy.get("[data-testid=AddFoodButton]").click();
+        cy.getReact("CreateFood").should("exist");
+    });
+
+    it("adds a new food", () => {
+        cy.react("CreateFood").find("input").type("banana");
+        cy.react("CreateFood").react("Pressable").click();
+        // Check length of list/ that food in list
+    });
+
+    it("deletes a food", () => {
+        cy.get("[data-testid=DeleteButton]").eq(-1).click({ force: true });
+    });
+
 });
+
+
+// describe("", () => {
+
+//     it("displays an add food item", () => {
+//         cy.visit("/");
+//         cy.waitForReact(1000, "#root");
+        
+//         getEmailInput().type("donor@gmail.com");
+//         getPasswordInput().type("password123");
+//         cy.get("[data-testid=SignInButton]").click();        
+//     });
+
+// });
+

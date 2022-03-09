@@ -67,7 +67,7 @@ function FoodList() {
               {bankName !== "" && <SwipeList bankName={bankName} bankId={bankId} />}
               {adding && <CreateFood setAdding={setAdding} bankName={bankName} />}
             </ScrollView>
-            <Fab renderInPortal={false} shadow={2} size="sm" icon={<Icon color="white" as={<AntDesign />} name="plus" size="sm" onPress={() => setAdding(true)} />} />
+            <Fab testID="AddFoodButton" renderInPortal={false} shadow={2} size="sm" icon={<Icon color="white" as={<AntDesign />} name="plus" size="sm" onPress={() => setAdding(true)} />} />
           </Box>
       </Center>
     </NativeBaseProvider>
@@ -93,7 +93,7 @@ function EditFood(props: EditFoodProps) {
   
   return (
     <Center>
-      <Modal isOpen={props.showModal} onClose={() => props.setShowModal(false)}>
+      <Modal testID="AddFoodModal" isOpen={props.showModal} onClose={() => props.setShowModal(false)}>
         <Modal.Content maxWidth="400px">
           <Modal.CloseButton />
           <Modal.Header>Edit Food</Modal.Header>
@@ -216,7 +216,7 @@ function SwipeList(props: SwipeListProps) {
 
   function renderItem({ item }: { item: FoodList }) {
     return (
-      <Box>
+      <Box testID="RenderItem">
         <Pressable onPress={() => console.log("You touched me")} _dark={{
         bg: "coolGray.800"
       }} _light={{
@@ -240,7 +240,7 @@ function SwipeList(props: SwipeListProps) {
 
   function renderHiddenItem(data: ListRenderItemInfo<FoodList>, rowMap: RowMap<FoodList>) {
     return (
-      <HStack flex="1" pl="2">
+      <HStack testID="RenderHiddenItem" flex="1" pl="2">
           <Pressable w="70" ml="auto"  bg="coolGray.200" justifyContent="center" onPress={() => updateRow(rowMap, data.item.key, data.item)} _pressed={{
           opacity: 0.5
         }}>
@@ -251,7 +251,7 @@ function SwipeList(props: SwipeListProps) {
               </Text>
             </VStack>
           </Pressable>
-          <Pressable w="70"  bg="red.500" justifyContent="center" onPress={() => deleteRow(rowMap, data.item.key, data.item)} _pressed={{
+          <Pressable testID="DeleteButton" w="70"  bg="red.500" justifyContent="center" onPress={() => deleteRow(rowMap, data.item.key, data.item)} _pressed={{
           opacity: 0.5
         }}>
             <VStack alignItems="center" space={2}>
