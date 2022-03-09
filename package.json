@@ -14,7 +14,8 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest"
+    "test": "jest",
+    "dev": "start expo start --web & start cypress open"
   },
   "dependencies": {
     "@firebase/app-types": "^0.7.0",
@@ -24,6 +25,8 @@
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
+    "cypress": "^9.5.1",
+    "cypress-react-selector": "^2.3.16",
     "expo": "^42.0.5",
     "expo-font": "~9.2.1",
     "expo-location": "~12.1.2",
