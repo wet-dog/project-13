@@ -16,7 +16,8 @@ import {
   VStack,
   Code,
   Image,
-  Button
+  Button,
+  ScrollView
 } from "native-base";
 
 import "firebase/firestore";
@@ -138,7 +139,7 @@ function MapScreen({ navigation }: Props) {
                             snapPoints={snapPoints}
                             onChange={handleSheetChanges}
                         >
-                            <View style={styles.contentContainer}>
+                            <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Bath Food Bank - Manvers</Text>
                                 <Image style={styles.stretch} source={require('../../images/img-manvers.png')}/>
                                 <Text style={styles.subheading}>Opening Times:</Text>
@@ -154,7 +155,7 @@ function MapScreen({ navigation }: Props) {
                                 <Text style={styles.subheading}>Links:</Text>
                                 <FlatButton text='Website' onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}/>
                                 <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}/>
-                            </View>
+                            </ScrollView>
                         </BottomSheetModal>
                     </View>
 
@@ -165,7 +166,7 @@ function MapScreen({ navigation }: Props) {
                             snapPoints={snapPoints}
                             onChange={handleSheetChanges}
                         >
-                            <View style={styles.contentContainer}>
+                            <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Bath Food Bank - Lighthouse Centre</Text>
                                 <Image style={styles.stretch} source={require('../../images/img1.png')}/>
                                 <Text style={styles.subheading}>Opening Times</Text>
@@ -180,7 +181,7 @@ function MapScreen({ navigation }: Props) {
                                 <Text style={styles.subheading}>Links</Text>
                                 <FlatButton text='Website' onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}/>
                                 <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/place/High+St,+Twerton,+Bath+BA2+1DB/@51.3804493,-2.4074125,14.45z/data=!4m5!3m4!1s0x487186cb5f9998af:0xafad874157b80214!8m2!3d51.3802927!4d-2.3946031\n')}/>
-                            </View>
+                            </ScrollView>
                         </BottomSheetModal>
 
                         <BottomSheetModal
@@ -189,7 +190,7 @@ function MapScreen({ navigation }: Props) {
                             snapPoints={snapPoints}
                             onChange={handleSheetChanges}
                         >
-                            <View style={styles.contentContainer}>
+                            <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Sainsburys</Text>
                                 <Image style={styles.stretch} source={require('../../images/img-sains.png')}/>
                                 <Text style={styles.subheading}>Opening Times:</Text>
@@ -204,7 +205,7 @@ function MapScreen({ navigation }: Props) {
                                 </Text>
                                 <Text style={styles.subheading}>Links</Text>
                                 <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}/>
-                            </View>
+                            </ScrollView>
                         </BottomSheetModal>
 
                         <BottomSheetModal
@@ -213,7 +214,7 @@ function MapScreen({ navigation }: Props) {
                             snapPoints={snapPoints}
                             onChange={handleSheetChanges}
                         >
-                            <View style={styles.contentContainer}>
+                            <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Waitrose & Partners Bath</Text>
                                 <Image style={styles.stretch} source={require('../../images/img-waitrose.png')}/>
                                 <Text style={styles.subheading}>Opening Times:</Text>
@@ -229,7 +230,7 @@ function MapScreen({ navigation }: Props) {
                                 </Text>
                                 <Text style={styles.subheading}>Links:</Text>
                                 <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/place/Waitrose+%26+Partners+Bath/@51.3835389,-2.3765258,14z/data=!3m2!4b1!5s0x48718112552cbf3b:0xf66b6b89a09ef566!4m5!3m4!1s0x48718113b240ef6f:0x4b2c3e51fc51cb37!8m2!3d51.3835402!4d-2.3590591\n')}/>
-                            </View>
+                            </ScrollView>
                         </BottomSheetModal>
 
                         <BottomSheetModal
@@ -238,7 +239,7 @@ function MapScreen({ navigation }: Props) {
                             snapPoints={snapPoints}
                             onChange={handleSheetChanges}
                         >
-                            <View style={styles.contentContainer}>
+                            <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Co-op</Text>
                                 <Image style={styles.stretch} source={require('../../images/img-coop.png')}/>
                                 <Text style={styles.subheading}>Opening Times:</Text>
@@ -254,7 +255,7 @@ function MapScreen({ navigation }: Props) {
                                 </Text>
                                 <Text style={styles.subheading}>Links:</Text>
                                 <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir/51.3763427,-2.3308564/co+op+bath/@51.3788111,-2.3586731,14z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x4871810f854c7eb3:0x2f92ad06fe35c746!2m2!1d-2.3530216!2d51.3765588')}/>
-                            </View>
+                            </ScrollView>
                         </BottomSheetModal>
 
 
