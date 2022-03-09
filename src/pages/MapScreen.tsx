@@ -24,6 +24,7 @@ import "firebase/firestore";
 import { Dimensions, Linking, StyleSheet, View} from "react-native";
 import MapView, {Marker, Callout} from "react-native-maps";
 import { RootStackParamList } from "../../App";
+import FoodListEmbed from "./FoodListEmbed";
 
 type Props = NativeStackScreenProps<RootStackParamList, "MapScreen">;
 
@@ -83,8 +84,6 @@ function MapScreen({ navigation }: Props) {
         <NativeBaseProvider>
      
             <BottomSheetModalProvider>
-                            {/* <Button onPress={() => { navigation.navigate("FoodListDonor")}}>FoodList</Button>
-                <Button>Map</Button> */}
                 <View style={donorStyles.container}>
                     <Text style={donorStyles.heading}>Select a food bank or drop off point</Text>
                     <MapView style={donorStyles.map}
@@ -147,11 +146,7 @@ function MapScreen({ navigation }: Props) {
                                 <Text style={styles.info}>Wed: 12.45-14.30</Text>
                                 <Text style={styles.info}>Thu: 12.30-14.30</Text>
                                 <Text style={styles.subheading}>Requested Food:</Text>
-                                <Text style={styles.info}>Food 1</Text>
-                                <Text style={styles.info}>Food 2</Text>
-                                <Text style={styles.subheading}>Rejected Food:</Text>
-                                <Text style={styles.info}>Food 4</Text>
-                                <Text style={styles.info}>Food 5</Text>
+                                <FoodListEmbed bankId="Qqed4wWZlfrBpwQ65Sg6" />
                                 <Text style={styles.subheading}>Links:</Text>
                                 <FlatButton text='Website' onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}/>
                                 <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}/>
