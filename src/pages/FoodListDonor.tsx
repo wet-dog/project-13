@@ -1,31 +1,22 @@
 
 import React, { useEffect, useState } from "react";
-import { 
-  NativeBaseProvider, 
-  Center, 
-  VStack, 
+import {
+  NativeBaseProvider,
+  Center,
+  VStack,
   Heading,
   Text,
-  Button,
   Box,
   ScrollView,
-  Pressable,
   HStack,
-  Fab,
-  Spacer,
-  SectionList
+  Spacer
 } from "native-base";
 
-import * as Location from 'expo-location';
-
 import { fetchFood, foodData } from "../utils/foodListDatabase";
-import { View } from "react-native";
 
-import { Entypo, MaterialIcons, AntDesign } from "@native-base/icons";
-import { Icon } from "native-base";
-function FoodListDonor({ navigation }: any) {
+function FoodListDonor() {
   return (
-     
+
     <NativeBaseProvider>
 
       <Center h="100%">
@@ -45,7 +36,7 @@ function FoodListDonor({ navigation }: any) {
           <Button>FoodList</Button> */}
       </Center>
     </NativeBaseProvider>
-    
+
   );
 }
 
@@ -69,7 +60,7 @@ function Basic() {
 
   return (
     <Box>
-        {listData.map(data => 
+        {listData.map(data =>
             <Box pl="4" pr="5" py="2">
             <HStack alignItems="center" space={3}>
                 <VStack>
@@ -77,21 +68,21 @@ function Basic() {
                         {data.bankName}
                     </Text>
 
-                    {data.foods.map(food => 
+                    {data.foods.map(food =>
                         <Text color="coolGray.600" _dark={{color: "warmGray.200"}}>
                             {food}
                         </Text>
-                    )}           
+                    )}
                 </VStack>
-                
+
                 <Spacer />
-                
+
                 <Text fontSize="xs" color="coolGray.800" _dark={{color: "warmGray.50"}} alignSelf="flex-start">
                     {data.distance.toFixed(2)} miles away
                 </Text>
             </HStack>
             </Box>
-        )}        
+        )}
     </Box>
   );
 }

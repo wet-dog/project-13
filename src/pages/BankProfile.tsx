@@ -81,10 +81,10 @@ function BankProfile({ navigation }: Props) {
   // Pre-fill the inputs with data from Firebase
   useEffect(() => {
       fetchBank(user!.uid).then((data) => {
-        setName(data.bankName);
-        setDesc(data.description);
-        setLatitude(data.location._lat);
-        setLongitude(data.location._long);
+        setName(data?.bankName);
+        setDesc(data?.description);
+        setLatitude(data?.location._lat);
+        setLongitude(data?.location._long);
       });
   }, []);
 
@@ -94,7 +94,7 @@ function BankProfile({ navigation }: Props) {
 
   async function onUpdate() {
     //If edit mode is currently not active, then enable it
-    if (editMode == false) {
+    if (!editMode) {
       setEditMode(true);
       setSuccess("");
     } else {

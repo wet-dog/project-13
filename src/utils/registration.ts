@@ -1,4 +1,3 @@
-import { Console } from 'console';
 import {
     getAuth,
     onAuthStateChanged,
@@ -7,7 +6,7 @@ import {
 } from 'firebase/auth';
 
 import { db } from "./firebase";
-import { doc, getDoc, getDocs, collection, QueryDocumentSnapshot, query , where, setDoc, DocumentData} from "firebase/firestore";
+import { doc, getDoc, setDoc} from "firebase/firestore";
 import { firebaseApp } from './firebase';
 
 
@@ -31,7 +30,7 @@ export async function signUp(email: string, password: string, confirmation: stri
 
     if (checkErrors(errors)) {
         try {
-    
+
             await createUserWithEmailAndPassword(auth, email, password);
             return true;
         } catch (err: any) {
@@ -42,7 +41,7 @@ export async function signUp(email: string, password: string, confirmation: stri
             console.log("error: ", err.code, err.message);
         }
     }
-    
+
     return errors;
 }
 
@@ -60,7 +59,7 @@ export async function signIn(email: string, password: string) {
             }
         }
     }
-    
+
     return errors;
 }
 export const isAdminEmpty = async (bankID: string) => {
@@ -79,9 +78,9 @@ export const isAdminEmpty = async (bankID: string) => {
 }
 
 export const addNewUser = async (email: string, role: string, bankID: string) => {
-        
+
     let owner = false, staff = false, donor = false;
-    
+
     if (role == "owner"){
         owner = true;
     }
@@ -92,7 +91,7 @@ export const addNewUser = async (email: string, role: string, bankID: string) =>
         donor = true;
     }
 
-    if (owner){    
+    if (owner){
         const ref= doc(db, "foodBank", bankID);
         const df = await getDoc(ref);
 
@@ -105,8 +104,8 @@ export const addNewUser = async (email: string, role: string, bankID: string) =>
                 staff : df.data().staff
             })
         }
-    } 
-    
+    }
+
     await setDoc(doc(db, "users", auth.currentUser!.uid ), {
         email,
          roles: {
@@ -115,7 +114,7 @@ export const addNewUser = async (email: string, role: string, bankID: string) =>
              donor
          }
      })
-    
+
 }
 
 export type Errors = {

@@ -1,18 +1,4 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Code,
-} from "native-base";
+import React from "react";
 
 
 import { NavigationContainer } from '@react-navigation/native';

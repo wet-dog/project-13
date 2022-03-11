@@ -22,9 +22,6 @@ function MapScreen({renderImages}={renderImages: true}) {
     // variables
     const snapPoints = useMemo(() => ['40%', '96%'], []);
 
-    // variables
-    const snapPointsDropOff = useMemo(() => ['40%', '80%'], []);
-
     // callbacks
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();

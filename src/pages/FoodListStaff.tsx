@@ -1,9 +1,9 @@
 import { Entypo, MaterialIcons, AntDesign } from "@native-base/icons";
 import React, { useEffect, useState } from "react";
-import { 
-  NativeBaseProvider, 
-  Center, 
-  VStack, 
+import {
+  NativeBaseProvider,
+  Center,
+  VStack,
   Heading,
   Text,
   Button,
@@ -13,19 +13,15 @@ import {
   HStack,
   Fab,
   Icon,
-  Spacer,
-  SectionList,
   Input,
   Modal,
   FormControl
 } from "native-base";
 
-import * as Location from 'expo-location';
-
 import { RowMap, SwipeListView } from "react-native-swipe-list-view";
-import { fetchBankID, fetchFood, foodBankName, foodData, insertFood, updateFood, userBank } from "../utils/foodListDatabase";
-import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
-import { collection, doc, DocumentData, Query, query, where } from "firebase/firestore";
+import { fetchBankID, insertFood, updateFood, userBank } from "../utils/foodListDatabase";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { collection, query, where } from "firebase/firestore";
 import { db } from "../utils/firebase";
 
 import { auth } from "../utils/registration";
@@ -51,7 +47,7 @@ function FoodList() {
 
     setBankValues();
   }, []);
-  
+
   return (
     <NativeBaseProvider>
       <Center h="100%">
@@ -83,14 +79,14 @@ type EditFoodProps = {
 }
 
 function EditFood(props: EditFoodProps) {
-  
+
   const [food, setFood] = useState("");
 
   async function onEdit() {
     await updateFood(props.bankName, props.oldFood, food);
     props.setShowModal(false);
   }
-  
+
   return (
     <Center>
       <Modal isOpen={props.showModal} onClose={() => props.setShowModal(false)}>
@@ -131,7 +127,7 @@ type CreateFoodProps = {
 function CreateFood(props: CreateFoodProps) {
 
   const [food, setFood] = useState("");
-  
+
   async function onCreate() {
     await insertFood(props.bankName, food, false);
     props.setAdding(false);
@@ -171,7 +167,7 @@ function SwipeList(props: SwipeListProps) {
   const q = query(foodsRef, where("bankID", "==", props.bankId));
 
   const [foods, loading, error, snapshot] = useCollectionData(q);
-  
+
   const [showModal, setShowModal] = useState(false);
   const [oldFood, setOldFood] = useState("");
 

@@ -2,9 +2,8 @@
 import { doc, getDoc, getDocs, collection, QueryDocumentSnapshot, query , where,  DocumentData, arrayUnion, updateDoc, arrayRemove} from "firebase/firestore";
 import { db } from "./firebase";
 import * as Location from 'expo-location';
-import { Query } from "@firebase/firestore-types";
 
- 
+
 export type foodData = {
     bankID: String,
     bankName: String,
@@ -34,9 +33,9 @@ const fetchFoodBankLocation = async (bankID: any) => {
 
 }
 
-const fetchUserLocation = async () => { 
+const fetchUserLocation = async () => {
     const { status } = await Location.requestForegroundPermissionsAsync();
-    
+
     if (status !== 'granted'){
         console.log("location not authorized");
     }
@@ -71,24 +70,24 @@ const calculateDistance = async (userLocation: any, bankLocation : any) => {
         dist = dist * 180/Math.PI;
         dist = dist * 60 * 1.1515;
     }
-   
+
     return dist;
 }
 
 const converter = {
     async fromFirestore(
-        doc: QueryDocumentSnapshot<DocumentData> 
+        doc: QueryDocumentSnapshot<DocumentData>
     ): Promise<foodData>{
         const {bankID,  foods} = doc.data()
 
-        
+
         const obj = {
             bankID,
             foods,
             bankName: await foodBankName(bankID),
             distance: await calculateDistance(await fetchUserLocation(), await fetchFoodBankLocation(bankID))
         }
-       
+
         return obj
     }
 }
@@ -98,10 +97,10 @@ export const fetchFood = async (): Promise<foodData[]> => {
     const snapshot = await getDocs(collection(db, 'food'));
 
     const data = await Promise.all(snapshot.docs.map(doc => converter.fromFirestore(doc)))
-  
+
     return data;
 
-} 
+}
 
 
 export const fetchBankID = async (bankName: String)  => {
@@ -146,7 +145,7 @@ export const insertFood = async (bankName: String, food: String, remove: boolean
 
     let id: string | undefined;
     foodSnap.forEach((doc) => {
-     
+
         id = doc.id;
     })
 
@@ -162,7 +161,7 @@ export const insertFood = async (bankName: String, food: String, remove: boolean
             foods: arrayUnion(food)
         })
     }
-    
+
 }
 
 export const updateFood = async (bankName: String, oldFood: String, newFood : String) => {
@@ -175,10 +174,10 @@ export const foodBankName = async (bankID: string) => {
 
     const snapshot:any = await getDoc(docRef);
 
-    
+
     let name = snapshot.data().bankName
     return name
-   
+
 }
 
 export const wipeFoodArray = async (bankName: String) => {

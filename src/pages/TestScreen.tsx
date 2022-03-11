@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { 
+import React from "react";
+import {
   Button,
-  Text,
-  NativeBaseProvider, 
-  Center, 
-  VStack, 
-  Heading 
+  NativeBaseProvider,
+  Center,
+  VStack,
+  Heading
 } from "native-base";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
-import { doc, getDoc } from "firebase/firestore";
-
-import { db } from "../utils/firebase";
 import { RootStackParamList } from "../../App";
 
 type Props = NativeStackScreenProps<RootStackParamList, "TestScreen">;
