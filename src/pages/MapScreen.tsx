@@ -1,35 +1,21 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
-import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
-import BottomSheet, { BottomSheetView, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import React, {useCallback, useMemo, useRef} from "react";
+import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import FlatButton from "../../assets/button";
 
 import {
   Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
   NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Code,
   Image,
-  Button,
   ScrollView
 } from "native-base";
 
 import "firebase/firestore";
 import { Dimensions, Linking, StyleSheet, View} from "react-native";
-import MapView, {Marker, Callout} from "react-native-maps";
-import { RootStackParamList } from "../../App";
+import MapView, {Marker} from "react-native-maps";
 import FoodListEmbed from "./FoodListEmbed";
 
-type Props = NativeStackScreenProps<RootStackParamList, "MapScreen">;
-
 // @ts-ignore
-function MapScreen({ navigation }: Props) {
+function MapScreen({renderImages}={renderImages: true}) {
     // ref
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
@@ -80,9 +66,9 @@ function MapScreen({ navigation }: Props) {
     }, []);
 
     return (
-        
+
         <NativeBaseProvider>
-     
+
             <BottomSheetModalProvider>
                 <View style={donorStyles.container}>
                     <Text style={donorStyles.heading}>Select a food bank or drop off point</Text>
@@ -100,13 +86,6 @@ function MapScreen({ navigation }: Props) {
                             onPress={handlePresentModalPress}
                         >
                         </Marker>
-
-                        {/*<Marker*/}
-                        {/*    coordinate={{latitude: 51.38004486066454 , longitude: -2.395149084389973}}*/}
-                        {/*    pinColor='red'*/}
-                        {/*    onPress={handlePresentModalPress2}*/}
-                        {/*>*/}
-                        {/*</Marker>*/}
 
                         <Marker
                             coordinate={{latitude: 51.376589987348126 , longitude: -2.353022676358978}}
@@ -140,7 +119,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Bath Food Bank - Manvers</Text>
-                                <Image style={styles.stretch} source={require('../../images/img-manvers.png')}/>
+                                {renderImages && <Image style={styles.stretch} source={require('../../images/img-manvers.png')}/>}
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon: 12.30-14.30</Text>
                                 <Text style={styles.info}>Wed: 12.45-14.30</Text>
@@ -149,7 +128,7 @@ function MapScreen({ navigation }: Props) {
                                 <FoodListEmbed bankId="Qqed4wWZlfrBpwQ65Sg6" />
                                 <Text style={styles.subheading}>Links:</Text>
                                 <FlatButton text='Website' onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}/>
-                                <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}/>
+                                <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z')}/>
                             </ScrollView>
                         </BottomSheetModal>
                     </View>
@@ -163,7 +142,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Bath Food Bank - Lighthouse Centre</Text>
-                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                {renderImages && <Image style={styles.stretch} source={require('../../images/img1.png')}/>}
                                 <Text style={styles.subheading}>Opening Times</Text>
                                 <Text style={styles.info}>Tue: 09.30-23.30</Text>
                                 <Text style={styles.info}>Thu: 09.30-23.30</Text>
@@ -187,7 +166,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Sainsburys</Text>
-                                <Image style={styles.stretch} source={require('../../images/img-sains.png')}/>
+                                {renderImages && <Image style={styles.stretch} source={require('../../images/img-sains.png')}/>}
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon-Sat: 07.00-22.00</Text>
                                 <Text style={styles.info}>Sun: 11.00-17.00</Text>
@@ -211,7 +190,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Waitrose & Partners Bath</Text>
-                                <Image style={styles.stretch} source={require('../../images/img-waitrose.png')}/>
+                                {renderImages && <Image style={styles.stretch} source={require('../../images/img-waitrose.png')}/>}
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon-Fri: 07.30-21.00</Text>
                                 <Text style={styles.info}>Sat: 07.30-20.00</Text>
@@ -236,7 +215,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Co-op</Text>
-                                <Image style={styles.stretch} source={require('../../images/img-coop.png')}/>
+                                {renderImages && <Image style={styles.stretch} source={require('../../images/img-coop.png')}/>}
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon-Fri: 07.30-21.00</Text>
                                 <Text style={styles.info}>Sat: 07.30-20.00</Text>
@@ -255,14 +234,14 @@ function MapScreen({ navigation }: Props) {
 
 
                     </View>
- 
+
                 </View>
-            
+
             </BottomSheetModalProvider>
-        
+
         </NativeBaseProvider>
-        
-     
+
+
     )
 }
 
