@@ -4,7 +4,7 @@ import { db } from "../src/utils/firebase"
 
 describe("Firebase helper functions", () => {
     it("fetches the text 'test string'", async () => {
-        await expect(fetchText()).resolves.toBe("test string");
+        await expect(await fetchText()).toBe("test string");
     });
 });
 

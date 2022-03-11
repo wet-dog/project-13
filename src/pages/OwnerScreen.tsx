@@ -13,7 +13,7 @@ import {
 import { fetchUserArray } from "../utils/helpers";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {updateStaff} from '../utils/foodBankDatabase'
-
+import {addStaff} from '../utils/ownerOperations';
 import { RootStackParamList } from "../../App";
 import { addNewUser, signUp } from "../utils/registration";
 import { fetchBankID, userBank,} from "../utils/foodListDatabase";
@@ -27,18 +27,8 @@ function OwnerScreen({navigation} : Props) {
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
 
-  const addStaff = async () => {
-      let admin = auth.currentUser!;
-      let result = await signUp(email, password, confirmation);
-      if (result) {
-        addNewUser(email, "staff", await fetchBankID(await userBank(auth.currentUser!.uid)) );
-
-        /* does not update array properly at the moment. */
-        updateStaff(email, admin);
-      }else {
-        console.log("erorrs adding staff");
-      }
-
+  const as = async () => {
+    await addStaff(email, password, confirmation);
   }
 
   useEffect(() => {
@@ -84,7 +74,7 @@ function OwnerScreen({navigation} : Props) {
               <FormControl.Label>Confirm Password</FormControl.Label>
               <Input type="password" onChangeText={(text) => setConfirmation(text)}/>
             </FormControl>
-            <Button mt="2" colorScheme="indigo" onPress={addStaff}>
+            <Button mt="2" colorScheme="indigo" onPress={as}>
               Sign up
             </Button>
            </Center>
@@ -96,3 +86,4 @@ function OwnerScreen({navigation} : Props) {
 }
 
 export default OwnerScreen;
+

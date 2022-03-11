@@ -77,7 +77,7 @@ export const isAdminEmpty = async (bankID: string) => {
 
 }
 
-export const addNewUser = async (email: string, role: string, bankID: string) => {
+export const addNewUser = async (email: string, role: string, bankID: string, testID: string = "") => {
 
     let owner = false, staff = false, donor = false;
 
@@ -106,6 +106,7 @@ export const addNewUser = async (email: string, role: string, bankID: string) =>
         }
     }
 
+    
     await setDoc(doc(db, "users", auth.currentUser!.uid ), {
         email,
          roles: {
@@ -114,6 +115,7 @@ export const addNewUser = async (email: string, role: string, bankID: string) =>
              donor
          }
      })
+  
 
 }
 
