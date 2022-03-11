@@ -83,7 +83,7 @@ describe("Validates latitude and longitude inputs", () => {
 
     it("rejects an empty longitude", async () => {
         let response = validateLatLong("15", "", errors);
-        expect(response.lat).toBe("Longitude cannot be empty");
+        expect(response.long).toBe("Longitude cannot be empty");
     });
 
     it("rejects a non-numeric latitude", async () => {
@@ -103,7 +103,7 @@ describe("Validates latitude and longitude inputs", () => {
 
     it("rejects a longitude out of range", async () => {
         let response = validateLatLong("15", "91", errors);
-        expect(response.lat).toBe("Longitude must be between -90 and 90");
+        expect(response.long).toBe("Longitude must be between -90 and 90");
     });
 
 });
