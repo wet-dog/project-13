@@ -1,0 +1,195 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FlatButton renders correctly With an onPress function 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "green",
+        "borderRadius": 8,
+        "marginLeft": 145,
+        "marginTop": 5,
+        "paddingHorizontal": 5,
+        "paddingVertical": 10,
+        "textAlign": "center",
+        "width": 100,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontSize": 16,
+          "textAlign": "center",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`FlatButton renders correctly With text 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "green",
+        "borderRadius": 8,
+        "marginLeft": 145,
+        "marginTop": 5,
+        "paddingHorizontal": 5,
+        "paddingVertical": 10,
+        "textAlign": "center",
+        "width": 100,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontSize": 16,
+          "textAlign": "center",
+        }
+      }
+    >
+      Some Text
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`FlatButton renders correctly With text and onPress function 1`] = `
+<View
+  accessible={true}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "green",
+        "borderRadius": 8,
+        "marginLeft": 145,
+        "marginTop": 5,
+        "paddingHorizontal": 5,
+        "paddingVertical": 10,
+        "textAlign": "center",
+        "width": 100,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontSize": 16,
+          "textAlign": "center",
+        }
+      }
+    >
+      Some Text
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`FlatButton renders correctly Without text or onPress function 1`] = `
+<View
+  accessible={true}
+  focusable={false}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "opacity": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "backgroundColor": "green",
+        "borderRadius": 8,
+        "marginLeft": 145,
+        "marginTop": 5,
+        "paddingHorizontal": 5,
+        "paddingVertical": 10,
+        "textAlign": "center",
+        "width": 100,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "white",
+          "fontSize": 16,
+          "textAlign": "center",
+        }
+      }
+    />
+  </View>
+</View>
+`;
+
+exports[`Map renders correctly Map matches snapshot 1`] = `
+<RNCSafeAreaProvider
+  onInsetsChange={[Function]}
+  style={
+    Array [
+      Object {
+        "flex": 1,
+      },
+      undefined,
+    ]
+  }
+/>
+`;

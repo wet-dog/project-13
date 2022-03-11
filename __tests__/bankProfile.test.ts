@@ -19,7 +19,7 @@ describe("Get a given user's role", () => {
 
     it("detects an owner", async () => {
         // bristolowner@gmail.com
-        expect(await getUserRole("J66fGsTyuigICgXQ5jKkcB2eiW52")).toBe(true);
+        expect(await getUserRole("L4m1WQui3vghKFGoUZXhv66ACSl1")).toBe(true);
     });
 
     it("detects a staff member", async () => {
@@ -29,7 +29,7 @@ describe("Get a given user's role", () => {
 
     it("detects a donor", async () => {
         // donor@gmail.com
-        expect(await getUserRole("lX9Cx9eOGcXqJLXKbEVlmvA783x2")).toBe(null);
+        expect(await getUserRole("myZoeZLK2KabAS5kTBgh2wyHxv92")).toBe(null);
     });
 });
 

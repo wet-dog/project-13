@@ -7,7 +7,7 @@ import * as Location from 'expo-location';
 export type foodData = {
     bankID: String,
     bankName: String,
-    distance: Number,
+    distance: Number | boolean,
     foods: String[]
 }
 
@@ -34,21 +34,31 @@ const fetchFoodBankLocation = async (bankID: any) => {
 }
 
 const fetchUserLocation = async () => {
-    const { status } = await Location.requestForegroundPermissionsAsync();
+    try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
 
-    if (status !== 'granted'){
-        console.log("location not authorized");
+        if (status !== 'granted'){
+            console.log("location not authorized");
+        }
+
+        let location = await Location.getCurrentPositionAsync({});
+        let {latitude, longitude}: location = location.coords;
+        return {latitude, longitude}
+
+    } catch (error){
+        /* return bath as default if any failure. */
+        let latitude = "51.38053526693603"
+        let longitude = "-2.3574276156772203"
+        return {latitude, longitude}
     }
-
-    let location = await Location.getCurrentPositionAsync({});
-    let {latitude, longitude}: location = location.coords;
-    return {latitude, longitude}
+    
+    
 }
 
 const calculateDistance = async (userLocation: any, bankLocation : any) => {
 
-
-    let lat1 = userLocation.latitude;
+    try {
+         let lat1 = userLocation.latitude;
     let lon1 = userLocation.longitude;
     let lat2 = bankLocation.latitude;
     let lon2 = bankLocation.longitude;
@@ -72,6 +82,10 @@ const calculateDistance = async (userLocation: any, bankLocation : any) => {
     }
 
     return dist;
+    } catch(error){
+        return false;
+    }
+   
 }
 
 const converter = {
@@ -139,6 +153,10 @@ export const userBank = async (userID: String) => {
 /* enter name of bank to insert too, food item and whether you wish to remove / update */
 export const insertFood = async (bankName: String, food: String, remove: boolean) => {
 
+    if (!food && !remove){
+        console.log("cant insert nothing");
+        return false;
+    }
     const bankID = await fetchBankID(bankName);
     const q = query(collection(db, "food"), where("bankID", "==", bankID));
     const foodSnap = await getDocs(q);
@@ -151,40 +169,88 @@ export const insertFood = async (bankName: String, food: String, remove: boolean
 
     const foodRef = doc(db, `food/${id}`);
 
+    /* check if the food is in the speicified database */
+    const checkFood = await fetchFood();
+    let exists: boolean = false;
+    checkFood.forEach(item => {
+        if (item.bankName == bankName){
+           if (item.foods.includes(food)){
+               exists = true;
+           }
+        }
+    })
+
+   
     if (remove){
-        await updateDoc(foodRef, {
-            foods: arrayRemove(food)
-        })
+        if (exists){
+       
+            await updateDoc(foodRef, {
+                foods: arrayRemove(food)
+            })
+        } else {
+            console.log("did not update/remove as that food item does not exist")
+            return false;
+        }
     }
     else {
-         await updateDoc(foodRef, {
-            foods: arrayUnion(food)
-        })
+        if (!exists){
+         
+             await updateDoc(foodRef, {
+                foods: arrayUnion(food)
+            })
+        }
+        else {
+            console.log("that food item already exists in the database")
+            return false;
+        }
     }
+    return true;
+
+
 
 }
 
 export const updateFood = async (bankName: String, oldFood: String, newFood : String) => {
-    await insertFood(bankName, oldFood, true);
-    await insertFood(bankName, newFood, false);
+
+    if (await insertFood(bankName, oldFood, true)) {
+        if (newFood != ""){
+        
+             await insertFood(bankName, newFood, false);
+        }
+        else{
+            console.log("that food is empty");
+        }
+    }
+    else {
+        console.log("that item does not exist");
+    }
 }
 
 export const foodBankName = async (bankID: string) => {
-    const docRef = doc(db, "foodBank", bankID);
+    if (bankID == ""){
+        return false;
+    }
 
-    const snapshot:any = await getDoc(docRef);
+    try {
+        const docRef = doc(db, "foodBank", bankID);
+
+        const snapshot:any = await getDoc(docRef);
 
 
-    let name = snapshot.data().bankName
-    return name
+        let name = snapshot.data().bankName
+        return name
+    } catch(error){
+        return false;
+    }
+    
 
 }
 
-export const wipeFoodArray = async (bankName: String) => {
+export const wipeFoodArray = async (bankName: String, testRemove: boolean) => {
 
-    console.log("test");
+
     const bankID = await fetchBankID(bankName);
-    console.log("bankID", bankID);
+
     const q = query(collection(db, "food"), where("bankID", "==", bankID));
     const foodSnap = await getDocs(q);
 
@@ -195,16 +261,24 @@ export const wipeFoodArray = async (bankName: String) => {
         id = doc.id;
     })
 
-    console.log(data);
-    const foodRef = doc(db, `food/${id}`);
-    console
 
-    await updateDoc(foodRef, {
-        foods: []
-    })
+    const foodRef = doc(db, `food/${id}`);
+  
+
+    if (!testRemove){
+        await updateDoc(foodRef, {
+            foods: []
+        })
+    }
+
+    return true;
 
 }
 
 
 
 
+export {
+    calculateDistance
+
+}
