@@ -13,7 +13,7 @@ import SignUpScreen from "./src/pages/SignUpScreen";
 import OwnerScreen from "./src/pages/OwnerScreen";
 import { LogBox } from "react-native";
 import FoodListDonor from "./src/pages/FoodListDonor";
-import Donor from "./src/pages/donor";
+import Donor from "./src/pages/Donor";
 import Staff from "./src/pages/Staff";
 
 export type RootStackParamList = {
