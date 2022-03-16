@@ -140,7 +140,7 @@ export const userBank = async (userID: String) => {
     let name = "";
     const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
-            console.log(doc.data().staff);
+    
             if (doc.data().staff.includes(userID) || doc.data().admin == userID){
                 name = doc.data().bankName;
             }
