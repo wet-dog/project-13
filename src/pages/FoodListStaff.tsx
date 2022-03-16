@@ -37,8 +37,10 @@ function FoodList() {
   useEffect(() => {
     async function setBankValues() {
       let {uid} = auth.currentUser!;
+      console.log(uid);
       let bankName = await userBank(uid);
       let bankId = await fetchBankID(bankName);
+      console.log("cunt ", bankName);
       setBankName(bankName);
       setBankId(bankId!);
       console.log("bankName: " + bankName);
