@@ -65,7 +65,7 @@ function MapScreen() {
         bottomSheetModalRef5.current?.present();
     }, []);
 
-    console.log("renderImage:", renderImages);
+
     return (
 
         <NativeBaseProvider>
