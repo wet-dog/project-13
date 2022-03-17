@@ -14,15 +14,15 @@ import "firebase/firestore";
 import { Dimensions, Linking, StyleSheet, View} from "react-native";
 import MapView, {Marker} from "react-native-maps";
 import FoodListEmbed from "./FoodListEmbed";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 
 // @ts-ignore
-function MapScreen() {
+function MapScreen({renderImages = true}) {
     // ref
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-    const [renderImages, setRenderImages] = useState<boolean>(true);
-    // variables
+
+   // variables
     const snapPoints = useMemo(() => ['40%', '96%'], []);
 
     // callbacks
@@ -65,7 +65,7 @@ function MapScreen() {
         bottomSheetModalRef5.current?.present();
     }, []);
 
-
+    console.log()
     return (
 
         <NativeBaseProvider>
