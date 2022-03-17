@@ -2,6 +2,7 @@ import React, {useCallback, useMemo, useRef} from "react";
 import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import FlatButton from "../../assets/button";
 
+
 import {
   Text,
   NativeBaseProvider,
@@ -13,12 +14,14 @@ import "firebase/firestore";
 import { Dimensions, Linking, StyleSheet, View} from "react-native";
 import MapView, {Marker} from "react-native-maps";
 import FoodListEmbed from "./FoodListEmbed";
+import { useState } from "react";
+
 
 // @ts-ignore
-function MapScreen({renderImages}={renderImages: true}) {
+function MapScreen() {
     // ref
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
-
+    const [renderImages, setRenderImages] = useState<boolean>(true);
     // variables
     const snapPoints = useMemo(() => ['40%', '96%'], []);
 
@@ -62,6 +65,7 @@ function MapScreen({renderImages}={renderImages: true}) {
         bottomSheetModalRef5.current?.present();
     }, []);
 
+    console.log("renderImage:", renderImages);
     return (
 
         <NativeBaseProvider>
