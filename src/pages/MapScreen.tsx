@@ -7,7 +7,8 @@ import {
   Text,
   NativeBaseProvider,
   Image,
-  ScrollView
+  ScrollView,
+  Box
 } from "native-base";
 
 import "firebase/firestore";
@@ -71,7 +72,7 @@ function MapScreen({renderImages = true}) {
         <NativeBaseProvider>
 
             <BottomSheetModalProvider>
-                <View style={donorStyles.container}>
+                <Box safeAreaTop flex="1" backgroundColor="emerald.700">
                     <Text style={donorStyles.heading}>Select a food bank or drop off point</Text>
                     <MapView style={donorStyles.map}
                              initialRegion={{
@@ -227,7 +228,7 @@ function MapScreen({renderImages = true}) {
 
                     </View>
 
-                </View>
+                </Box>
 
             </BottomSheetModalProvider>
 
@@ -239,7 +240,7 @@ function MapScreen({renderImages = true}) {
 
 const donorStyles = StyleSheet.create({
     container: {
-        paddingTop: 5,
+        paddingTop: 30,
         paddingBottom: 5,
         textAlign: "center",
         backgroundColor: "floralwhite",
@@ -248,7 +249,9 @@ const donorStyles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "300",
         textAlign: "center",
-        color: "darkseagreen",
+        // color: "darkseagreen",
+        paddingVertical: 5,
+        color: "white",
     },
     map: {
         width: Dimensions.get("window").width,

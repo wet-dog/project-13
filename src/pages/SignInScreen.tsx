@@ -96,12 +96,12 @@ function SignInScreen({ navigation }: Props) {
             <Link _text={{
             fontSize: "xs",
             fontWeight: "500",
-            color: "indigo.500"
+            color: "lime.600"
           }} alignSelf="flex-end" mt="1">
             Forget Password?
             </Link>
           </FormControl>
-          <Button mt="2" colorScheme="indigo" onPress={onSubmit}>
+          <Button mt="2" backgroundColor="lime.600" onPress={onSubmit}>
             Sign in
           </Button>
           <HStack mt="6" justifyContent="center">
@@ -111,7 +111,7 @@ function SignInScreen({ navigation }: Props) {
             I'm a new user.{" "}
             </Text>
             <Link _text={{
-            color: "indigo.500",
+            color: "lime.600",
             fontWeight: "medium",
             fontSize: "sm"
           }} onPress={() => navigation.navigate("SignUpScreen")}>

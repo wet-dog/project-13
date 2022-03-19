@@ -26,6 +26,7 @@
     "@react-navigation/native-stack": "^6.5.0",
     "expo": "^42.0.5",
     "expo-font": "~9.2.1",
+    "expo-linear-gradient": "~9.2.0",
     "expo-location": "~12.1.2",
     "expo-status-bar": "~1.0.4",
     "firebase": "^9.6.6",

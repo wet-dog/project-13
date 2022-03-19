@@ -14,6 +14,22 @@ function Staff() {
     <Tab.Navigator 
     
         screenOptions={({ route }) => ({
+
+          tabBarStyle: {
+            borderTopWidth: 1,
+            borderTopColor: '#047857',
+            backgroundColor: "#062d23",
+            shadowOffset: {
+              width: 0,
+              height: 12,
+            },
+            shadowOpacity: 1.0,
+            shadowRadius: 12.0,
+            elevation: 24,
+            position: 'relative',
+            zIndex: 0,
+          },
+
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
@@ -25,8 +41,9 @@ function Staff() {
 
             return <Icon as={<MaterialIcons name={iconName} />} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#22c55e',
+          tabBarActiveTintColor: '#84cc16',
           tabBarInactiveTintColor: '#D3D3D3',
+          headerShown: false,
         })}
     >
       <Tab.Screen name="Requests" component={FoodListStaff} />
