@@ -1,18 +1,4 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Code,
-} from "native-base";
+import React from "react";
 
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -49,7 +35,9 @@ function App() {
   LogBox.ignoreAllLogs();
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator   screenOptions={{
+    headerShown: false
+  }}>
         <Stack.Screen name="SignInScreen" component={SignInScreen}/>
         <Stack.Screen name="TestScreen" component={TestScreen}/>
         <Stack.Screen name="MapScreen" component={MapScreen} />

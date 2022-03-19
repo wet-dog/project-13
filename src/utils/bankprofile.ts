@@ -83,7 +83,7 @@ function validateBankDetails(name: string, lat: string, long: string) {
     return errors;
 }
 
-function validateName(name: string, errors: BankErrors) {
+export function validateName(name: string, errors: BankErrors) {
     if (name === "") {
         errors.name = "Name cannot be empty";
     }
@@ -93,7 +93,7 @@ function validateName(name: string, errors: BankErrors) {
     return errors;
 }
 
-function validateLatLong(lat: string, long: string, errors: BankErrors) {
+export function validateLatLong(lat: string, long: string, errors: BankErrors) {
     if (lat === "") {
         errors.lat = "Latitude cannot be empty";
     } else {

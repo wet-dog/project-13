@@ -1,43 +1,30 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from "react";
-import { createNativeStackNavigator, NativeStackScreenProps } from '@react-navigation/native-stack';
-import BottomSheet, { BottomSheetView, BottomSheetModal, BottomSheetModalProvider, BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import React, {useCallback, useMemo, useRef} from "react";
+import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
 import FlatButton from "../../assets/button";
+
 
 import {
   Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
   NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Code,
   Image,
-  Button,
-  ScrollView
+  ScrollView,
+  Box
 } from "native-base";
 
 import "firebase/firestore";
 import { Dimensions, Linking, StyleSheet, View} from "react-native";
-import MapView, {Marker, Callout} from "react-native-maps";
-import { RootStackParamList } from "../../App";
+import MapView, {Marker} from "react-native-maps";
 import FoodListEmbed from "./FoodListEmbed";
+import { useState, useEffect } from "react";
 
-type Props = NativeStackScreenProps<RootStackParamList, "MapScreen">;
 
 // @ts-ignore
-function MapScreen({ navigation }: Props) {
+function MapScreen({renderImages = true}) {
     // ref
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
-    // variables
+   // variables
     const snapPoints = useMemo(() => ['40%', '96%'], []);
-
-    // variables
-    const snapPointsDropOff = useMemo(() => ['40%', '80%'], []);
 
     // callbacks
     const handlePresentModalPress = useCallback(() => {
@@ -79,12 +66,13 @@ function MapScreen({ navigation }: Props) {
         bottomSheetModalRef5.current?.present();
     }, []);
 
+    console.log()
     return (
-        
+
         <NativeBaseProvider>
-     
+
             <BottomSheetModalProvider>
-                <View style={donorStyles.container}>
+                <Box safeAreaTop flex="1" backgroundColor="emerald.700">
                     <Text style={donorStyles.heading}>Select a food bank or drop off point</Text>
                     <MapView style={donorStyles.map}
                              initialRegion={{
@@ -100,13 +88,6 @@ function MapScreen({ navigation }: Props) {
                             onPress={handlePresentModalPress}
                         >
                         </Marker>
-
-                        {/*<Marker*/}
-                        {/*    coordinate={{latitude: 51.38004486066454 , longitude: -2.395149084389973}}*/}
-                        {/*    pinColor='red'*/}
-                        {/*    onPress={handlePresentModalPress2}*/}
-                        {/*>*/}
-                        {/*</Marker>*/}
 
                         <Marker
                             coordinate={{latitude: 51.376589987348126 , longitude: -2.353022676358978}}
@@ -140,7 +121,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Bath Food Bank - Manvers</Text>
-                                <Image style={styles.stretch} source={require('../../images/img-manvers.png')}/>
+                                {renderImages && <Image style={styles.stretch} source={require('../../images/img-manvers.png')}/>}
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon: 12.30-14.30</Text>
                                 <Text style={styles.info}>Wed: 12.45-14.30</Text>
@@ -149,7 +130,7 @@ function MapScreen({ navigation }: Props) {
                                 <FoodListEmbed bankId="Qqed4wWZlfrBpwQ65Sg6" />
                                 <Text style={styles.subheading}>Links:</Text>
                                 <FlatButton text='Website' onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}/>
-                                <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}/>
+                                <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z')}/>
                             </ScrollView>
                         </BottomSheetModal>
                     </View>
@@ -163,7 +144,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Bath Food Bank - Lighthouse Centre</Text>
-                                <Image style={styles.stretch} source={require('../../images/img1.png')}/>
+                                {renderImages && <Image style={styles.stretch} source={require('../../images/img1.png')}/>}
                                 <Text style={styles.subheading}>Opening Times</Text>
                                 <Text style={styles.info}>Tue: 09.30-23.30</Text>
                                 <Text style={styles.info}>Thu: 09.30-23.30</Text>
@@ -187,17 +168,14 @@ function MapScreen({ navigation }: Props) {
                         >
                             <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Sainsburys</Text>
-                                <Image style={styles.stretch} source={require('../../images/img-sains.png')}/>
+                                {renderImages && <Image style={styles.stretch} source={require('../../images/img-sains.png')}/>}
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon-Sat: 07.00-22.00</Text>
                                 <Text style={styles.info}>Sun: 11.00-17.00</Text>
                                 <Text style={styles.subheading}>Drop off instructions:</Text>
                                 <Text style={styles.info}>Foodbank trolley after the tills</Text>
                                 <Text style={styles.subheading}>Foodbank Affiliation:</Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
-                                    Bath Food Bank
-                                </Text>
+                                <FlatButton text='BFB' onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}/>
                                 <Text style={styles.subheading}>Links</Text>
                                 <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir//51.3788818,-2.356582/@51.378818,-2.4268014,12z\n')}/>
                             </ScrollView>
@@ -211,7 +189,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Waitrose & Partners Bath</Text>
-                                <Image style={styles.stretch} source={require('../../images/img-waitrose.png')}/>
+                                {renderImages && <Image style={styles.stretch} source={require('../../images/img-waitrose.png')}/>}
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon-Fri: 07.30-21.00</Text>
                                 <Text style={styles.info}>Sat: 07.30-20.00</Text>
@@ -219,10 +197,7 @@ function MapScreen({ navigation }: Props) {
                                 <Text style={styles.subheading}>Drop off instructions:</Text>
                                 <Text style={styles.info}>Foodbank collection point after the tills</Text>
                                 <Text style={styles.subheading}>Foodbank Affiliation:</Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
-                                    Bath Food Bank
-                                </Text>
+                                <FlatButton text='BFB' onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}/>
                                 <Text style={styles.subheading}>Links:</Text>
                                 <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/place/Waitrose+%26+Partners+Bath/@51.3835389,-2.3765258,14z/data=!3m2!4b1!5s0x48718112552cbf3b:0xf66b6b89a09ef566!4m5!3m4!1s0x48718113b240ef6f:0x4b2c3e51fc51cb37!8m2!3d51.3835402!4d-2.3590591\n')}/>
                             </ScrollView>
@@ -236,7 +211,7 @@ function MapScreen({ navigation }: Props) {
                         >
                             <ScrollView style={styles.contentContainer}>
                                 <Text style={styles.heading}>Co-op</Text>
-                                <Image style={styles.stretch} source={require('../../images/img-coop.png')}/>
+                                {renderImages && <Image style={styles.stretch} source={require('../../images/img-coop.png')}/>}
                                 <Text style={styles.subheading}>Opening Times:</Text>
                                 <Text style={styles.info}>Mon-Fri: 07.30-21.00</Text>
                                 <Text style={styles.info}>Sat: 07.30-20.00</Text>
@@ -244,10 +219,7 @@ function MapScreen({ navigation }: Props) {
                                 <Text style={styles.subheading}>Drop off instructions:</Text>
                                 <Text style={styles.info}>Foodbank collection point after the tills</Text>
                                 <Text style={styles.subheading}>Foodbank Affiliation:</Text>
-                                <Text style={styles.link}
-                                      onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}>
-                                    Bath Food Bank
-                                </Text>
+                                <FlatButton text='BFB' onPress={() => Linking.openURL('https://bath.foodbank.org.uk')}/>
                                 <Text style={styles.subheading}>Links:</Text>
                                 <FlatButton text='Directions' onPress={() => Linking.openURL('https://www.google.com/maps/dir/51.3763427,-2.3308564/co+op+bath/@51.3788111,-2.3586731,14z/data=!3m1!4b1!4m9!4m8!1m1!4e1!1m5!1m1!1s0x4871810f854c7eb3:0x2f92ad06fe35c746!2m2!1d-2.3530216!2d51.3765588')}/>
                             </ScrollView>
@@ -255,20 +227,20 @@ function MapScreen({ navigation }: Props) {
 
 
                     </View>
- 
-                </View>
-            
+
+                </Box>
+
             </BottomSheetModalProvider>
-        
+
         </NativeBaseProvider>
-        
-     
+
+
     )
 }
 
 const donorStyles = StyleSheet.create({
     container: {
-        paddingTop: 5,
+        paddingTop: 30,
         paddingBottom: 5,
         textAlign: "center",
         backgroundColor: "floralwhite",
@@ -277,7 +249,9 @@ const donorStyles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "300",
         textAlign: "center",
-        color: "darkseagreen",
+        // color: "darkseagreen",
+        paddingVertical: 5,
+        color: "white",
     },
     map: {
         width: Dimensions.get("window").width,

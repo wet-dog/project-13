@@ -1,40 +1,43 @@
 
 import React, { useEffect, useState } from "react";
-import { 
-  NativeBaseProvider, 
-  Center, 
-  VStack, 
+import {
+  NativeBaseProvider,
+  Center,
+  VStack,
   Heading,
   Text,
-  Button,
   Box,
   ScrollView,
-  Pressable,
   HStack,
-  Fab,
   Spacer,
-  SectionList
+  Icon,
+  Divider
 } from "native-base";
-
-import * as Location from 'expo-location';
+import { Entypo, MaterialIcons, AntDesign, Ionicons } from "@native-base/icons";
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { fetchFood, foodData } from "../utils/foodListDatabase";
-import { View } from "react-native";
+import RandomPriority from "../components/RandomPriority";
 
-import { Entypo, MaterialIcons, AntDesign } from "@native-base/icons";
-import { Icon } from "native-base";
-function FoodListDonor({ navigation }: any) {
+const config = {
+  dependencies: {
+    "linear-gradient": LinearGradient
+  }
+};
+
+function FoodListDonor() {
   return (
-     
-    <NativeBaseProvider>
+
+    <NativeBaseProvider config={config}>
 
       <Center h="100%">
-          <Box _dark={{
-          bg: "coolGray.800"
-        }} _light={{
-          bg: "white"
-        }} flex="1" safeAreaTop maxW="400px" w="100%">
-            <Heading p="4" pb="3" size="lg">
+          <Box bg={{
+    linearGradient: {
+      colors: ["emerald.700", "tertiary.800"] ,
+      start: [0, 0],
+      end: [1, 1]
+    }}} flex="1" safeAreaTop maxW="400px" w="100%">
+            <Heading p="4" pb="3" size="lg" color="light.50">
               Food Needed
             </Heading>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -45,7 +48,7 @@ function FoodListDonor({ navigation }: any) {
           <Button>FoodList</Button> */}
       </Center>
     </NativeBaseProvider>
-    
+
   );
 }
 
@@ -67,31 +70,48 @@ function Basic() {
     getFood();
   }, []);
 
-  return (
-    <Box>
-        {listData.map(data => 
-            <Box pl="4" pr="5" py="2">
-            <HStack alignItems="center" space={3}>
-                <VStack>
-                    <Text color="coolGray.800" _dark={{color: "warmGray.50"}} bold>
-                        {data.bankName}
-                    </Text>
+  const boxColors = ["white", "coolGray.50"];
 
-                    {data.foods.map(food => 
-                        <Text color="coolGray.600" _dark={{color: "warmGray.200"}}>
-                            {food}
-                        </Text>
-                    )}           
-                </VStack>
-                
-                <Spacer />
-                
-                <Text fontSize="xs" color="coolGray.800" _dark={{color: "warmGray.50"}} alignSelf="flex-start">
-                    {data.distance.toFixed(2)} miles away
-                </Text>
+  const priorities = [
+    <Icon as={<Ionicons name="arrow-up-circle" />} size="8" color="red.700" />,
+    <Icon as={<Ionicons name="caret-up-circle" />} size="8" color="orange.700" />,
+    <Icon as={<Ionicons name="remove-circle" />} size="8" color="yellow.600" />
+  ];
+
+  return (
+    <Box margin="3">
+      {listData.map((data, index) =>
+        <Box pl="5" pr="7" py="5" bg="warmGray.200" rounded="sm" mb="2">
+        <HStack alignItems="center" space={1}>
+          <Text color="coolGray.800" _dark={{color: "warmGray.50"}} bold>
+            {data.bankName}
+          </Text>
+
+          <Spacer />
+
+          <Text fontSize="xs" color="coolGray.800" _dark={{color: "warmGray.50"}} alignSelf="flex-start">
+            Priority
+          </Text>
+        </HStack>
+        <Text fontSize="xs" color="coolGray.800" _dark={{color: "warmGray.50"}} pb="3">
+          {data.distance.toFixed(2)} miles away
+        </Text>
+        <VStack>
+          {data.foods.map(food =>
+            <Box>
+            <HStack justifyContent="center" alignItems="center" space={3} py="3">
+              <Text color="coolGray.600" _dark={{color: "warmGray.200"}}>
+              {food}
+              </Text>
+              <Spacer />
+              <RandomPriority></RandomPriority>
             </HStack>
-            </Box>
-        )}        
+            <Divider my={2} bg="coolGray.300" />
+            </ Box>
+          )}
+        </VStack>
+        </Box>
+      )}
     </Box>
   );
 }

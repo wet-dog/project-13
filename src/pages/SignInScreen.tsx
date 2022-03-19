@@ -12,8 +12,7 @@ import {
   NativeBaseProvider
 } from "native-base";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import React, { useState, useEffect, SetStateAction } from "react";
-import {v4 as uuidv4} from 'uuid';
+import React, { useState, SetStateAction } from "react";
 import { doc, getDoc } from "firebase/firestore";
 
 import { db } from "../utils/firebase";
@@ -29,7 +28,7 @@ function SignInScreen({ navigation }: Props) {
   const [password, setPassword] = useState("");
 
   const [errors, setErrors] = useState<Errors>({email: "", password: ""});
-  
+
   async function getRole(): Promise<string> {
     let {uid} = auth.currentUser!;
 
@@ -50,11 +49,11 @@ function SignInScreen({ navigation }: Props) {
   async function navigateScreen() {
     let role: string = await getRole();
     switch(role) {
-      case "owner": navigation.navigate("OwnerScreen"); 
+      case "owner": navigation.navigate("OwnerScreen");
         break;
-      case "staff": navigation.navigate("Staff"); 
+      case "staff": navigation.navigate("Staff");
         break;
-      case "donor": navigation.navigate("Donor"); 
+      case "donor": navigation.navigate("Donor");
         break;
     }
   }
@@ -83,7 +82,7 @@ function SignInScreen({ navigation }: Props) {
         }} color="coolGray.600" fontWeight="medium" size="xs">
           Sign in to continue!
           </Heading>
-      
+
           <VStack space={3} mt="5">
 
           <FormControl testID="EmailControl" isRequired isInvalid={errors.email !== ""}>
@@ -99,13 +98,12 @@ function SignInScreen({ navigation }: Props) {
             <Link _text={{
             fontSize: "xs",
             fontWeight: "500",
-            color: "indigo.500"
+            color: "lime.600"
           }} alignSelf="flex-end" mt="1">
             Forget Password?
             </Link>
           </FormControl>
-          
-          <Button testID="SignInButton" mt="2" colorScheme="indigo" onPress={onSubmit}>
+          <Button testID="SignInButton" mt="2" backgroundColor="lime.600" onPress={onSubmit}>
             Sign in
           </Button>
 
@@ -114,10 +112,12 @@ function SignInScreen({ navigation }: Props) {
             <Text fontSize="sm" color="coolGray.600" _dark={{color: "warmGray.200"}}>
               I'm a new user.{" "}
             </Text>
-
-            <Link _text={{color: "indigo.500", fontWeight: "medium", fontSize: "sm"}} 
-              onPress={() => navigation.navigate("SignUpScreen")}>
-              Sign Up
+            <Link _text={{
+            color: "lime.600",
+            fontWeight: "medium",
+            fontSize: "sm"
+          }} onPress={() => navigation.navigate("SignUpScreen")}>
+            Sign Up
             </Link>
 
           </HStack>

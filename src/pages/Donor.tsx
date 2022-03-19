@@ -5,6 +5,7 @@ import { Icon, NativeBaseProvider } from "native-base";
 
 import FoodListDonor from "./FoodListDonor";
 import MapScreen from './MapScreen';
+import { View } from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -12,8 +13,21 @@ function Donor() {
   return (
     <NativeBaseProvider>
     <Tab.Navigator 
-    
         screenOptions={({ route }) => ({
+          tabBarStyle: {
+            borderTopWidth: 1,
+            borderTopColor: '#047857',
+            backgroundColor: "#062d23",
+            shadowOffset: {
+              width: 0,
+              height: 12,
+            },
+            shadowOpacity: 1.0,
+            shadowRadius: 12.0,
+            elevation: 24,
+            position: 'relative',
+            zIndex: 0,
+          },
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
@@ -25,8 +39,10 @@ function Donor() {
 
             return <Icon as={<MaterialCommunityIcons name={iconName} />} size={size} color={color} />;
           },
-          tabBarActiveTintColor: '#22c55e',
-          tabBarInactiveTintColor: '#D3D3D3',
+          // #22c55e
+          tabBarActiveTintColor: '#84cc16',
+          tabBarInactiveTintColor: '#fafafa',
+          headerShown: false,
         })}
     >
       <Tab.Screen name="Requests" component={FoodListDonor} />

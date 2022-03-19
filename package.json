@@ -29,6 +29,7 @@
     "cypress-react-selector": "^2.3.16",
     "expo": "^42.0.5",
     "expo-font": "~9.2.1",
+    "expo-linear-gradient": "~9.2.0",
     "expo-location": "~12.1.2",
     "expo-status-bar": "~1.0.4",
     "firebase": "^9.6.6",
@@ -61,10 +62,11 @@
     "@types/jest": "^27.4.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "^0.63.60",
+    "@types/react-test-renderer": "^17.0.1",
     "@types/uuid": "^8.3.4",
     "babel-plugin-istanbul": "^6.1.1",
     "jest": "^27.5.1",
-    "react-test-renderer": "17",
+    "react-test-renderer": "^17.0.2",
     "typescript": "~4.0.0"
   },
   "bugs": {

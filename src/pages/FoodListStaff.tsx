@@ -1,11 +1,10 @@
-import { Entypo, MaterialIcons, AntDesign } from "@native-base/icons";
+import { Entypo, AntDesign } from "@native-base/icons";
 import React, { useEffect, useState } from "react";
-import { 
-  NativeBaseProvider, 
-  Center, 
-  VStack, 
+import {
+  NativeBaseProvider,
+  Center,
+  VStack,
   Heading,
-  Text,
   Button,
   Box,
   ScrollView,
@@ -13,24 +12,24 @@ import {
   HStack,
   Fab,
   Icon,
-  Spacer,
-  SectionList,
   Input,
   Modal,
-  FormControl
+  FormControl,
+  Text
 } from "native-base";
 
-import * as Location from 'expo-location';
-
-import { RowMap, SwipeListView } from "react-native-swipe-list-view";
-import { fetchBankID, fetchFood, foodBankName, foodData, insertFood, updateFood, userBank } from "../utils/foodListDatabase";
-import { useCollectionData, useDocumentData } from "react-firebase-hooks/firestore";
-import { collection, doc, DocumentData, Query, query, where } from "firebase/firestore";
-import { db } from "../utils/firebase";
+import { fetchBankID, insertFood, updateFood, userBank } from "../utils/foodListDatabase";
 
 import { auth } from "../utils/registration";
-import { ListRenderItemInfo } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
+import SwipeList from "../components/SwipeList";
 
+
+const config = {
+  dependencies: {
+    "linear-gradient": LinearGradient
+  }
+};
 
 function FoodList() {
   const [adding, setAdding] = useState(false);
@@ -41,6 +40,7 @@ function FoodList() {
   useEffect(() => {
     async function setBankValues() {
       let {uid} = auth.currentUser!;
+     
       let bankName = await userBank(uid);
       let bankId = await fetchBankID(bankName);
       setBankName(bankName);
@@ -51,23 +51,26 @@ function FoodList() {
 
     setBankValues();
   }, []);
-  
+
   return (
-    <NativeBaseProvider>
+    <NativeBaseProvider config={config}>
       <Center h="100%">
-          <Box _dark={{
-          bg: "coolGray.800"
-        }} _light={{
-          bg: "white"
-        }} flex="1" safeAreaTop maxW="400px" w="100%">
-            <Heading p="4" pb="3" size="lg">
+          <Box bg={{
+            linearGradient: {
+              colors: ["emerald.700", "tertiary.800"] ,
+              start: [0, 0],
+              end: [1, 1]
+            }}}
+            flex="1" safeAreaTop maxW="400px" w="100%"
+          >
+            <Heading p="4" pb="3" size="lg" color="light.50">
               Food Needed
             </Heading>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            <ScrollView m="2" showsVerticalScrollIndicator={false}>
               {bankName !== "" && <SwipeList bankName={bankName} bankId={bankId} />}
               {adding && <CreateFood setAdding={setAdding} bankName={bankName} />}
             </ScrollView>
-            <Fab testID="AddFoodButton" renderInPortal={false} shadow={2} size="sm" icon={<Icon color="white" as={<AntDesign />} name="plus" size="sm" onPress={() => setAdding(true)} />} />
+            <Fab testID="AddFoodButton" backgroundColor="lime.500" renderInPortal={false} shadow={2} size="sm" icon={<Icon color="white" as={<AntDesign />} name="plus" size="sm" onPress={() => setAdding(true)} />} />
           </Box>
       </Center>
     </NativeBaseProvider>
@@ -82,15 +85,15 @@ type EditFoodProps = {
   setShowModal: (bool: boolean) => void
 }
 
-function EditFood(props: EditFoodProps) {
-  
+export function EditFood(props: EditFoodProps) {
+
   const [food, setFood] = useState("");
 
   async function onEdit() {
     await updateFood(props.bankName, props.oldFood, food);
     props.setShowModal(false);
   }
-  
+
   return (
     <Center>
       <Modal testID="AddFoodModal" isOpen={props.showModal} onClose={() => props.setShowModal(false)}>
@@ -110,7 +113,7 @@ function EditFood(props: EditFoodProps) {
             }}>
                 Cancel
               </Button>
-              <Button onPress={onEdit
+              <Button backgroundColor="lime.500" onPress={onEdit
             }>
                 Save
               </Button>
@@ -131,19 +134,20 @@ type CreateFoodProps = {
 function CreateFood(props: CreateFoodProps) {
 
   const [food, setFood] = useState("");
-  
+
   async function onCreate() {
-    await insertFood(props.bankName, food, false);
+    let capitalizedFood = food.charAt(0).toUpperCase() + food.slice(1);
+    await insertFood(props.bankName, capitalizedFood, false);
     props.setAdding(false);
   }
 
   return (
     <Box pl="4" pr="5" py="2" h="16">
       <HStack flex="1">
-        <Input placeholder="Enter Food" w="100%" maxWidth="300px" onChangeText= {text => setFood(text)} />
-        <Pressable w="70" ml="auto"  bg="coolGray.200" justifyContent="center" onPress={onCreate} _pressed={{opacity: 0.5}}>
+        <Input backgroundColor="white" placeholder="Enter Food" w="100%" maxWidth="300px" onChangeText= {text => setFood(text)} />
+        <Pressable rounded="sm" w="70" ml="auto"  bg="lime.500" justifyContent="center" onPress={onCreate} _pressed={{opacity: 0.5}}>
             <VStack alignItems="center" space={2}>
-              <Icon as={<Entypo name="add-to-list" />} size="xs" color="coolGray.800" />
+              <Icon as={<Entypo name="add-to-list" />} size="xs" color="white" />
             </VStack>
           </Pressable>
       </HStack>
@@ -151,126 +155,5 @@ function CreateFood(props: CreateFoodProps) {
   );
 }
 
-
-type SwipeListProps = {
-  bankName: string,
-  bankId: string
-}
-
-function SwipeList(props: SwipeListProps) {
-
-  type FoodList = {
-      key: string,
-      food: string
-  }
-
-  let id = "0";    // Had to be a string for SwipeListView
-  const [listData, setListData] = useState<FoodList[]>([]);
-
-  const foodsRef = collection(db, "food");
-  const q = query(foodsRef, where("bankID", "==", props.bankId));
-
-  const [foods, loading, error, snapshot] = useCollectionData(q);
-  
-  const [showModal, setShowModal] = useState(false);
-  const [oldFood, setOldFood] = useState("");
-
-  useEffect(() => {
-    if (foods) {
-      // console.log(foods)
-      let data: FoodList[] = [];
-
-      foods[0].foods.map((text: string) => {
-        id = String(Number(id) + 1);
-        data.push({key: id, food: text});
-      })
-
-      setListData(data);
-    }
-  }, [foods]);
-
-  function closeRow(rowMap: RowMap<FoodList>, rowKey: string) {
-    if (rowMap[rowKey]) {
-      rowMap[rowKey].closeRow();
-    }
-  }
-
-  function updateRow(rowMap: RowMap<FoodList>, rowKey: string, rowValue: FoodList) {
-    closeRow(rowMap, rowKey);
-    setShowModal(true);
-    setOldFood(rowValue.food);
-  }
-
-  function deleteRow(rowMap: RowMap<FoodList>, rowKey: string, rowValue: FoodList) {
-    closeRow(rowMap, rowKey);
-    const newData = [...listData];
-    const prevIndex = listData.findIndex(item => item.key === rowKey);
-    newData.splice(prevIndex, 1);
-    setListData(newData);
-    insertFood(props.bankName, rowValue.food, true);
-  }
-
-  function onRowDidOpen(rowKey: string) {
-    console.log("This row opened", rowKey);
-  }
-
-  function renderItem({ item }: { item: FoodList }) {
-    return (
-      <Box testID="RenderItem">
-        <Pressable onPress={() => console.log("You touched me")} _dark={{
-        bg: "coolGray.800"
-      }} _light={{
-        bg: "white"
-      }}>
-          <Box pl="4" pr="5" py="2" h="16">
-            <HStack alignItems="center" space={3}>
-              <VStack>
-                <Text color="coolGray.800" _dark={{
-                color: "warmGray.50"
-              }} bold>
-                  {item.food}
-                </Text>
-              </VStack>
-            </HStack>
-          </Box>
-        </Pressable>
-      </Box>
-    );
-  }
-
-  function renderHiddenItem(data: ListRenderItemInfo<FoodList>, rowMap: RowMap<FoodList>) {
-    return (
-      <HStack testID="RenderHiddenItem" flex="1" pl="2">
-          <Pressable w="70" ml="auto"  bg="coolGray.200" justifyContent="center" onPress={() => updateRow(rowMap, data.item.key, data.item)} _pressed={{
-          opacity: 0.5
-        }}>
-            <VStack alignItems="center" space={2}>
-              <Icon as={<Entypo name="edit" />} size="xs" color="coolGray.800" />
-              <Text fontSize="xs" fontWeight="medium" color="coolGray.800">
-                Edit
-              </Text>
-            </VStack>
-          </Pressable>
-          <Pressable testID="DeleteButton" w="70"  bg="red.500" justifyContent="center" onPress={() => deleteRow(rowMap, data.item.key, data.item)} _pressed={{
-          opacity: 0.5
-        }}>
-            <VStack alignItems="center" space={2}>
-              <Icon as={<MaterialIcons name="delete" />} color="white" size="xs" />
-              <Text color="white" fontSize="xs" fontWeight="medium">
-                Delete
-              </Text>
-            </VStack>
-          </Pressable>
-        </HStack>
-    );
-  }
-
-  return (
-    <Box bg="white" safeArea flex="1">
-      <SwipeListView data={listData} renderItem={renderItem} renderHiddenItem={renderHiddenItem} rightOpenValue={-130} previewRowKey={"0"} previewOpenValue={-40} previewOpenDelay={3000} onRowDidOpen={onRowDidOpen} />
-      <EditFood setShowModal={setShowModal} showModal={showModal} oldFood={oldFood} bankName={props.bankName} />
-    </Box>
-  );
-}
 
 export default FoodList;

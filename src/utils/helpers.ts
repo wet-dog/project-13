@@ -1,15 +1,8 @@
 
-import { collection, doc, getDoc, getDocs, query, DocumentData , QueryDocumentSnapshot} from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, QueryDocumentSnapshot} from "firebase/firestore";
 import { db } from "./firebase";
 
-export async function fetchText() {
-    let docRef = doc(db, "test", "03GlJwswWlTGyupX5KWE");
-    let docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-        return docSnap.data().foo;
-    }
-}
 
 type foodData = {
     id: String,
@@ -20,7 +13,7 @@ type foodData = {
 
 const converter = {
     async fromFirestore(
-        doc: QueryDocumentSnapshot<DocumentData> 
+        doc: QueryDocumentSnapshot
     ): Promise<foodData>{
         return doc.data().email
     }
@@ -31,9 +24,9 @@ const converter = {
 export const fetchUserArray = async () => {
 
     const snapshot = await getDocs(collection(db, 'users'));
-   
+
     const data = await Promise.all(snapshot.docs.map(doc => converter.fromFirestore(doc)))
-  
+
     return data;
 
 }
