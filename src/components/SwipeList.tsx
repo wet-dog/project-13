@@ -78,7 +78,7 @@ function SwipeList(props: SwipeListProps) {
 
   function renderItem({ item }: { item: FoodList; }) {
     return (
-      <Pressable paddingTop="5" onPress={() => console.log(item)} _dark={{
+      <Pressable paddingTop="5" _dark={{
         bg: "coolGray.800"
       }} _light={{
         bg: "white"

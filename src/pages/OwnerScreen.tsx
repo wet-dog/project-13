@@ -18,7 +18,7 @@ import { RootStackParamList } from "../../App";
 import { addNewUser, signUp } from "../utils/registration";
 import { fetchBankID, userBank,} from "../utils/foodListDatabase";
 import {auth} from '../utils/registration';
-type Props = NativeStackScreenProps<RootStackParamList, "TestScreen">;
+type Props = NativeStackScreenProps<RootStackParamList>;
 
 function OwnerScreen({navigation} : Props) {
 

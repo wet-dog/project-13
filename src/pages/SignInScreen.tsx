@@ -112,7 +112,7 @@ function SignInScreen({ navigation }: Props) {
             <Text fontSize="sm" color="coolGray.600" _dark={{color: "warmGray.200"}}>
               I'm a new user.{" "}
             </Text>
-            <Link _text={{
+            <Link testID="SignUpLink" _text={{
             color: "lime.600",
             fontWeight: "medium",
             fontSize: "sm"

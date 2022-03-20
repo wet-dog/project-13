@@ -14,7 +14,7 @@ import {
 import "firebase/firestore";
 import { Dimensions, Linking, StyleSheet, View} from "react-native";
 import MapView, {Marker} from "react-native-maps";
-import FoodListEmbed from "./FoodListEmbed";
+import FoodListEmbed from "../components/FoodListEmbed";
 import { useState, useEffect } from "react";
 
 

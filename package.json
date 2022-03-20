@@ -15,7 +15,10 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest",
-    "dev": "start expo start --web & start cypress open"
+    "dev": "start expo start --web & start cypress open && start yarn test && start yarn coverage",
+    "coverage": "yarn coverage:merge && yarn coverage:merge-report",
+    "coverage:merge": "istanbul-merge --out coverage/merged/coverage-final.json coverage/unit/coverage-final.json coverage/coverage-final.json",
+    "coverage:merge-report": "nyc report --reporter=lcov --reporter=text --temp-dir=./coverage/merged --report-dir=./coverage/merged"
   },
   "dependencies": {
     "@firebase/app-types": "^0.7.0",
@@ -65,6 +68,7 @@
     "@types/react-test-renderer": "^17.0.1",
     "@types/uuid": "^8.3.4",
     "babel-plugin-istanbul": "^6.1.1",
+    "istanbul-merge": "^1.1.1",
     "jest": "^27.5.1",
     "react-test-renderer": "^17.0.2",
     "typescript": "~4.0.0"
@@ -76,13 +80,25 @@
   "author": "Aditya Jamuar",
   "private": true,
   "jest": {
+    "coverageDirectory": "coverage/unit",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/utils"
+    ],
+    "testPathIgnorePatterns": [
+      "cypress/*"
+    ],
     "preset": "jest-expo",
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
     ]
   },
   "nyc": {
-    "exclude": ["src/pages/MapScreen.tsx", "assets/*"],
+    "exclude": [
+      "src/pages/MapScreen.tsx",
+      "src/pages/OwnerScreen.tsx",
+      "assets/*"
+    ],
     "excludeAfterRemap": true
- }
+  }
 }

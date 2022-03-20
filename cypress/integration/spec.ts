@@ -131,18 +131,3 @@ describe("Staff screen tests", () => {
 
 
 });
-
-
-// describe("", () => {
-
-//     it("displays an add food item", () => {
-//         cy.visit("/");
-//         cy.waitForReact(1000, "#root");
-        
-//         getEmailInput().type("donor@gmail.com");
-//         getPasswordInput().type("password123");
-//         cy.get("[data-testid=SignInButton]").click();        
-//     });
-
-// });
-
