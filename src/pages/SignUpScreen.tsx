@@ -103,7 +103,7 @@ function SignUpScreen({ navigation }: Props) {
 
             {role == 'owner' && <SelectFoodBank setBank={setBank} />}
       
-            <Button mt="2" colorScheme="indigo" onPress={onSubmit}>
+            <Button mt="2" backgroundColor="lime.600" onPress={onSubmit}>
               Sign up
             </Button>
           </VStack>
