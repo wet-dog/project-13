@@ -88,14 +88,47 @@ describe("Staff screen tests", () => {
     });
 
     it("adds a new food", () => {
-        cy.react("CreateFood").find("input").type("banana");
-        cy.react("CreateFood").react("Pressable").click();
+        cy.react("CreateFood").find("input").type("Test Food");
+        cy.get("[data-testid=UploadFoodButton]").click();
+        // wait for create food component to disappear
+        cy.get("[data-testid=UploadFoodButton]").should('not.exist');
         // Check length of list/ that food in list
     });
 
     it("deletes a food", () => {
         cy.get("[data-testid=DeleteButton]").eq(-1).click({ force: true });
     });
+
+    it("edits a food", () => {
+        cy.get("[data-testid=EditButton]").eq(-1).click({ force: true });
+        cy.get("[data-testid=EditFoodInput]").type("Test Food");
+        cy.get("[data-testid=EditFoodSave]").click();
+        cy.get("[data-testid=EditFoodSave]").should('not.exist');
+        cy.get('[data-testid=SwipeListText]').eq(-1).should('have.text', 'Test Food');
+        // Check for same list length
+
+        // Revert
+        cy.get("[data-testid=EditButton]").eq(-1).click({ force: true });
+        cy.get("[data-testid=EditFoodInput]").type("Banana");
+        cy.get("[data-testid=EditFoodSave]").click();
+        cy.get("[data-testid=EditFoodSave]").should('not.exist');
+        cy.get('[data-testid=SwipeListText]').eq(-1).should('have.text', 'Banana');
+    });
+
+    it("cancels edit food", () => {
+        cy.get("[data-testid=EditButton]").eq(-1).click({ force: true });
+        cy.get("[data-testid=EditFoodInput]").type('Test Food');
+        cy.get("[data-testid=EditFoodCancel]").click();
+        cy.get("[data-testid=AddFoodModal]").should('not.exist');
+    });
+
+    it("closes edit food", () => {
+        cy.get("[data-testid=EditButton]").eq(-1).click({ force: true });
+        cy.get("[data-testid=EditFoodInput]").type('Test Food');
+        cy.get("[data-testid=EditFoodClose]").click();
+        cy.get("[data-testid=AddFoodModal]").should('not.exist');
+    });
+
 
 });
 

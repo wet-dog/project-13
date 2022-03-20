@@ -5,7 +5,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MapScreen from "./src/pages/MapScreen";
-import TestScreen from "./src/pages/TestScreen";
 import BankProfile from "./src/pages/BankProfile";
 import FoodListStaff from "./src/pages/FoodListStaff";
 import SignInScreen from "./src/pages/SignInScreen";
@@ -17,7 +16,6 @@ import Donor from "./src/pages/Donor";
 import Staff from "./src/pages/Staff";
 
 export type RootStackParamList = {
-  TestScreen: undefined;
   MapScreen: undefined;
   BankProfile: undefined;
   FoodListStaff: undefined;
@@ -39,7 +37,6 @@ function App() {
     headerShown: false
   }}>
         <Stack.Screen name="SignInScreen" component={SignInScreen}/>
-        <Stack.Screen name="TestScreen" component={TestScreen}/>
         <Stack.Screen name="MapScreen" component={MapScreen} />
         <Stack.Screen name="BankProfile" component={BankProfile} />
         <Stack.Screen name="FoodListStaff" component={FoodListStaff} />
