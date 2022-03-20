@@ -278,7 +278,16 @@ export const wipeFoodArray = async (bankName: String, testRemove: boolean) => {
 }
 
 
+export async function resetFoodArray(bankName: String) {
+    const bankID = await fetchBankID(bankName);
 
+    const q = query(collection(db, "food"), where("bankID", "==", bankID));
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+        await updateDoc(doc.ref, { foods: ["Chicken", "Beef", "Pork", "Fish"] });
+    });
+}
 
 export {
     calculateDistance

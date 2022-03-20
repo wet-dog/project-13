@@ -24,7 +24,7 @@ describe("Get a given user's role", () => {
 
     it("detects a staff member", async () => {
         // bathstaff@gmail.com
-        expect(await getUserRole("KGKChLyhmTZqjIZOh6vQPxJPsA03")).toBe(false);
+        expect(await getUserRole("lT7kK5xJBxPqigFhPyk6H2ZGvo03")).toBe(false);
     });
 
     it("detects a donor", async () => {

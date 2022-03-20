@@ -1,7 +1,12 @@
 import { async } from "@firebase/util";
 import exp from "constants";
-import { fetchFood , fetchBankID, userBank,insertFood, calculateDistance, updateFood, foodBankName, foodData, wipeFoodArray } from "../src/utils/foodListDatabase";
+import { fetchFood , fetchBankID, userBank,insertFood, calculateDistance, updateFood, foodBankName, foodData, wipeFoodArray, resetFoodArray } from "../src/utils/foodListDatabase";
 
+afterAll(async () => {
+    const fetchFoodObj = await fetchFood();
+    const bankName = fetchFoodObj[0].bankName;
+    resetFoodArray(bankName);
+});
 
 describe("Fetch Food Bank ID", () => {
 
