@@ -70,7 +70,7 @@ function FoodList() {
               {bankName !== "" && <SwipeList bankName={bankName} bankId={bankId} />}
               {adding && <CreateFood setAdding={setAdding} bankName={bankName} />}
             </ScrollView>
-            <Fab backgroundColor="lime.500" renderInPortal={false} shadow={2} size="sm" icon={<Icon color="white" as={<AntDesign />} name="plus" size="sm" onPress={() => setAdding(true)} />} />
+            <Fab testID="AddFoodButton" backgroundColor="lime.500" renderInPortal={false} shadow={2} size="sm" icon={<Icon color="white" as={<AntDesign />} name="plus" size="sm" onPress={() => setAdding(true)} />} />
           </Box>
       </Center>
     </NativeBaseProvider>
@@ -96,24 +96,24 @@ export function EditFood(props: EditFoodProps) {
 
   return (
     <Center>
-      <Modal isOpen={props.showModal} onClose={() => props.setShowModal(false)}>
+      <Modal testID="AddFoodModal" isOpen={props.showModal} onClose={() => props.setShowModal(false)}>
         <Modal.Content maxWidth="400px">
-          <Modal.CloseButton />
+          <Modal.CloseButton testID="EditFoodClose" />
           <Modal.Header>Edit Food</Modal.Header>
           <Modal.Body>
             <FormControl>
               <FormControl.Label>Food</FormControl.Label>
-              <Input onChangeText= {text => setFood(text)} />
+              <Input testID="EditFoodInput" onChangeText= {text => setFood(text)} />
             </FormControl>
           </Modal.Body>
           <Modal.Footer>
             <Button.Group space={2}>
-              <Button variant="ghost" colorScheme="blueGray" onPress={() => {
+              <Button testID="EditFoodCancel" variant="ghost" colorScheme="blueGray" onPress={() => {
               props.setShowModal(false);
             }}>
                 Cancel
               </Button>
-              <Button backgroundColor="lime.500" onPress={onEdit
+              <Button testID="EditFoodSave" backgroundColor="lime.500" onPress={onEdit
             }>
                 Save
               </Button>
@@ -145,7 +145,7 @@ function CreateFood(props: CreateFoodProps) {
     <Box pl="4" pr="5" py="2" h="16">
       <HStack flex="1">
         <Input backgroundColor="white" placeholder="Enter Food" w="100%" maxWidth="300px" onChangeText= {text => setFood(text)} />
-        <Pressable rounded="sm" w="70" ml="auto"  bg="lime.500" justifyContent="center" onPress={onCreate} _pressed={{opacity: 0.5}}>
+        <Pressable testID="UploadFoodButton" rounded="sm" w="70" ml="auto"  bg="lime.500" justifyContent="center" onPress={onCreate} _pressed={{opacity: 0.5}}>
             <VStack alignItems="center" space={2}>
               <Icon as={<Entypo name="add-to-list" />} size="xs" color="white" />
             </VStack>

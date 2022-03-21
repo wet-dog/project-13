@@ -74,22 +74,25 @@ function SignUpScreen({ navigation }: Props) {
           <VStack space={3} mt="5">
             <FormControl isRequired isInvalid={errors.email !== ""}>
               <FormControl.Label>Email</FormControl.Label>
-              <Input onChangeText= {(text) => setEmail(text)} />
-              <FormControl.ErrorMessage>{ errors.email }</FormControl.ErrorMessage>
+              <Input testID="EmailInput" onChangeText= {(text) => setEmail(text)} />
+              <FormControl.ErrorMessage testID="EmailErrorMessage">{ errors.email }</FormControl.ErrorMessage>
             </FormControl>
+
             <FormControl isRequired isInvalid={errors.password !== ""}>
               <FormControl.Label>Password</FormControl.Label>
-              <Input type="password" onChangeText={(text) => setPassword(text)} />
-              <FormControl.ErrorMessage>{ errors.password }</FormControl.ErrorMessage>
+              <Input testID="PasswordInput" type="password" onChangeText={(text) => setPassword(text)} />
+              <FormControl.ErrorMessage testID="PasswordErrorMessage">{ errors.password }</FormControl.ErrorMessage>
             </FormControl>
+
             <FormControl isRequired isInvalid={errors.confirmation !== ""}>
               <FormControl.Label>Confirm Password</FormControl.Label>
-              <Input type="password" onChangeText={(text) => setConfirmation(text)} />
-              <FormControl.ErrorMessage>{ errors.confirmation }</FormControl.ErrorMessage>
+              <Input testID="ConfirmationInput" type="password" onChangeText={(text) => setConfirmation(text)} />
+              <FormControl.ErrorMessage testID="ConfirmationErrorMessage">{ errors.confirmation }</FormControl.ErrorMessage>
             </FormControl>
+
             <FormControl w="3/4" maxW="300" isRequired isInvalid>
               <FormControl.Label>Select Role</FormControl.Label>
-                <Select onValueChange={(value) => setRole(value)} minWidth="200" accessibilityLabel="Choose Service" placeholder="Choose Service" _selectedItem={{
+                <Select testID="DonorSelect" onValueChange={(value) => setRole(value)} minWidth="200" accessibilityLabel="Choose Service" placeholder="Choose Service" _selectedItem={{
                   bg: "teal.600",
                 }} mt="1">
                 <Select.Item label="donor" value="donor" />
@@ -103,7 +106,7 @@ function SignUpScreen({ navigation }: Props) {
 
             {role == 'owner' && <SelectFoodBank setBank={setBank} />}
       
-            <Button mt="2" backgroundColor="lime.600" onPress={onSubmit}>
+            <Button testID="SignUpButton" mt="2" colorScheme="indigo" onPress={onSubmit}>
               Sign up
             </Button>
           </VStack>

@@ -78,14 +78,14 @@ function SwipeList(props: SwipeListProps) {
 
   function renderItem({ item }: { item: FoodList; }) {
     return (
-      <Pressable paddingTop="5" onPress={() => console.log(item)} _dark={{
+      <Pressable paddingTop="5" _dark={{
         bg: "coolGray.800"
       }} _light={{
         bg: "white"
       }}>
         <Box pl="4" pr="5" h="16">
           <HStack alignItems="center" space={3}>
-            <Text color="coolGray.800" _dark={{
+            <Text testID="SwipeListText" color="coolGray.800" _dark={{
               color: "warmGray.50"
             }} bold>
               {item.food}
@@ -102,7 +102,7 @@ function SwipeList(props: SwipeListProps) {
   function renderHiddenItem(data: ListRenderItemInfo<FoodList>, rowMap: RowMap<FoodList>) {
     return (
       <HStack flex="1" pl="2">
-        <Pressable w="70" ml="auto" bg="coolGray.200" justifyContent="center" onPress={() => updateRow(rowMap, data.item.key, data.item)} _pressed={{
+        <Pressable testID="EditButton" w="70" ml="auto" bg="coolGray.200" justifyContent="center" onPress={() => updateRow(rowMap, data.item.key, data.item)} _pressed={{
           opacity: 0.5
         }}>
           <VStack alignItems="center" space={2}>
@@ -112,7 +112,7 @@ function SwipeList(props: SwipeListProps) {
             </Text>
           </VStack>
         </Pressable>
-        <Pressable w="70" bg="red.500" justifyContent="center" onPress={() => deleteRow(rowMap, data.item.key, data.item)} _pressed={{
+        <Pressable testID="DeleteButton" w="70" bg="red.500" justifyContent="center" onPress={() => deleteRow(rowMap, data.item.key, data.item)} _pressed={{
           opacity: 0.5
         }}>
           <VStack alignItems="center" space={2}>

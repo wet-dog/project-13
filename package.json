@@ -14,7 +14,11 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
-    "test": "jest"
+    "test": "jest",
+    "dev": "start expo start --web & start cypress open && start yarn test && start yarn coverage",
+    "coverage": "yarn coverage:merge && yarn coverage:merge-report",
+    "coverage:merge": "istanbul-merge --out coverage/merged/coverage-final.json coverage/unit/coverage-final.json coverage/coverage-final.json",
+    "coverage:merge-report": "nyc report --reporter=lcov --reporter=text --temp-dir=./coverage/merged --report-dir=./coverage/merged"
   },
   "dependencies": {
     "@firebase/app-types": "^0.7.0",
@@ -24,6 +28,8 @@
     "@react-navigation/bottom-tabs": "^6.2.0",
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/native-stack": "^6.5.0",
+    "cypress": "^9.5.1",
+    "cypress-react-selector": "^2.3.16",
     "expo": "^42.0.5",
     "expo-font": "~9.2.1",
     "expo-linear-gradient": "~9.2.0",
@@ -54,12 +60,15 @@
   "devDependencies": {
     "@babel/core": "^7.17.2",
     "@babel/preset-typescript": "^7.16.7",
+    "@cypress/code-coverage": "^3.9.12",
     "@types/babel__core": "^7.1.18",
     "@types/jest": "^27.4.0",
     "@types/react": "~16.9.35",
     "@types/react-native": "^0.63.60",
     "@types/react-test-renderer": "^17.0.1",
     "@types/uuid": "^8.3.4",
+    "babel-plugin-istanbul": "^6.1.1",
+    "istanbul-merge": "^1.1.1",
     "jest": "^27.5.1",
     "react-test-renderer": "^17.0.2",
     "typescript": "~4.0.0"
@@ -71,9 +80,25 @@
   "author": "Aditya Jamuar",
   "private": true,
   "jest": {
+    "coverageDirectory": "coverage/unit",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/utils"
+    ],
+    "testPathIgnorePatterns": [
+      "cypress/*"
+    ],
     "preset": "jest-expo",
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
     ]
+  },
+  "nyc": {
+    "exclude": [
+      "src/pages/MapScreen.tsx",
+      "src/pages/OwnerScreen.tsx",
+      "assets/*"
+    ],
+    "excludeAfterRemap": true
   }
 }

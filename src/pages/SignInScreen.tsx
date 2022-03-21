@@ -84,15 +84,17 @@ function SignInScreen({ navigation }: Props) {
           </Heading>
 
           <VStack space={3} mt="5">
-          <FormControl isRequired isInvalid={errors.email !== ""}>
+
+          <FormControl testID="EmailControl" isRequired isInvalid={errors.email !== ""}>
             <FormControl.Label>Email ID</FormControl.Label>
             <Input onChangeText={(text: SetStateAction<string>) => setEmail(text)} />
-            <FormControl.ErrorMessage>{ errors.email }</FormControl.ErrorMessage>
+            <FormControl.ErrorMessage testID="EmailErrorMessage">{ errors.email }</FormControl.ErrorMessage>
           </FormControl>
-          <FormControl isRequired isInvalid={errors.password !== ""}>
+
+          <FormControl testID="PasswordControl" isRequired isInvalid={errors.password !== ""}>
             <FormControl.Label>Password</FormControl.Label>
             <Input type="password" onChangeText={(text: SetStateAction<string>) => setPassword(text)} />
-            <FormControl.ErrorMessage>{ errors.password }</FormControl.ErrorMessage>
+            <FormControl.ErrorMessage testID="PasswordErrorMessage">{ errors.password }</FormControl.ErrorMessage>
             <Link _text={{
             fontSize: "xs",
             fontWeight: "500",
@@ -101,23 +103,25 @@ function SignInScreen({ navigation }: Props) {
             Forget Password?
             </Link>
           </FormControl>
-          <Button mt="2" backgroundColor="lime.600" onPress={onSubmit}>
+          <Button testID="SignInButton" mt="2" backgroundColor="lime.600" onPress={onSubmit}>
             Sign in
           </Button>
+
           <HStack mt="6" justifyContent="center">
-            <Text fontSize="sm" color="coolGray.600" _dark={{
-            color: "warmGray.200"
-          }}>
-            I'm a new user.{" "}
+           
+            <Text fontSize="sm" color="coolGray.600" _dark={{color: "warmGray.200"}}>
+              I'm a new user.{" "}
             </Text>
-            <Link _text={{
+            <Link testID="SignUpLink" _text={{
             color: "lime.600",
             fontWeight: "medium",
             fontSize: "sm"
           }} onPress={() => navigation.navigate("SignUpScreen")}>
             Sign Up
             </Link>
+
           </HStack>
+          
           </VStack>
         </Box>
       </Center>

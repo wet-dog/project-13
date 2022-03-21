@@ -63,7 +63,6 @@ function Basic() {
   useEffect(() => {
     async function getFood() {
       let data = await fetchFood();
-      console.log(data);
       setListData(data);
     }
 
