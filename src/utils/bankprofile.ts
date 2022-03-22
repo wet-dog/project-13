@@ -2,14 +2,27 @@ import { doc, getDoc, getDocs, updateDoc, GeoPoint, query, collection, where } f
 import { db } from "./firebase";
 
 export async function fetchBank(uid: string) {
-    // Find the foodbank containing the relevant uid in the staff array
-    let q = query(collection(db, "foodBank"), where("staff", "array-contains", uid));
+    // Find the foodbank containing the relevant uid in admin field
+    let q = query(collection(db, "foodBank"), where("admin", "==", uid));
     let banks = await getDocs(q);
     let id: string = "none";
     banks.forEach((doc) => {
         id = doc.id;
     });
-    // User is not registered as staff on any food bank
+
+    // User is not registered as owner on any food bank
+    if (id == "none") {
+        console.log("Error: User is not registered as owner on any food bank");
+    }
+
+    // Find the foodbank containing the relevant uid in staff array
+    let staffQuery = query(collection(db, "foodBank"), where("staff", "array-contains", uid));
+    banks = await getDocs(staffQuery);
+    banks.forEach((doc) => {
+        id = doc.id;
+    });
+
+    // User is not registered as owner on any food bank
     if (id == "none") {
         console.log("Error: User is not registered as staff on any food bank");
         return {
@@ -18,6 +31,7 @@ export async function fetchBank(uid: string) {
             location: {_lat: "", _long: ""}
         }
     }
+
     let docRef = doc(db, "foodBank", id);
     let docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -47,7 +61,7 @@ export async function foodbankUpdate(uid: string, name: string, desc: string, la
     let errors = validateBankDetails(name, lat, long);
     
     if (errors == true) {
-        let q = query(collection(db, "foodBank"), where("staff", "array-contains", uid));
+        let q = query(collection(db, "foodBank"), where("admin", "==", uid));
         let banks = await getDocs(q);
         let id: string = "none";
         banks.forEach((doc) => {
