@@ -142,7 +142,7 @@ function BankProfile({ navigation }: Props) {
               <FormControl.ErrorMessage>{ errors.long }</FormControl.ErrorMessage>
             </FormControl>
             { canEdit &&
-              <Button mt="2" colorScheme="indigo" onPress={onUpdate}>
+              <Button mt="2" backgroundColor="lime.600" onPress={onUpdate}>
                 { buttonMessages[editMode ? 1 : 0] }
               </Button>
             }
