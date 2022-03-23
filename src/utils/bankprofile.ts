@@ -1,4 +1,5 @@
 import { doc, getDoc, getDocs, updateDoc, GeoPoint, query, collection, where } from "firebase/firestore";
+import { diffClamp, RollInLeft } from "react-native-reanimated";
 import { db } from "./firebase";
 
 export async function fetchBank(uid: string) {
@@ -54,6 +55,19 @@ export async function getUserRole(uid: string) {
     // This should never happen...
     console.log("Error: Donor has accessed food bank profile page.");
     return null;
+}
+
+export async function getEmailRole(email: string) {
+    const q = query(collection(db, "users"), where("email", "==", email)); 
+    const querySnapshot = await getDocs(q);
+    
+    let role;
+    querySnapshot.forEach(async (doc) => {
+        console.log("Found user's role by email.");
+        role = getUserRole(doc.id);
+    });
+
+    return role;
 }
 
 export async function foodbankUpdate(uid: string, name: string, desc: string, lat: string, long: string) {

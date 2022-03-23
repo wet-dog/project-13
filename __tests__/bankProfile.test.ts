@@ -2,6 +2,7 @@ import {
     BankErrors,
     fetchBank, //async
     getUserRole, //async
+    getEmailRole, //async
     validateName,
     validateLatLong
 } from "../src/utils/bankprofile";
@@ -19,17 +20,17 @@ describe("Get a given user's role", () => {
 
     it("detects an owner", async () => {
         // bristolowner@gmail.com
-        expect(await getUserRole("L4m1WQui3vghKFGoUZXhv66ACSl1")).toBe(true);
+        expect(await getEmailRole("bristolowner@gmail.com")).toEqual(true);
     });
 
     it("detects a staff member", async () => {
         // bathstaff@gmail.com
-        expect(await getUserRole("lT7kK5xJBxPqigFhPyk6H2ZGvo03")).toBe(false);
+        expect(await getEmailRole("bathstaff@gmail.com")).toEqual(false);
     });
 
     it("detects a donor", async () => {
         // donor@gmail.com
-        expect(await getUserRole("myZoeZLK2KabAS5kTBgh2wyHxv92")).toBe(null);
+        expect(await getEmailRole("donor@gmail.com")).toEqual(null);
     });
 });
 
