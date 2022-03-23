@@ -1,6 +1,6 @@
 import React, {useCallback, useMemo, useRef} from "react";
 import { BottomSheetModal, BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import FlatButton from "../../assets/button";
+import FlatButton from "../../assets/button.js";
 
 
 import {
@@ -24,7 +24,7 @@ function MapScreen({renderImages = true}) {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
    // variables
-    const snapPoints = useMemo(() => ['40%', '96%'], []);
+    const snapPoints = useMemo(() => ['40%', '90%'], []);
 
     // callbacks
     const handlePresentModalPress = useCallback(() => {
