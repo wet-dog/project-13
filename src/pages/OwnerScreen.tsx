@@ -30,24 +30,13 @@ const config = {
 
 function OwnerScreen({navigation} : Props) {
 
-  const [staffArray, setStaff] = useState<any>(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmation, setConfirmation] = useState("");
 
-  const as = async () => {
+  const onSubmit = async () => {
     await addStaff(email, password, confirmation);
   }
-
-  useEffect(() => {
-    const fetch = async () => {
-      let data = await fetchUserArray();
-      setStaff(data);
-    }
-    fetch();
-
-  }, [])
-
 
   return (
 
@@ -75,7 +64,7 @@ function OwnerScreen({navigation} : Props) {
               <Input testID="ConfirmationInput" type="password" onChangeText={(text) => setConfirmation(text)} />
             </FormControl>
 
-            <Button testID="SignUpButton" mt="2" backgroundColor="lime.600" onPress={as}>
+            <Button testID="SignUpButton" mt="2" backgroundColor="lime.600" onPress={onSubmit}>
               Sign up
             </Button>
 
@@ -89,4 +78,3 @@ function OwnerScreen({navigation} : Props) {
 }
 
 export default OwnerScreen;
-
