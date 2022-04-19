@@ -1,5 +1,5 @@
-import { Entypo, AntDesign } from "@native-base/icons";
-import React, { useEffect, useState } from "react";
+import { Entypo, AntDesign, MaterialIcons } from "@native-base/icons";
+import React, { SetStateAction, useEffect, useState } from "react";
 import {
   NativeBaseProvider,
   Center,
@@ -15,7 +15,10 @@ import {
   Input,
   Modal,
   FormControl,
-  Text
+  Text,
+  Divider,
+  Spacer,
+  IconButton
 } from "native-base";
 
 import { fetchBankID, insertFood, updateFood, userBank } from "../utils/foodListDatabase";
@@ -23,6 +26,11 @@ import { fetchBankID, insertFood, updateFood, userBank } from "../utils/foodList
 import { auth } from "../utils/registration";
 import { LinearGradient } from "expo-linear-gradient";
 import SwipeList from "../components/SwipeList";
+import { props } from "cypress/types/bluebird";
+import { collection, query, where } from "firebase/firestore";
+import { useCollectionData } from "react-firebase-hooks/firestore";
+import { db } from "../utils/firebase";
+import RandomPriority from "../components/RandomPriority";
 
 
 const config = {
@@ -31,11 +39,73 @@ const config = {
   }
 };
 
+function EditIcon() { return <Icon as={<MaterialIcons name="edit" />} size="sm" color="coolGray.600" />; }
+function DeleteIcon() { return <Icon as={<MaterialIcons name="delete" />} size="sm" color="red.500" />; }
+function MoreIcon() { return <Icon as={<MaterialIcons name="more-horiz" />} size="sm" color="coolGray.600" />; }
+
+function FoodItem(props: {
+  foodText: string,
+  bankName: string,
+  setShowModal: (bool: boolean) => void,
+  setOldFood: (str: string) => void})
+{
+
+  const [showButtons, setShowButtons] = useState(false);
+
+  function onEditPress() {
+    setShowButtons(false);
+    props.setOldFood(props.foodText);
+    props.setShowModal(true);
+  }
+
+  function onDeletePress() {
+    setShowButtons(false);
+    insertFood(props.bankName, props.foodText, true);
+  }
+
+  return (
+    <>
+    <HStack justifyContent="center" alignItems="center" space={3} py="3">
+      <Text color="coolGray.600" _dark={{color: "warmGray.200"}}>
+        {props.foodText}
+      </Text>
+      <Spacer />
+      {!showButtons && <IconButton icon={<MoreIcon />} onPress={() => setShowButtons(true)}></IconButton>}
+      {showButtons && <IconButton icon={<EditIcon />} onPress={onEditPress}></IconButton>}
+      {showButtons && <IconButton icon={<DeleteIcon />} onPress={onDeletePress}></IconButton>}
+    </HStack>
+    </>  
+  );
+}
+
 function FoodList() {
   const [adding, setAdding] = useState(false);
 
   const [bankName, setBankName] = useState("");
   const [bankId, setBankId] = useState("");
+
+  const foodsRef = collection(db, "food");
+  const q = query(foodsRef, where("bankID", "==", bankId));
+
+  const [foods, loading, error, snapshot] = useCollectionData(q);
+
+  const [foodList, setFoodList] = useState<string[]>([]);
+
+  const [showModal, setShowModal] = useState(false);
+  const [oldFood, setOldFood] = useState("");
+
+  useEffect(() => {
+    if (foods === undefined || bankId === "") return;
+
+    console.log(foods)
+
+    let data: string[] = [];
+    foods[0].foods.map((text: string) => {
+      data.push(text);
+    });
+
+    setFoodList(data);
+  }, [foods]);
 
   useEffect(() => {
     async function setBankValues() {
@@ -67,9 +137,25 @@ function FoodList() {
               Food Needed
             </Heading>
             <ScrollView m="2" showsVerticalScrollIndicator={false}>
-              {bankName !== "" && <SwipeList bankName={bankName} bankId={bankId} />}
+              <Box p="5" bg="warmGray.200" rounded="sm" mb="2">
+                <Heading color="red.700" size="sm" pb="3">HIGH PRIORITY</Heading>
+                {foodList.slice(0,1).map((text: string) =>
+                  <FoodItem foodText={text} bankName={bankName} setShowModal={setShowModal} setOldFood={setOldFood} />
+                )}
+                <Divider my={2} bg="coolGray.300" />
+                <Heading color="orange.700" size="sm" pb="3" pt="3">MEDIUM PRIORITY</Heading>
+                {foodList.slice(1,3).map((text: string) =>
+                  <FoodItem foodText={text} bankName={bankName} setShowModal={setShowModal} setOldFood={setOldFood}/>
+                )}
+                <Divider my={2} bg="coolGray.300" />
+                <Heading color="yellow.600" size="sm" pb="3" pt="3">LOW PRIORITY</Heading>
+                {foodList.slice(3,).map((text: string) =>
+                  <FoodItem foodText={text} bankName={bankName} setShowModal={setShowModal} setOldFood={setOldFood}/>
+                )}
+              </ Box>
               {adding && <CreateFood setAdding={setAdding} bankName={bankName} />}
             </ScrollView>
+            <EditFood bankName={bankName} oldFood={oldFood} showModal={showModal} setShowModal={setShowModal}></EditFood>
             <Fab testID="AddFoodButton" backgroundColor="lime.500" renderInPortal={false} shadow={2} size="sm" icon={<Icon color="white" as={<AntDesign />} name="plus" size="sm" onPress={() => setAdding(true)} />} />
           </Box>
       </Center>
