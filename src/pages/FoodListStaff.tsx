@@ -139,17 +139,17 @@ function FoodList() {
             <ScrollView m="2" showsVerticalScrollIndicator={false}>
               <Box p="5" bg="warmGray.200" rounded="sm" mb="2">
                 <Heading color="red.700" size="sm" pb="3">HIGH PRIORITY</Heading>
-                {foodList.slice(0,1).map((text: string) =>
+                {foodList.slice(0,3).map((text: string) =>
                   <FoodItem foodText={text} bankName={bankName} setShowModal={setShowModal} setOldFood={setOldFood} />
                 )}
                 <Divider my={2} bg="coolGray.300" />
                 <Heading color="orange.700" size="sm" pb="3" pt="3">MEDIUM PRIORITY</Heading>
-                {foodList.slice(1,3).map((text: string) =>
+                {foodList.slice(3,5).map((text: string) =>
                   <FoodItem foodText={text} bankName={bankName} setShowModal={setShowModal} setOldFood={setOldFood}/>
                 )}
                 <Divider my={2} bg="coolGray.300" />
                 <Heading color="yellow.600" size="sm" pb="3" pt="3">LOW PRIORITY</Heading>
-                {foodList.slice(3,).map((text: string) =>
+                {foodList.slice(5,).map((text: string) =>
                   <FoodItem foodText={text} bankName={bankName} setShowModal={setShowModal} setOldFood={setOldFood}/>
                 )}
               </ Box>
