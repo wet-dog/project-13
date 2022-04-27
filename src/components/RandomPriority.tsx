@@ -38,7 +38,7 @@ function RandomPriority(props: {index?: number}) {
     return (
         <>  
             { props.index 
-                ? priorities[props.index % priorities.length]
+                ? priorities[props.index === 1 ? 0 : props.index % priorities.length]
                 : priorities[Math.floor(rand() * priorities.length)]
             }
         </>
